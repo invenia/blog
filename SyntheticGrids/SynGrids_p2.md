@@ -341,32 +341,3 @@ package. There are more functions which have not been mentioned here and the int
 reader should refer to the full [documentation](https://invenia.github.io/SyntheticGrids.jl/stable/) for a complete list of methods.
 This is an ongoing project, and, as such, several changes and additions might still happen.
 The most up-to-date version can always be found at [Github](https://github.com/invenia/SyntheticGrids.jl).
-
-## References
-
-[^1]: Power Systems Test Case Archive (UWEE) - http://www2.ee.washington.edu/research/pstca/
-
-[^2]: Power Cases} - Illinois Center for a Smarter Electric Grid (ICSEG) - http://icseg.iti.illinois.edu/power-cases
-
-[^3]: Watts, D. J., & Strogatz, S. H. (1998). Collective dynamics of ‘small-world’ networks. nature, 393(6684), 440-442.
-Chicago
-
-[^4]: Hines, P., Blumsack, S., Sanchez, E. C., & Barrows, C. (2010, January). The topological and electrical structure of power grids. In System Sciences (HICSS), 2010 43rd Hawaii International Conference on (pp. 1-10). IEEE.
-
-[^5]: Cotilla-Sanchez, E., Hines, P. D., Barrows, C., & Blumsack, S. (2012). Comparing the topological and electrical structure of the North American electric power infrastructure. IEEE Systems Journal, 6(4), 616-626.
-
-[^6]: Pagani, G. A., & Aiello, M. (2013). The power grid as a complex network: a survey. Physica A: Statistical Mechanics and its Applications, 392(11), 2688-2700.
-
-[^7]: Carreras, B. A., Lynch, V. E., Dobson, I., & Newman, D. E. (2002). Critical points and transitions in an electric power transmission model for cascading failure blackouts. Chaos: An interdisciplinary journal of nonlinear science, 12(4), 985-994.
-
-[^8]: Parashar, M., Thorp, J. S., & Seyler, C. E. (2004). Continuum modeling of electromechanical dynamics in large-scale power systems. IEEE Transactions on Circuits and Systems I: Regular Papers, 51(9), 1848-1858.
-
-[^9]: Birchfield, A. B., Xu, T., Gegner, K. M., Shetye, K. S., & Overbye, T. J. (2017). Grid structural characteristics as validation criteria for synthetic networks. IEEE Transactions on power systems, 32(4), 3258-3265.
-Chicago
-
-[^10]: Birchfield, A. B., Gegner, K. M., Xu, T., Shetye, K. S., & Overbye, T. J. (2017). Statistical considerations in the creation of realistic synthetic power grids for geomagnetic disturbance studies. IEEE Transactions on Power Systems, 32(2), 1502-1510.
-Chicago
-
-[^11]: Gegner, K. M., Birchfield, A. B., Xu, T., Shetye, K. S., & Overbye, T. J. (2016, February). A methodology for the creation of geographically realistic synthetic power flow models. In Power and Energy Conference at Illinois (PECI), 2016 IEEE (pp. 1-6). IEEE.
-
-[^12]: Soltan, Saleh, and Gil Zussman. "Generation of synthetic spatially embedded power grid networks." arXiv:1508.04447 [cs.SY], Aug. 2015.

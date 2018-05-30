@@ -3,15 +3,18 @@ _part 2 of 2_
 
 ## Usage
 
-In the [first part](SynGrids_p1.md) of this post, we discussed the motivation and the model behind the SyntheticGrids.jl package. Next we will describe how to use it.
+In the [first part](SynGrids_p1.md) of this post, we discussed the motivation and the model
+ behind the SyntheticGrids.jl package. Next we will describe how to use it.
 
-In order to use SyntheticGrids.jl, [Julia 0.6.1 or newer]() is required. Once Julia is properly installed, the package can be installed via:
+In order to use SyntheticGrids.jl, [Julia 0.6.1 or newer]() is required. Once Julia is
+ properly installed, the package can be installed via:
 
 ```
 julia> Pkg.add("SyntheticGrids")
 ```
 
-This should take care of all dependencies. In order to check if the package has been properly installed, use:
+This should take care of all dependencies. In order to check if the package has been
+ properly installed, use:
 
 ```
 julia> Pkg.test("SyntheticGrids")
@@ -19,7 +22,8 @@ julia> Pkg.test("SyntheticGrids")
 
 ### A (very) simple test example
 
-As an introduction to the package, we will start by automatically generating a (small) complete grid.
+As an introduction to the package, we will start by automatically generating a (small)
+ complete grid.
 
 ```
 julia> using SyntheticGrids
@@ -28,9 +32,14 @@ julia> grid = Grid(false);
 ```
 
 This command generates a complete grid corresponding to the region contained in the box
-defined by latitude [33, 35] and longitude [-95, -93] (default values). It automatically places loads and generators and builds the transmission line network (we will soon see how to do each of these steps manually). Here, `false` determines that substations will not be created. Note the addition of the semicolon, `;`, at the end of the command. This has just cosmetic effect in suppressing the printing of the resulting object in the REPL. Even a small grid object corresponds to a reasonably large amount of data.
+defined by latitude [33, 35] and longitude [-95, -93] (default values). It automatically
+ places loads and generators and builds the transmission line network (we will soon see how
+	  to do each of these steps manually). Here, `false` determines that substations will not be created. Note the addition of the semicolon, `;`, at the end of the command.
+	   This has just cosmetic effect in suppressing the printing of the resulting object in
+	    the REPL. Even a small grid object corresponds to a reasonably large amount of data.
 
-A `Grid` object has several attributes that can be inspected. First, let's look at the buses:
+A `Grid` object has several attributes that can be inspected. First, let's look at the
+ buses:
 
 ```
 julia> length(buses(grid))
@@ -63,13 +72,20 @@ GenBus(
 )
 ```
 
-We see that our grid has a total of 137 buses (see Figure 2 for a visualisation of the result). The first is a load bus (`LoadBus`). The values of the attributes `connected_to` and `connections` are not explicitly printed. However, the printing of `(...)` indicates that those sets have been populated
+We see that our grid has a total of 137 buses (see Figure 2 for a visualisation of the
+	 result). The first is a load bus (`LoadBus`). The values of the attributes
+	  `connected_to` and `connections` are not explicitly printed. However, the printing of
+	   `(...)` indicates that those sets have been populated
 (otherwise, they would be printed as `()`).
 
 
 ![Figure 2: Visualisation of two grids generated using the procedure described here. Notice that both present the same bus locations, as their placement is entirely deterministic. The transmission line topology however is different in each case, as it is generated through an stochastic process.](Grids.png)
 
-The last bus of the list corresponds to a generator (`GenBus`). One important thing to notice here is that it contains an attribute called `gens`, which is an array of `Generator`-type objects. `GenBus`es represent power plants, which may (or may not, as is the case here) contain several different generating units. These individual generating units are stored within the `gens` attribute.
+The last bus of the list corresponds to a generator (`GenBus`). One important thing to
+ notice here is that it contains an attribute called `gens`, which is an array of
+  `Generator`-type objects. `GenBus`es represent power plants, which may (or may not, as is
+	   the case here) contain several different generating units. These individual
+	    generating units are stored within the `gens` attribute.
 
 We can also inspect the transmission lines:
 
@@ -102,7 +118,9 @@ TransLine(
 ```
 
 There are 167 transmission lines in our grid. By looking at the first one, we see that they
-are defined by a tuple of `Bus`-type objects (here both are `LoadBus`es), by an impedance value (here taken as `Real`, since the package has been developed with DC OPF in mind) and a current carrying capacity value.
+are defined by a tuple of `Bus`-type objects (here both are `LoadBus`es), by an impedance
+ value (here taken as `Real`, since the package has been developed with DC OPF in mind) and
+  a current carrying capacity value.
 
 The adjacency matrix of the system can also be easily accessed:
 
@@ -190,7 +208,8 @@ Substation(
 )
 ```
 
-By changing the boolean value to `true` we now create substations (with default values, more into that later) and can inspect them.
+By changing the boolean value to `true` we now create substations (with default values,
+	 more into that later) and can inspect them.
 
 ### A more complete workflow
 
@@ -203,9 +222,16 @@ julia> grid = Grid()
 SyntheticGrids.Grid(2872812514497267479, SyntheticGrids.Bus[], SyntheticGrids.TransLine[], SyntheticGrids.Substation[], Array{Bool}(0,0), Array{Int64}(0,0))
 ```
 
-Notice that one of the attributes has been automatically initialised. That corresponds to the `seed` which will be used for all stochastic steps. Control over the seed value gives us control over reproducibility. Conversely, that value could have been specified via `grid = Grid(seed)`.
+Notice that one of the attributes has been automatically initialised. That corresponds to
+ the `seed` which will be used for all stochastic steps. Control over the seed value gives
+  us control over reproducibility. Conversely, that value could have been specified via
+   `grid = Grid(seed)`.
 
-Now let's place the load buses. We could do this by specifying latitude and longitude limits (e.g.: `place_loads_from_zips!(grid; latlim = (30, 35), longlim = (-99, -90))`), but let's look at a more general way of doing this. We can define any function that receives a tuple containing a latitude-longitude pair and returns `true` if within the desired region and `false` if outside:
+Now let's place the load buses. We could do this by specifying latitude and longitude
+ limits (e.g.: `place_loads_from_zips!(grid; latlim = (30, 35), longlim = (-99, -90))`),
+  but let's look at a more general way of doing this. We can define any function that
+   receives a tuple containing a latitude-longitude pair and returns `true` if within the
+    desired region and `false` if outside:
 
 ```
 julia> my_region(x::Tuple{Float64, Float64}, r::Float64) = ((x[1] - 33)^2 + (x[2] + 95)^2 < r^2)
@@ -231,7 +257,8 @@ julia> length(buses(grid))
 3729
 ```
 
-This command adds all generators within the same region, bringing the total amount of buses to 3729.
+This command adds all generators within the same region, bringing the total amount of buses
+ to 3729.
 
 We can also manually add extra load or generation buses if we wish:
 
@@ -279,7 +306,8 @@ can be passed to `add_bus!`. In case one opts to use `reconnect = false` (the de
 option), connections can always be manually added by editing the adjacency matrix (and
 the `connected_to` fields of the involved buses).
 
-Once the adjacency matrix is ready, `TransLine` objects are created by invoking the `create_lines!` function:
+Once the adjacency matrix is ready, `TransLine` objects are created by invoking the
+ `create_lines!` function:
 
 ```
 julia> SyntheticGrids.create_lines!(grid)
@@ -289,7 +317,9 @@ julia> length(trans_lines(grid))
 ```
 
 Now we have generated the connection topology and also the transmission line objects.
-Finally, we may want to coarse-grain the grid. This is done via the `cluster!` function, which receives as arguments the number of each type of cluster: load, both load and generation or pure generation. This step may also take a little while for large grids.
+Finally, we may want to coarse-grain the grid. This is done via the `cluster!` function,
+ which receives as arguments the number of each type of cluster: load, both load and
+  generation or pure generation. This step may also take a little while for large grids.
 
 ```
 julia> length(substations(grid))
@@ -302,7 +332,9 @@ julia> length(substations(grid))
 ```
 
 At this point, the whole grid has been generated. If you wish to save it, the functions `save`
-and `load_grid` are available. Please note that limited float precision may lead to infinitesimal changes to the values when saving and reloading a grid. However, besides precision issues, they should be equivalent.
+and `load_grid` are available. Please note that limited float precision may lead to
+ infinitesimal changes to the values when saving and reloading a grid. However, besides
+  precision issues, they should be equivalent.
 
 ```
 julia> save(grid, "./test_grid.json")
@@ -310,7 +342,8 @@ julia> save(grid, "./test_grid.json")
 julia> grid2 = load_grid("./test_grid.json")
 ```
 
-Some simple statistics can also be computed over the grid, such as the average node degree and the clustering coefficient:
+Some simple statistics can also be computed over the grid, such as the average node degree
+ and the clustering coefficient:
 
 ```
 julia> mean_node_deg(adjacency(grid))
@@ -320,7 +353,8 @@ julia> cluster_coeff(adjacency(grid))
 0.08598360707539486
 ```
 
-The generated grid can easily be exported to pandapower in order to carry out powerflow studies. The option to export it to the PowerModels.jl should be added soon.
+The generated grid can easily be exported to pandapower in order to carry out powerflow
+ studies. The option to export it to the PowerModels.jl should be added soon.
 
 ```
 julia> pgrid = to_pandapower(grid)
@@ -338,6 +372,7 @@ PyObject This pandapower network includes the following parameter tables:
 
 Hopefully, this post helped as first introduction to the SyntheticGrids.jl
 package. There are more functions which have not been mentioned here and the interested
-reader should refer to the full [documentation](https://invenia.github.io/SyntheticGrids.jl/stable/) for a complete list of methods.
+reader should refer to the full [documentation](https://invenia.github.io/SyntheticGrids.jl/stable/) for a complete list of
+ methods.
 This is an ongoing project, and, as such, several changes and additions might still happen.
 The most up-to-date version can always be found at [Github](https://github.com/invenia/SyntheticGrids.jl).

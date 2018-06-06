@@ -1,7 +1,9 @@
 ---
+
 layout: post
+
 title: "SyntheticGrids.jl: Part 2"
----
+----------------------------------
 
 Usage
 -----
@@ -40,28 +42,28 @@ julia> length(buses(grid))
 
 julia> buses(grid)[1]
 LoadBus(
-    id=1,
-    coords=LatLon(lat=33.71503°, lon=-93.166445°),
-    load=0.17400000000000002
-    voltage=200,
-    population=87,
-    connected_to=Set{Bus}(...)
-    connections=Set{TransLine}(...)
+	id=1,
+	coords=LatLon(lat=33.71503°, lon=-93.166445°),
+	load=0.17400000000000002
+	voltage=200,
+	population=87,
+	connected_to=Set{Bus}(...)
+	connections=Set{TransLine}(...)
 )
 
 julia> buses(grid)[end]
 GenBus(
-    id=137
-    coords=LatLon(lat=34.4425°, lon=-93.0262°),
-    generation=56.0
-    voltage=Real[115.0],
-    tech_type=AbstractString["Conventional Hydroelectric"],
-    connected_to=Set{Bus}(...)
-    connections=Set{TransLine}(...)
-    pfactor=0.9
-    summgen=61.8
-    wintgen=62.0
-    gens=SyntheticGrids.Generator[SyntheticGrids.Generator(LatLon(lat=34.4425°, lon=-93.0262°), Real[115.0], "Conventional Hydroelectric", 28.0, 0.9, 15.0, 30.9, 31.0, "1H", "OP"), SyntheticGrids.Generator(LatLon(lat=34.4425°, lon=-93.0262°), Real[115.0], "Conventional Hydroelectric", 28.0, 0.9, 15.0, 30.9, 31.0, "1H", "OP")]
+	id=137
+	coords=LatLon(lat=34.4425°, lon=-93.0262°),
+	generation=56.0
+	voltage=Real[115.0],
+	tech_type=AbstractString["Conventional Hydroelectric"],
+	connected_to=Set{Bus}(...)
+	connections=Set{TransLine}(...)
+	pfactor=0.9
+	summgen=61.8
+	wintgen=62.0
+	gens=SyntheticGrids.Generator[SyntheticGrids.Generator(LatLon(lat=34.4425°, lon=-93.0262°), Real[115.0], "Conventional Hydroelectric", 28.0, 0.9, 15.0, 30.9, 31.0, "1H", "OP"), SyntheticGrids.Generator(LatLon(lat=34.4425°, lon=-93.0262°), Real[115.0], "Conventional Hydroelectric", 28.0, 0.9, 15.0, 30.9, 31.0, "1H", "OP")]
 )
 ```
 
@@ -79,25 +81,25 @@ julia> length(trans_lines(grid))
 
 julia> trans_lines(grid)[1]
 TransLine(
-    connecting: (LoadBus(
-    id=3,
-    coords=LatLon(lat=33.889332°, lon=-93.097793°),
-    load=8.18
-    voltage=100,
-    population=4090,
-    connected_to=Set{Bus}(...)
-    connections=Set{TransLine}(...)
+	connecting: (LoadBus(
+	id=3,
+	coords=LatLon(lat=33.889332°, lon=-93.097793°),
+	load=8.18
+	voltage=100,
+	population=4090,
+	connected_to=Set{Bus}(...)
+	connections=Set{TransLine}(...)
 ), LoadBus(
-    id=1,
-    coords=LatLon(lat=33.71503°, lon=-93.166445°),
-    load=0.17400000000000002
-    voltage=200,
-    population=87,
-    connected_to=Set{Bus}(...)
-    connections=Set{TransLine}(...)
+	id=1,
+	coords=LatLon(lat=33.71503°, lon=-93.166445°),
+	load=0.17400000000000002
+	voltage=200,
+	population=87,
+	connected_to=Set{Bus}(...)
+	connections=Set{TransLine}(...)
 )),
-    impedance=0.9175166312451004,
-    capacity=1400
+	impedance=0.9175166312451004,
+	capacity=1400
 )
 ```
 
@@ -142,49 +144,49 @@ julia> length(substations(grid))
 
 julia> substations(grid)[end]
 Substation(
-    id=43
-    coords=LatLon(lat=34.412130070351765°, lon=-93.11856562311557°),
-    voltages=Real[115.0],
-    load=0,
-    generation=199.0,
-    population=0,
-    connected_to=Set{Substation}(...)
-    grouping=SyntheticGrids.Bus[GenBus(
-    id=137
-    coords=LatLon(lat=34.4425°, lon=-93.0262°),
-    generation=56.0
-    voltage=Real[115.0],
-    tech_type=AbstractString["Conventional Hydroelectric"],
-    connected_to=Set{Bus}(...)
-    connections=Set{TransLine}(...)
-    pfactor=0.9
-    summgen=61.8
-    wintgen=62.0
-    gens=SyntheticGrids.Generator[SyntheticGrids.Generator(LatLon(lat=34.4425°, lon=-93.0262°), Real[115.0], "Conventional Hydroelectric", 28.0, 0.9, 15.0, 30.9, 31.0, "1H", "OP"), SyntheticGrids.Generator(LatLon(lat=34.4425°, lon=-93.0262°), Real[115.0], "Conventional Hydroelectric", 28.0, 0.9, 15.0, 30.9, 31.0, "1H", "OP")]
+	id=43
+	coords=LatLon(lat=34.412130070351765°, lon=-93.11856562311557°),
+	voltages=Real[115.0],
+	load=0,
+	generation=199.0,
+	population=0,
+	connected_to=Set{Substation}(...)
+	grouping=SyntheticGrids.Bus[GenBus(
+	id=137
+	coords=LatLon(lat=34.4425°, lon=-93.0262°),
+	generation=56.0
+	voltage=Real[115.0],
+	tech_type=AbstractString["Conventional Hydroelectric"],
+	connected_to=Set{Bus}(...)
+	connections=Set{TransLine}(...)
+	pfactor=0.9
+	summgen=61.8
+	wintgen=62.0
+	gens=SyntheticGrids.Generator[SyntheticGrids.Generator(LatLon(lat=34.4425°, lon=-93.0262°), Real[115.0], "Conventional Hydroelectric", 28.0, 0.9, 15.0, 30.9, 31.0, "1H", "OP"), SyntheticGrids.Generator(LatLon(lat=34.4425°, lon=-93.0262°), Real[115.0], "Conventional Hydroelectric", 28.0, 0.9, 15.0, 30.9, 31.0, "1H", "OP")]
 ), GenBus(
-    id=135
-    coords=LatLon(lat=34.570984°, lon=-93.194425°),
-    generation=75.0
-    voltage=Real[115.0],
-    tech_type=AbstractString["Conventional Hydroelectric"],
-    connected_to=Set{Bus}(...)
-    connections=Set{TransLine}(...)
-    pfactor=0.9
-    summgen=75.0
-    wintgen=75.0
-    gens=SyntheticGrids.Generator[SyntheticGrids.Generator(LatLon(lat=34.570984°, lon=-93.194425°), Real[115.0], "Conventional Hydroelectric", 37.5, 0.9, 20.0, 37.5, 37.5, "10M", "OP"), SyntheticGrids.Generator(LatLon(lat=34.570984°, lon=-93.194425°), Real[115.0], "Conventional Hydroelectric", 37.5, 0.9, 20.0, 37.5, 37.5, "10M", "OP")]
+	id=135
+	coords=LatLon(lat=34.570984°, lon=-93.194425°),
+	generation=75.0
+	voltage=Real[115.0],
+	tech_type=AbstractString["Conventional Hydroelectric"],
+	connected_to=Set{Bus}(...)
+	connections=Set{TransLine}(...)
+	pfactor=0.9
+	summgen=75.0
+	wintgen=75.0
+	gens=SyntheticGrids.Generator[SyntheticGrids.Generator(LatLon(lat=34.570984°, lon=-93.194425°), Real[115.0], "Conventional Hydroelectric", 37.5, 0.9, 20.0, 37.5, 37.5, "10M", "OP"), SyntheticGrids.Generator(LatLon(lat=34.570984°, lon=-93.194425°), Real[115.0], "Conventional Hydroelectric", 37.5, 0.9, 20.0, 37.5, 37.5, "10M", "OP")]
 ), GenBus(
-    id=136
-    coords=LatLon(lat=34.211913°, lon=-93.110963°),
-    generation=68.0
-    voltage=Real[115.0],
-    tech_type=AbstractString["Hydroelectric Pumped Storage", "Conventional Hydroelectric"],
-    connected_to=Set{Bus}(...)
-    connections=Set{TransLine}(...)
-    pfactor=0.95
-    summgen=68.0
-    wintgen=68.0
-    gens=SyntheticGrids.Generator[SyntheticGrids.Generator(LatLon(lat=34.211913°, lon=-93.110963°), Real[115.0], "Conventional Hydroelectric", 40.0, 0.95, 15.0, 40.0, 40.0, "1H", "OP"), SyntheticGrids.Generator(LatLon(lat=34.211913°, lon=-93.110963°), Real[115.0], "Hydroelectric Pumped Storage", 28.0, 0.95, 15.0, 28.0, 28.0, "1H", "OP")]
+	id=136
+	coords=LatLon(lat=34.211913°, lon=-93.110963°),
+	generation=68.0
+	voltage=Real[115.0],
+	tech_type=AbstractString["Hydroelectric Pumped Storage", "Conventional Hydroelectric"],
+	connected_to=Set{Bus}(...)
+	connections=Set{TransLine}(...)
+	pfactor=0.95
+	summgen=68.0
+	wintgen=68.0
+	gens=SyntheticGrids.Generator[SyntheticGrids.Generator(LatLon(lat=34.211913°, lon=-93.110963°), Real[115.0], "Conventional Hydroelectric", 40.0, 0.95, 15.0, 40.0, 40.0, "1H", "OP"), SyntheticGrids.Generator(LatLon(lat=34.211913°, lon=-93.110963°), Real[115.0], "Hydroelectric Pumped Storage", 28.0, 0.95, 15.0, 28.0, 28.0, "1H", "OP")]
 )]
 )
 ```
@@ -235,13 +237,13 @@ We can also manually add extra load or generation buses if we wish:
 ```julia
 julia> a_bus = LoadBus((22., -95.), 12., 200, 12345)
 LoadBus(
-    id=-1,
-    coords=LatLon(lat=22.0°, lon=-95.0°),
-    load=12.0
-    voltage=200,
-    population=12345,
-    connected_to=Set{Bus}()
-    connections=Set{Transline}()
+	id=-1,
+	coords=LatLon(lat=22.0°, lon=-95.0°),
+	load=12.0
+	voltage=200,
+	population=12345,
+	connected_to=Set{Bus}()
+	connections=Set{Transline}()
 )
 
 julia> SyntheticGrids.add_bus!(grid, a_bus)

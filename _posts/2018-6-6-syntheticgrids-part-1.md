@@ -3,7 +3,7 @@
 layout: post
 
 title: "SyntheticGrids.jl: Part 1"
-----------------------------------
+---
 
 Background
 ----------

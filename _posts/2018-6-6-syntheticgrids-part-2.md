@@ -8,7 +8,7 @@ title: "SyntheticGrids.jl: Part 2"
 Usage
 -----
 
-In the [first part](SynGrids_p1.md), we discussed the motivation and model behind SyntheticGrids.jl. In this post we show how to use it.
+In the [first part](2018/06/06/syntheticgrids-part-1), we discussed the motivation and model behind SyntheticGrids.jl. In this post we show how to use it.
 
 To use SyntheticGrids.jl, [Julia 0.6.1 or newer](https://julialang.org/downloads/) is required. Once Julia is properly installed, the package can be installed via
 
@@ -69,7 +69,7 @@ GenBus(
 
 We see that our grid has a total of 137 buses (see Figure 2 for a visualisation of the result). The first is a load bus (`LoadBus`). The values of the attributes `connected_to` and `connections` are not explicitly printed. However, the printing of `(...)` indicates that those sets have been populated (otherwise, they would be printed as `()`).
 
-![Figure 2: Visualisation of two grids generated using the procedure described here. Notice that both present the same bus locations, as their placement is entirely deterministic. The transmission line topology however is different in each case, as it is generated through an stochastic process.](Grids.png)
+![Figure 2: Visualisation of two grids generated using the procedure described here. Notice that both present the same bus locations, as their placement is entirely deterministic. The transmission line topology however is different in each case, as it is generated through an stochastic process.](../images/Grids.png)
 
 The last bus of the list corresponds to a generator (`GenBus`). One important thing to notice here is that it contains an attribute called `gens`, which is an array of `Generator`-type objects. `GenBus`es represent power plants, which may (or may not, as is the case here) contain several different generating units. These individual generating units are stored within the `gens` attribute.
 

@@ -14,7 +14,7 @@ Power grid research requires testing in realistic, large-scale, electric network
 
 The pioneers in treating power grids as networks were Watts and Strogatz[^3], when they pointed out that electric grids share similarities with *small-world networks*: networks that are highly clustered, but exhibit small characteristic path lengths due to a few individual nodes being directly connected to distant nodes (see Figure 1). This type of network is very useful in explaining social networks--- [see six degrees of Kevin Bacon](https://en.wikipedia.org/wiki/Six_Degrees_of_Kevin_Bacon)---but, despite similarities, power grids differ from small-world networks [^4],[^5]. If you are looking for an extensive list of studies on power grids, Pagani and Aiello [^6] is a good place to start.
 
-![Figure 1: Some examples of different network topologies containing 20 nodes and 40 edges. (a) Small-world; (b) random; (c) scale-free (exponent 2). For more information, see Watts and Strogatz[^3].](Networks.png)
+![Figure 1: Some examples of different network topologies containing 20 nodes and 40 edges. (a) Small-world; (b) random; (c) scale-free (exponent 2). For more information, see Watts and Strogatz[^3].](../images/Networks.png)
 
 In order to study the dynamic properties of electric grids, some research has adopted simplified topologies, such as tree structures [^7] or ring structures [^8], which may fail to capture relevant aspects of the system. Efforts to build complete and realistic synthetic grids are a much more recent phenomenon. The effort of two teams is particularly relevant for this post, namely, Overbye's team [^9],[^10],[^11] and Soltan and Zussman [^12].
 
@@ -36,7 +36,7 @@ In contrast to loads and generators, there is no publicly available data on tran
 
 Currently, SyntheticGrids.jl allows its generated grids to be directly exported to pandapower, a Python-based powerflow package. Soon, an interface with PowerModels.jl, a Julia-based powerflow package, will also be provided.
 
-In the [second part](SynGrids_p2.md) we will go over how to use the main features of the package.
+In the [second part](2018/06/06/syntheticgrids-part-2) we will go over how to use the main features of the package.
 
 References
 ----------

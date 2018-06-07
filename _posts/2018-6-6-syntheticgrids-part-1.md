@@ -14,7 +14,7 @@ Power grid research requires testing in realistic, large-scale, electric network
 
 The pioneers in treating power grids as networks were Watts and Strogatz[^3], when they pointed out that electric grids share similarities with *small-world networks*: networks that are highly clustered, but exhibit small characteristic path lengths due to a few individual nodes being directly connected to distant nodes (see Figure 1). This type of network is very useful in explaining social networks--- [see six degrees of Kevin Bacon](https://en.wikipedia.org/wiki/Six_Degrees_of_Kevin_Bacon)---but, despite similarities, power grids differ from small-world networks [^4],[^5]. If you are looking for an extensive list of studies on power grids, Pagani and Aiello [^6] is a good place to start.
 
-![Figure 1: Some examples of different network topologies containing 20 nodes and 40 edges. (a) Small-world; (b) random; (c) scale-free (exponent 2). For more information, see Watts and Strogatz[^3].](../images/Networks.png)
+![Figure 1: Some examples of different network topologies containing 20 nodes and 40 edges. (a) Small-world; (b) random; (c) scale-free (exponent 2). For more information, see Watts and Strogatz[^3].]({{ site.baseurl }}public/images/Networks.png)
 
 In order to study the dynamic properties of electric grids, some research has adopted simplified topologies, such as tree structures [^7] or ring structures [^8], which may fail to capture relevant aspects of the system. Efforts to build complete and realistic synthetic grids are a much more recent phenomenon. The effort of two teams is particularly relevant for this post, namely, Overbye's team [^9],[^10],[^11] and Soltan and Zussman [^12].
 
@@ -28,7 +28,7 @@ The coarse-graining of the buses into substations, if desired, is done via a sim
 
 In contrast to loads and generators, there is no publicly available data on transmission lines, so we have to adopt heuristics. The procedure implemented in the package is based on that proposed by Soltan and Zussman [^12]. It adopts several realistic considerations in order to stochastically generate the whole transmission network, which are summarised in the following three main principles:
 
-> The degree distributions of power grids are very similar to those of scale-free networks [see: https://en.wikipedia.org/wiki/Scale-free_network], but grids have less degree 1 and 2 nodes and do not have very high degree nodes.
+> The degree distributions of power grids are very similar to those of scale-free networks [see: [Scale-free network](https://en.wikipedia.org/wiki/Scale-free_network)], but grids have less degree 1 and 2 nodes and do not have very high degree nodes.
 >
 > It is inefficient and unsafe for the power grids to include very long lines.
 >

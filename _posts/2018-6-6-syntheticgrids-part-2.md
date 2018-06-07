@@ -69,7 +69,8 @@ GenBus(
 
 We see that our grid has a total of 137 buses (see Figure 2 for a visualisation of the result). The first is a load bus (`LoadBus`). The values of the attributes `connected_to` and `connections` are not explicitly printed. However, the printing of `(...)` indicates that those sets have been populated (otherwise, they would be printed as `()`).
 
-![Figure 2: Visualisation of two grids generated using the procedure described here. Notice that both present the same bus locations, as their placement is entirely deterministic. The transmission line topology however is different in each case, as it is generated through an stochastic process.]({{ site.baseurl }}public/images/Grids.png)
+![Synthetic grids]({{ site.baseurl }}public/images/Grids.png)
+_Visualisation of two grids generated using the procedure described here. Notice that both present the same bus locations, as their placement is entirely deterministic. The transmission line topology however is different in each case, as it is generated through an stochastic process. Note that the generated grids are non-planar._
 
 The last bus of the list corresponds to a generator (`GenBus`). One important thing to notice here is that it contains an attribute called `gens`, which is an array of `Generator`-type objects. `GenBus`es represent power plants, which may (or may not, as is the case here) contain several different generating units. These individual generating units are stored within the `gens` attribute.
 

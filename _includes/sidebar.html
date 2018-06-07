@@ -3,9 +3,7 @@
     <div class="sidebar-about">
       <h1>
 	<img src="{{ site.baseurl }}public/InveniaLogo.png">
-        <a href="{{ site.baseurl }}">
-          {{ site.title }}
-        </a>
+          <font face="verdana">{{ site.title }}</font>
       </h1>
       <p class="lead">{{ site.description }}</p>
     </div>
@@ -27,8 +25,8 @@
         {% endif %}
       {% endfor %}
 
-      <a class="sidebar-nav-item" href="https://invenia.ca">Return to Invenia</a>
-      <span class="sidebar-nav-item">Currently v{{ site.version }}</span>
+      <a class="sidebar-nav-item" href="https://invenia.ca"><b>Return to Invenia</b></a>
+      <span class="sidebar-nav-item"><small>v{{ site.version }}</small></span>
     </nav>
 
     <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>

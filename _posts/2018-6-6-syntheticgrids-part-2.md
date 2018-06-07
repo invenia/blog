@@ -3,10 +3,14 @@
 layout: post
 
 title: "SyntheticGrids.jl: Part 2"
+
+author: "Eric Perim"
 ---
 
 Usage
 -----
+
+_For the package repository, visit [Github](https://github.com/invenia/SyntheticGrids.jl)._
 
 In the [first part](2018/06/06/syntheticgrids-part-1), we discussed the motivation and model behind SyntheticGrids.jl. In this post we show how to use it.
 

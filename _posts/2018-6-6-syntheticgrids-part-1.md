@@ -3,10 +3,14 @@
 layout: post
 
 title: "SyntheticGrids.jl: Part 1"
+
+author: "Eric Perim"
 ---
 
 Background
 ----------
+
+_For the package repository, visit [Github](https://github.com/invenia/SyntheticGrids.jl)._
 
 It should come as no surprise that electricity plays a vital role in many aspects of modern life. From reading this article, to running essential hospital equipment, or powering your brand-new Tesla, many things that we take for granted would not be possible without the generation and transmission of electrical power. This is only possible due to extensive power grids, which connect power producers with consumers through a very complex network of towers, transmission lines, transformers etc. Needless to say, it is important to understand the peculiarities of these systems in order to avoid large scale blackouts, or your toaster burning out due to a fluctuation in the current.
 

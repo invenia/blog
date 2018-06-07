@@ -7,10 +7,10 @@ permalink:        pretty
 
 # Setup
 title:            Invenia Blog
-tagline:          'This is a tagline'
+tagline:          'Electricity Grids, Julia, and Machine Learning'
 description:      'Blogging About Electricity Grids, Julia, and Machine Learning'
 url:              https://invenia-blog.github.io
-baseurl:          /
+baseurl:          https://invenia-blog.github.io/
 
 author:
   name:           'Invenia'

@@ -3,10 +3,14 @@
 layout: post
 
 title: "SyntheticGrids.jl: Part 1"
+
+author: "Eric Perim"
 ---
 
 Background
 ----------
+
+_For the package repository, visit [Github](https://github.com/invenia/SyntheticGrids.jl)._
 
 It should come as no surprise that electricity plays a vital role in many aspects of modern life. From reading this article, to running essential hospital equipment, or powering your brand-new Tesla, many things that we take for granted would not be possible without the generation and transmission of electrical power. This is only possible due to extensive power grids, which connect power producers with consumers through a very complex network of towers, transmission lines, transformers etc. Needless to say, it is important to understand the peculiarities of these systems in order to avoid large scale blackouts, or your toaster burning out due to a fluctuation in the current.
 
@@ -14,7 +18,8 @@ Power grid research requires testing in realistic, large-scale, electric network
 
 The pioneers in treating power grids as networks were Watts and Strogatz[^3], when they pointed out that electric grids share similarities with *small-world networks*: networks that are highly clustered, but exhibit small characteristic path lengths due to a few individual nodes being directly connected to distant nodes (see Figure 1). This type of network is very useful in explaining social networks--- [see six degrees of Kevin Bacon](https://en.wikipedia.org/wiki/Six_Degrees_of_Kevin_Bacon)---but, despite similarities, power grids differ from small-world networks [^4],[^5]. If you are looking for an extensive list of studies on power grids, Pagani and Aiello [^6] is a good place to start.
 
-![Figure 1: Some examples of different network topologies containing 20 nodes and 40 edges. (a) Small-world; (b) random; (c) scale-free (exponent 2). For more information, see Watts and Strogatz[^3].]({{ site.baseurl }}public/images/Networks.png)
+![Network topologies]({{ site.baseurl }}public/images/Networks.png)
+_Some examples of different network topologies containing 20 nodes and 40 edges. (a) Small-world; (b) random; (c) scale-free (exponent 2). For more details, see Watts and Strogatz[^3]._
 
 In order to study the dynamic properties of electric grids, some research has adopted simplified topologies, such as tree structures [^7] or ring structures [^8], which may fail to capture relevant aspects of the system. Efforts to build complete and realistic synthetic grids are a much more recent phenomenon. The effort of two teams is particularly relevant for this post, namely, Overbye's team [^9],[^10],[^11] and Soltan and Zussman [^12].
 

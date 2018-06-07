@@ -5,6 +5,8 @@ layout: post
 title: "SyntheticGrids.jl: Part 2"
 
 author: "Eric Perim"
+
+comments: true
 ---
 
 Usage

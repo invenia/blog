@@ -43,14 +43,14 @@ In contrast to loads and generators, there is no publicly available data on tran
 
 Currently, SyntheticGrids.jl allows its generated grids to be directly exported to pandapower, a Python-based powerflow package. Soon, an interface with PowerModels.jl, a Julia-based powerflow package, will also be provided.
 
-In the [second part](2018/06/06/syntheticgrids-part-2) we will go over how to use the main features of the package.
+In the [second part]({{ site.baseurl }}{% post_url 2018-6-6-syntheticgrids-part-2 %}) we will go over how to use the main features of the package.
 
 References
 ----------
 
 [^1]: Power Systems Test Case Archive (UWEE) - http://www2.ee.washington.edu/research/pstca/
 
-[^2]: Power Cases} - Illinois Center for a Smarter Electric Grid (ICSEG) - http://icseg.iti.illinois.edu/power-cases
+[^2]: Power Cases - Illinois Center for a Smarter Electric Grid (ICSEG) - http://icseg.iti.illinois.edu/power-cases
 
 [^3]: Watts, D. J., & Strogatz, S. H. (1998). Collective dynamics of ‘small-world’ networks. nature, 393(6684), 440-442. Chicago
 

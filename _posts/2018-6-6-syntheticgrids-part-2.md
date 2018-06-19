@@ -38,7 +38,7 @@ julia> using SyntheticGrids
 julia> grid = Grid(false);
 ```
 
-This command generates a complete grid corresponding to the region contained in the box defined by latitude [33, 35] and longitude [-95, -93](default values). It automatically places loads and generators and builds the transmission line network (we will soon see how to do each of these steps manually). Here, `false` determines that substations will not be created. Note the addition of the semicolon, `;`, at the end of the command. This has just cosmetic effect in suppressing the printing of the resulting object in the REPL. Even a small grid object corresponds to a reasonably large amount of data.
+This command generates a complete grid corresponding to the region contained in the box defined by latitude [33, 35] and longitude [-95, -93] (default values). It automatically places loads and generators and builds the transmission line network (we will soon see how to do each of these steps manually). Here, `false` determines that substations will not be created. Note the addition of the semicolon, `;`, at the end of the command. This has just cosmetic effect in suppressing the printing of the resulting object in the REPL. Even a small grid object corresponds to a reasonably large amount of data.
 
 A `Grid` object has several attributes that can be inspected. First, let's look at the buses:
 

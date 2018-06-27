@@ -43,7 +43,7 @@ In contrast to loads and generators, there is no publicly available data on tran
 
 Currently, SyntheticGrids.jl allows its generated grids to be directly exported to pandapower, a Python-based powerflow package. Soon, an interface with PowerModels.jl, a Julia-based powerflow package, will also be provided.
 
-In the [second part]({{ site.baseurl }}{% post_url 2018-6-6-syntheticgrids-part-2 %}) we will go over how to use the main features of the package.
+In the [second part]({{ site.baseurl }}{% post_url 2018-6-27-syntheticgrids-part-2 %}) we will go over how to use the main features of the package.
 
 References
 ----------

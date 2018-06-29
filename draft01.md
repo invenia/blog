@@ -101,7 +101,7 @@ Instead, we could use the `IteratorSize` and `IteratorEltype` traits to say that
 ## Iteration in Julia 0.7
 
 In Julia 0.7, the iteration interface is now just one function: `iterate`.
-The while loop above would now be written as:
+The `while` loop above would now be written as:
 
 ```julia
 iter_result = iterate(iterable)

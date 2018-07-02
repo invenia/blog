@@ -210,7 +210,7 @@ Conveniently (since it would otherwise error), the value returned from `iterate`
 
 The iteration interface requires two methods of `iterate`, but it's handy to use default arguments[^defaults] to only write out one function.
 However, sometimes there is no clear initial value for `state`, e.g., if it requires you to start iterating over the wrapped iterable.
-In this case it's helpful to use "slurping" and "splatting"[^slurpsplat] to refer to either zero or one function argument—the presence or absence if the `state` argument.
+In this case it's helpful to use "slurping" and "splatting"[^slurpsplat] to refer to either zero or one function argument—the presence or absence of the `state` argument.
 
 A simple example is the `TakeNth` iterator from [IterTools.jl](https://juliacollections.github.io/IterTools.jl/latest/#takenth(xs,-n)-1).
 Its implementation of the `iterate` function looks like this:
@@ -269,8 +269,8 @@ function iterate(pit::PeekIter, state=iterate(pit.it))
 end
 ```
 
-In this case the work needed for the initial `iterate` call is just a superset of the regular `iterate` call, so it's very simple to implement.
-In general, the code for look-ahead iterators is just as easy to write in Julia 0.7 but usually more compact.
+In this case, the work needed for the initial `iterate` call is just a superset of the regular `iterate` call, so it's very simple to implement.
+In general, the code for look-ahead iterators is just as easy to write in Julia 0.7, but usually more compact.
 
 ### Piecewise Development Approach
 
@@ -289,7 +289,7 @@ end
 (x, s) = next(it.xs, s)
 ```
 
-If there are more items this advances the wrapped iterable, otherwise it breaks out of the surrounding loop.
+If there are more items, this advances the wrapped iterable, otherwise it breaks out of the surrounding loop.
 In the new interface this requires just one call instead of two:
 
 ```julia
@@ -396,6 +396,6 @@ IterTools will definitely accept pull requests, and I'm interested in feedback o
 
 [^defaults]: In Julia, this actually defines two methods of `iterate`, as described in the [Julia docs](https://docs.julialang.org/en/latest/manual/methods/#Note-on-Optional-and-keyword-Arguments-1).
 [^macroname]: This name is definitely up for debate!
-[^slurpsplat]: Slurping refers to the how using `args...` in a function definition "slurps" up the trailing arguments, and splatting is the inverse operation. The [Julia docs](https://docs.julialang.org/en/latest/manual/functions/#Varargs-Functions-1) say more on this.
+[^slurpsplat]: Slurping refers to  how using `args...` in a function definition "slurps" up the trailing arguments, and splatting is the inverse operation. The [Julia docs](https://docs.julialang.org/en/latest/manual/functions/#Varargs-Functions-1) say more on this.
 [^respell]: All other changes here are renaming or respelling something that appears in the original, for clarity's sake.
 [^cantorwont]: We _could_, but we'd need to do something different depending on the length of the tuple, which would add another conditional check in addition to the splatting.

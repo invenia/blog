@@ -6,7 +6,7 @@ title: "SyntheticGrids.jl: Part 2"
 
 author: "Eric Perim"
 
-comments: true
+comments: false
 ---
 
 Usage

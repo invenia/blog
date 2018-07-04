@@ -1,8 +1,9 @@
 # Writing Iterators in Julia 0.7
 
-With the [alpha release](https://github.com/JuliaLang/julia/releases/tag/v0.7.0-alpha) of Julia 0.7, Julia has simplified its iteration interface.
-This was a [huge undertaking](https://github.com/JuliaLang/julia/pull/25261) which mostly fell to the prolific [Keno Fischer](https://github.com/Keno), who ended up writing an entirely new optimizer for the language to accomplish it!
-As the most active maintainer of the [IterTools](https://github.com/JuliaCollections/IterTools.jl) package, I decided to spend a week rewriting its iterators for the new interface and I'm here to share that experience with you.
+With the [alpha release](https://github.com/JuliaLang/julia/releases/tag/v0.7.0-alpha) of version 0.7, Julia has simplified its iteration interface.
+This was a [huge undertaking](https://github.com/JuliaLang/julia/pull/25261) which mostly fell to the prolific [Keno Fischer](https://github.com/Keno), who wrote an entirely new optimizer for the language to accomplish it!
+As the most active maintainer of the [IterTools](https://github.com/JuliaCollections/IterTools.jl) package, I decided to spend a week rewriting its iterators for the new interface.
+I'd like to share that experience with you to introduce the new interface and assist in transitioning to Julia 0.7.
 
 ## Iteration in Julia 0.6
 
@@ -27,7 +28,7 @@ while !done(iterable, state)
 end
 ```
 
-A simple example is a range iterator which yields every nth element, up to some number of elements:
+A simple example is a range iterator which yields every nth element up to some number of elements:
 
 ```julia
 julia> struct EveryNth
@@ -116,7 +117,7 @@ The `iterate` function has two methods.
 The first is called once, to begin iteration (like the old `start`) and _also_ perform the first iteration step.
 The second is called repeatedly to iterate, like `next` in Julia 0.6.
 
-The `EveryNth` example would now look like this:
+The `EveryNth` example now looks like this:
 
 ```julia
 julia> struct EveryNth
@@ -142,7 +143,7 @@ julia> Base.eltype(iter::EveryNth) = Int
 
 In our `iterate` function we define a default value for `state` which is used when `iterate` is called with one argument. [^defaults]
 
-This already less code than the old interface required, but we can reduce it further using another new [feature](https://github.com/JuliaLang/julia/pull/23337) of Julia 0.7.
+This is already less code than the old interface required, but we can reduce it further using another new [feature](https://github.com/JuliaLang/julia/pull/23337) of Julia 0.7.
 
 ```julia
 Base.iterate(it::EveryNth, (el, i)=(it.start, 0)) = i >= it.length ? nothing : (el, (el + it.n, i + 1))
@@ -158,14 +159,14 @@ Julia 1.0 will remove those fallback definitions and all usage of the old iterat
 
 ## Common Strategies
 
-The above example was constructed to be as straightforward as possible, but not all iteration is that cleanly-expressed.
+The above example was constructed to be as straightforward as possible, but not all iteration is that easy to express.
 Luckily, the new interface was designed to assist with situations which were previously difficult or inefficient, and in some cases (like the `EveryNth` example) reduces the amount of code necessary.
 While [updating](https://github.com/JuliaCollections/IterTools.jl/pull/35) [IterTools.jl](https://github.com/JuliaCollections/IterTools.jl), I came across a few patterns which repeatedly proved useful.
 
 ### Wrapping Another Iterable
 
 In many cases, the iterable we want to create is a transformation applied to a caller-supplied iterable.
-There are a few patterns which often prove useful in these cases.
+Many of the useful patterns apply specifically to this situation.
 
 #### Early Return
 
@@ -390,7 +391,7 @@ end
 ## Conclusion
 
 These are the techniques that helped me in my work, but I'd like to hear about more!
-I'm also interested in insight into which patterns improve or harm performance and why.
+I'm also curious which patterns improve or harm performance and why.
 IterTools will definitely accept pull requests, and I'm interested in feedback on [Slack](https://julialang.slack.com/) and [Discourse](https://discourse.julialang.org/).
 
 

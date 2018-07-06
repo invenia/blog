@@ -7,6 +7,8 @@ title: "SyntheticGrids.jl: Part 2"
 author: "Eric Perim"
 
 comments: false
+
+tags: julia electrical-grids
 ---
 
 Usage

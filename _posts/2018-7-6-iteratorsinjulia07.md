@@ -7,6 +7,8 @@ title: "Writing Iterators in Julia 0.7"
 author: "Eric Davies"
 
 comments: false
+
+tags: julia
 ---
 
 With the [alpha release](https://github.com/JuliaLang/julia/releases/tag/v0.7.0-alpha) of version 0.7, Julia has simplified its iteration interface.

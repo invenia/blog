@@ -35,3 +35,4 @@ avatar: https://www.invenia.ca/wp-content/uploads/favicon.png
 plugins:
   - jekyll-paginate
   - jekyll-feed
+  - jekyll-seo-tag

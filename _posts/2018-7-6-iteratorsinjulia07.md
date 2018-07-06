@@ -318,7 +318,8 @@ Applying this and writing two `iterate` methods results in this[^respell]:
 ```julia
 function iterate(it::Partition{I, N}, state) where {I, N}
     (xs_state, result) = state
-    # this @ifsomething call handles the 0.6 situation where `done` is always called before `next`
+    # this @ifsomething call handles the 0.6 situation
+    # where `done` is always called before `next`
     result[end], xs_state = @ifsomething iterate(it.xs, xs_state)
 
     p = similar(result)

@@ -157,7 +157,9 @@ In our `iterate` function we define a default value for `state` which is used wh
 This is already less code than the old interface required, but we can reduce it further using another new [feature](https://github.com/JuliaLang/julia/pull/23337) of Julia 0.7.
 
 ```julia
-Base.iterate(it::EveryNth, (el, i)=(it.start, 0)) = i >= it.length ? nothing : (el, (el + it.n, i + 1))
+function Base.iterate(it::EveryNth, (el, i)=(it.start, 0))
+	return i >= it.length ? nothing : (el, (el + it.n, i + 1))
+end
 ```
 
 I personally prefer verbosity when it increases readability, but some people prefer shorter code, and that's easier than ever to achieve.

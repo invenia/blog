@@ -9,8 +9,9 @@ permalink:        pretty
 title:            Invenia Blog
 tagline:          'Electricity Grids, Julia, and Machine Learning'
 description:      'Blogging About Electricity Grids, Julia, and Machine Learning'
-url:              https://invenia-blog.github.io
-baseurl:          /invenia-blog.github.io/
+url:              https://invenia.github.io
+baseurl:          /blog
+home:             /
 
 author:
   name:           'Invenia'
@@ -22,7 +23,7 @@ paginate:         5
 version:          0.0.1
 
 github:
-  repo:           https://github.com/invenia-blog/invenia-blog.github.io
+  repo:           https://github.com/invenia/blog
 
 google_analytics: UA-120694221-1
 

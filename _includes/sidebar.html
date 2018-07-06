@@ -25,9 +25,16 @@
         {% endif %}
       {% endfor %}
 
-      <a class="sidebar-nav-item" href="https://invenia.ca"><b>Return to Invenia</b></a>
+
     </nav>
 
-    <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
+    <div class="wrapper-footer">
+      <footer>
+        {% include svg-icons.html %}
+
+        <a class="sidebar-nav-item" href="https://invenia.ca"><b>Return to Invenia</b></a>
+        <p>&copy; {{ site.time | date: '%Y' }}. All rights reserved.</p>
+      </footer>
+    </div>
   </div>
 </div>

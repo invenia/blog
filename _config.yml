@@ -13,6 +13,9 @@ url:              https://invenia.github.io
 baseurl:          /blog
 home:             /
 
+footer-links:
+  rss: true
+
 author:
   name:           'Invenia'
   url:            https://www.invenia.ca/

@@ -29,4 +29,6 @@ google_analytics: UA-120694221-1
 
 avatar: https://www.invenia.ca/wp-content/uploads/favicon.png
 
-plugins: [jekyll-paginate]
+plugins:
+  - jekyll-paginate
+  - jekyll-feed

@@ -3,9 +3,11 @@ layout: post
 
 title: "A Short Note on The Y Combinator"
 
-tags: python, programming
+author: "Wessel Bruinsma"
 
-author: Wessel Bruinsma
+comments: false
+
+tags: python programming
 
 ---
 

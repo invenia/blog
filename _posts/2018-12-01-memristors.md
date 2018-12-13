@@ -339,7 +339,7 @@ We found that the same method cannot be applied to the nonplanar graphs.
 
 In the case of planar graphs, it was possible to choose the basis of the cycle space in such a way that the basis cycles bound the faces of the graph.
 
-A generalisation of this construction to nonplanar graphs is not obvious due to the fact that in nonplanar graphs the notion of *faces* is not well-defined. In an attempt to overcome this, we defined the faces of a nonplanar graph $$G$ to be the faces of an embedding of $$G$ in some higher dimensional closed orientable surface. We can think of an embedding of $$G$ in a surface as a "drawing of $$G$ on that surface" such that no two edges of $$G$ intersect. For a given graph $$G$, it is always possible to find such a surface [7].
+A generalisation of this construction to nonplanar graphs is not obvious due to the fact that in nonplanar graphs the notion of *faces* is not well-defined. In an attempt to overcome this, we defined the faces of a nonplanar graph $$G$$ to be the faces of an embedding of $$G$$ in some closed orientable surface. We can think of an embedding of $$G$ in a surface as a "drawing of $$G$ on that surface" such that no two edges of $$G$ intersect. For a given graph $$G$, it is always possible to find such a surface [7].
 
 We illustrate this on the simplest nonplanar graph, $$K_{3,3}$$:
 

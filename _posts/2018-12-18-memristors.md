@@ -2,13 +2,13 @@
 
 layout: post
 
-title: "Memristive dynamics as a heuristic optimization tool and as an interesting problem in graph theory"
+title: "Memristive dynamics: a heuristic optimization tool and problem in graph theory"
 
 author: "Ana Zegarac and Francesco Caravelli"
 
 comments: false
 
-tags: optimisation graph
+tags: optimization, graph theory
 
 
 
@@ -22,43 +22,49 @@ $$ \newcommand{\coloneqq}{\mathrel{\vcenter{:}}=} $$
 Introduction
 ------------
 
-In this post we will explore an interesting area of modern circuit theory and computing: how exotic properties of certain nanoscale circuit components (analogous to tungseten fillament lightblulbs) can be used for one of the most common of all computing applications: optimization. Lets start with a simple example based on resistors. Imagine a complex circuit of resistors, which, for simplicity, are all the same.
+In this post we will explore an interesting area of modern circuit theory and computing: how exotic properties of certain nanoscale circuit components (analogous to tungsten filament lightblulbs) can be used for for solving optimization problems. Lets start with a simple example based on resistors. Imagine a complex circuit of resistors, which all have the same resitance.
 
 <img src="{{ site.baseurl }}/public/images/tikz_cubecircuit.png" alt="circuit" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 
-If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the currents will flow equally in all directions to reach B. The reason is that the current splits at each intersection according to the inverse resistance rule: this implies that if we follow the maximal current at each intersection, we can use this protocol to actually solve the minimum distance (or cost) problem on a graph, which is a polynomial type of problem. This one example of a physical system performing analog computation. The first thing to notice is that there is a deep connection between graph theory and resistor networks, and in fact between resistor network and Markov chains (random walks on certain graph structures). Can this connection between resistor networks and computation be further explored?
+If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the currents will flow equally in all directions to reach B. The reason is that the current splits at each intersection according to the inverse resistance rule: this implies that if we follow the maximal current at each intersection, we can use this protocol to actually solve the minimum distance (or cost) problem on a graph. This can be seen as an example of a physical system performing analog computation, andmMore generally, there is a deep connection between graph theory and resistor networks.
 
-In 2008, HP “discovered” the nanoscale memristor: as the the dimension of a resistance reaches the nanoscale, certain metal oxides such as tungsten or Titanium have an interesting property: the resistance changes as a function of time. For the math enthusiasts, the HP researchers noticed that for the case of Titanium Dioxide the resistance seemed to change between two limiting values according to a seemingly simple convex law depending on an internal parameter $$w$$ constrained between $$0$$ and $$1$$:
+In 2008, HP discovered what is now called the "nanoscale memristor": this is a type of resistor made of certain metal oxides such as tungsten or Titanium, which as its physical dimensions reach the nanoscale, the resistance changes as a function of time. For the case of Titanium Dioxide the resistance seemed to change between two limiting values according to a seemingly simple convex law depending on an internal parameter $$w$$ constrained between $$0$$ and $$1$$:
 
 $$ R(w)=\Ron (1-w) +w \Roff,$$
 
-Where they noticed:
+where,
 
 $$ \frac{\dif}{\dif t} w(t)=\alpha w- \Ron \frac{I}{\beta}, $$
 
-where $$I$$ is the current in the device. Albeit this model has been revised several times, it still serves as a prototypical model of a memory-resistor: the memristor. What about a network of memristors? In this case things get more complicated, and the differential equation becomes vectorial and more complicated [1,2]:
+and $$I$$ is the current in the device. Even though this simple model has been revised several times, it still serves as a prototypical model of a memory-resistor: the memristor. 
+
+In the general case of a network of memristors, things get more complicated, and the differential equation becomes [1,2]:
 
 $$ \frac{\dif}{\dif t}\vec{w}(t)=\alpha\vec{w}(t)-\frac{1}{\beta} \left(I+\frac{\Roff-\Ron}{\Ron} \Omega W(t)\right)^{-1} \Omega \vec S(t), $$
 
-where $$\Omega$$ is a matrix which contains the circuit topology, $$\vec S(t)$$ are the applied voltages and $$W$$ a diagonal matrix which contains the values of $$w$$ for each memristor in the network. We do not go into the details, but it is interesting to note that the equation above, similarly to the case of resistors, also tries to solve another optimization problem, but this time more complicated: the QUBO, or Quadratically Unconstrained Binary Optimization, heuristically. The solution(s) of the QUBO are all those values of a set of binary parameters $$w_i$$’s that minimize a function of the type:
+where $$\Omega$$ is a matrix containing the circuit topology, $$\vec S(t)$$ are the applied voltages and $$W$$ a diagonal matrix which contains the values of $$w$$ for each memristor in the network. 
 
-$$F(\vec w)= -\frac p 2 \sum_{ij} w_i J_{ij} w_j + \sum_j h_j w_j $$
+It is interesting to note that the equation above, similarly to the case of a circuit of simple resistors, is related to an optimization problem: Quadratically Unconstrained Binary Optimization (QUBO). The solution(s) of a QUBO problem are the set of binary parameters, $$w_i$$, that minimize a function of the form:
 
-This is due to the fact that as the dynamics of certain type of memristors which are described by the equation above, tries to minimize a QUBO functional (in the language of dynamical systems, they possess a Lyapunov functional). For the case of realistic circuits, $$\Omega$$ has to be a very specific matrix which we will discuss later, but from the point of view of optimization purposes, the system of differential equations can be simulated for arbitrary $$\Omega$$ in principle. Thus, the memristive differential equation can serve as a heuristic method for a NP-Complete problem such as QUBO [3]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, we necessarily have to explore all the $$2^N$$ possible values of the variables $$w$$’s to decide which extremum (or extrema) are better. In a certain sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables. For the purpose of this audience, one problem of interest might be the following: given the returns and covariance matrix between prices in a stock market, in which assets shall we invest and which shall we not? This is a bit different than the typical question of the “portion” of our capital we should invest in which asset, but if we should invest or not, which is a binary variable. Thus we use a modification of the Markowitz approach, but for binary variables, we aim to maximize (rather than minimize):
+$$F(\vec w)= -\frac p 2 \sum_{ij} w_i J_{ij} w_j + \sum_j h_j w_j. $$
 
-$$M(W)=\sum_i \left(r_i-\frac{p}{2}\Sigma_{ii} \right)W_i-\frac{p}{2} \sum_{i\neq j} W_i \Sigma_{ij} W_j$$
+This is because the dynamics of memristors which are described by the equation above are such that a QUBO functional (in the language of dynamical systems, they possess a Lyapunov functional) is minimized. For the case of realistic circuits, $$\Omega$$ has to be a very specific matrix which we will discuss later, but from the point of view of optimization theory, the system of differential equations can be simulated for arbitrary $$\Omega$$ in principle. Therefore, the memristive differential equation can serve as a heuristic method for a NP-Complete problem such as QUBO [3]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, we have to explore all the $$2^N$$ possible values of the variables $$w$$’s to decide which extremum (or extrema) are better. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables. 
 
-where $$r_i$$ are the returns and $$\Sigma$$ the covariance matrix. The mapping between the optimization of the returns above and the equivalent memristive equation is:
+An application of the above to a standard problem is the following: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, where the decision variables are real valued. More formally, the objective is to maximize:
+
+$$M(W)=\sum_i \left(r_i-\frac{p}{2}\Sigma_{ii} \right)W_i-\frac{p}{2} \sum_{i\neq j} W_i \Sigma_{ij} W_j,$$
+
+where $$r_i$$ are the expected returns and $$\Sigma$$ the covariance matrix. The mapping between the above and the equivalent memristive equation is given by:
 
 $$
 \begin{align}
 \Sigma &= \Omega, \\
-\frac{\alpha}{2} +\frac{\alpha\xi}{3}\Omega_{ii} -\frac{1}{\beta} \sum_j \Omega_{ij} S_j &= r_i-\frac{p}{2}\Sigma_{ii},\\
+\frac{\alpha}{2} +\frac{\alpha\xi}{3}\Omega_{ii} -\frac{1}{\beta} \sum_j \Omega_{ij} S_j &= r_i-\frac{p}{2}\Sigma_{ii}.\\
 \frac{p}{2} &= \alpha \xi.
 \end{align}
 $$
 
-From which we can obtain the vector $$S$$ through inversion of the matrix $$\Sigma$$ if it is invertible. We still have the freedom of choosing $$\xi$$ and $$\alpha$$ freely given the constraint, but the two are slightly different in nature: $$\xi\gg 1$$ is the deep nonlinear regime, while $$\alpha\gg 1$$ is the deep diffusive regime. There are some conditions for this method to be suitable for heuristic optimization, which we do not go into the detail here (but are related to the spectral properties of the matrix $$J$$), but as a heuristic method this is rather easier than the exhaustive search: it requires a one time matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps (heuristically of the order of the hundreds for Euler integration methods). As a comparison $$2^{100}$$ is circa $$10^{30}$$, while $$100\times(100)^3$$ is of the order of $$100$$ millions, which a regular computer can handle. We propose two approaches to this problem. One is based on the most common Metropolis-Hasting algorithm and the other one on the heuristic “memristive” equation.
+The solution vector $$S$$ is obtained through inversion of the matrix $$\Sigma$$ (if it is invertible). We still have the freedom of choosing $$\xi$$ and $$\alpha$$ freely given the constraint, but the two are slightly different in nature: $$\xi\gg 1$$ is the deep nonlinear regime, while $$\alpha\gg 1$$ is the deep diffusive regime. There are some conditions for this method to be suitable for heuristic optimization, which we do not go into the detail here (but are related to the spectral properties of the matrix $$J$$), but as a heuristic method this is rather easier than the exhaustive search: it requires a one time matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps (heuristically of the order of the hundreds for Euler integration methods). As a comparison $$2^{100}$$ is circa $$10^{30}$$, while $$100\times(100)^3$$ is of the order of $$100$$ millions, which a regular computer can handle. We propose two approaches to this problem. One is based on the most common Metropolis-Hasting algorithm and the other one on the heuristic “memristive” equation.
 
 ### MATLAB code
 

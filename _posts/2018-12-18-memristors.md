@@ -315,7 +315,7 @@ A *cycle* is a walk $$W = v_1 v_2 \dots v_n$$ such that $$l\geq 3$$, $$v_0 = v_n
 
 <img src="{{ site.baseurl }}/public/images/tikz-egplanargraph_cycle.png" alt="egplanarcycle" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 
-Edge space has a structure of a vector space. A *cycle space* is the subset of edge space that is spanned by all cycles of a graph.
+Edge space has the structure of a vector space. A *cycle space* is the subset of edge space that is spanned by all cycles of a graph.
 
 ---
 
@@ -377,9 +377,9 @@ For the purpose of this blog post, we can think of $$z$$, $$\tilde \rho$$ as con
 
 Full derivation can be found in [5]. Here we will focus on one of the key parts of the calculation.
 
-Finding an analytic expression for a quantity which involves an inverse of a potentially large matrix is a non-trivial problem. To overcome this in the case of $$\Omega = A(A^T A)^{-1}A^T$$, the author noticed that the expression for $$\Omega$$ simplifies if we orthonormalise $$A$$ first. If we denote by $$\tilde A$$ the orthonormalised matrix, we get $$\Omega = \tilde A \tilde A^{-1}$$.
+Finding an analytic expression for a quantity which involves an inverse of a potentially large matrix is a non-trivial problem. To overcome this in the case of $$\Omega = A(A^T A)^{-1}A^T$$, we notice that the expression for $$\Omega$$ simplifies if we orthonormalise $$A$$ first. If we denote by $$\tilde A$$ the orthonormalised matrix, we get $$\Omega = \tilde A \tilde A^{-1}$$.
 
-To obtain the orthonormalised matrix $$\tilde A$$ from $$A$$, a variation of Gram-Schmidt process was used, where the $$p$$-th column, $$A_p$$, of the orthonormalised matrix $$\tilde A$$ is given by
+To obtain the orthonormalised matrix $$\tilde A$$ from $$A$$, a variation of Gram-Schmidt process can be used, where the $$p$$-th column, $$A_p$$, of the orthonormalised matrix $$\tilde A$$ is given by
 
 $$
 \tilde A_p =
@@ -416,15 +416,15 @@ where $$M_{ij}$$ is the $$(i,j)$$-th entry of the adjacency matrix of $$G'$$ and
 $$|{C_{i}}|$$
 is the length of the cycle corresponding to the $$i$$-th vertex of $$G'$$.
 
-This was the key step that allowed manipulations which ultimately lead to the expression for the bound in [5].
+This is the key step that allow manipulations which ultimately lead to the expression for the bound in [5].
 
 ### Locality in nonplanar graphs
 
-We found that the same method cannot be applied to the nonplanar graphs.
+We find that the same method cannot be applied to the nonplanar graphs.
 
-In the case of planar graphs, it was possible to choose the basis of the cycle space in such a way that the basis cycles bound the faces of the graph.
+In the case of planar graphs, it is possible to choose the basis of the cycle space in such a way that the basis cycles bound the faces of the graph.
 
-A generalisation of this construction to nonplanar graphs is not obvious due to the fact that in nonplanar graphs the notion of *faces* is not well-defined. In an attempt to overcome this, we defined the faces of a nonplanar graph $$G$$ to be the faces of an embedding of $$G$$ in some closed orientable surface (we can think of an embedding of $$G$$ in a surface as a "drawing of $$G$$ on that surface" such that no two edges of $$G$$ intersect). For a given graph $$G$$, it is always possible to find such a surface [7].
+A generalisation of this construction to nonplanar graphs is not obvious due to the fact that in nonplanar graphs the notion of *faces* is not well-defined. In an attempt to overcome this, we define the faces of a nonplanar graph $$G$$ to be the faces of an embedding of $$G$$ in some closed orientable surface (we can think of an embedding of $$G$$ in a surface as a "drawing of $$G$$ on that surface" such that no two edges of $$G$$ intersect). For a given graph $$G$$, it is always possible to find such a surface [7].
 
 We illustrate this on the simplest nonplanar graph, $$K_{3,3}$$:
 

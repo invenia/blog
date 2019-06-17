@@ -8,7 +8,7 @@ author: "Ana Zegarac and Francesco Caravelli"
 
 comments: false
 
-tags: optimization, graph theory
+tags: optimization, graph theory, memristors
 
 
 
@@ -22,13 +22,13 @@ $$ \newcommand{\coloneqq}{\mathrel{\vcenter{:}}=} $$
 Introduction
 ------------
 
-In this post we will explore an interesting area of modern circuit theory and computing: how exotic properties of certain nanoscale circuit components (analogous to tungsten filament lightblulbs) can be used for solving optimization problems. Lets start with a simple example based on resistors. Imagine a complex circuit of resistors, which all have the same resitance.
+In this post we will explore an interesting area of modern circuit theory and computing: how exotic properties of certain nanoscale circuit components (analogous to tungsten filament lightblulbs) can be used for solving certain optimization problems. Lets start with a simple example: imagine a circuit made up of resistors, which all have the same resitance.
 
 <img src="{{ site.baseurl }}/public/images/tikz_cubecircuit.png" alt="circuit" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 
-If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the currents will flow equally in all directions to reach B. The reason is that the current splits at each intersection according to the inverse resistance rule. This implies that if we follow the maximal current at each intersection, we can use this protocol to actually solve the minimum distance (or cost) problem on a graph. This can be seen as an example of a physical system performing analog computation. More generally, there is a deep connection between graph theory and resistor networks.
+If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the current splits at each intersection according to the inverse resistance rule, and so the currents will flow equally in all directions to reach B. This implies that if we follow the maximal current at each intersection, we can use this circuit to solve the minimum distance (or cost) problem on a graph. This can be seen as an example of a physical system performing analog computation. More generally, there is a deep connection between graph theory and resistor networks.
 
-In 2008, HP discovered what is now called the "nanoscale memristor". This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time. For the case of titanium dioxide, the resistance seemed to change between two limiting values according to a seemingly simple convex law depending on an internal parameter $$w$$ constrained between $$0$$ and $$1$$:
+In 2008, HP discovered what is now called the "nanoscale memristor". This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time. For the case of titanium dioxide, the resistance changes between two limiting values according to a seemingly simple convex law depending on an internal parameter $$w$$ constrained between $$0$$ and $$1$$:
 
 $$ R(w)=\Ron (1-w) +w \Roff,$$
 
@@ -36,21 +36,21 @@ where,
 
 $$ \frac{\dif}{\dif t} w(t)=\alpha w- \Ron \frac{I}{\beta}, $$
 
-and $$I$$ is the current in the device. Even though this simple model has been revised several times, it still serves as a prototypical model of a memory-resistor: the memristor. 
+and $$I$$ is the current in the device. Even though this simple model has been revised several times, it still serves as a prototypical model of a memory-resistor, or \textit{memristor}. 
 
-In the general case of a network of memristors, things get more complicated, and the differential equation becomes [1,2]:
+In the general case of a network of memristors, the differential equation becomes [1,2]:
 
 $$ \frac{\dif}{\dif t}\vec{w}(t)=\alpha\vec{w}(t)-\frac{1}{\beta} \left(I+\frac{\Roff-\Ron}{\Ron} \Omega W(t)\right)^{-1} \Omega \vec S(t), $$
 
-where $$\Omega$$ is a matrix containing the circuit topology, $$\vec S(t)$$ are the applied voltages and $$W$$ a diagonal matrix which contains the values of $$w$$ for each memristor in the network. 
+where $$\Omega$$ is a matrix representing the circuit topology, $$\vec S(t)$$ are the applied voltages and $$W$$ a diagonal matrix of the values of $$w$$ for each memristor in the network. 
 
 It is interesting to note that the equation above, similarly to the case of a circuit of simple resistors, is related to an optimization problem: quadratically unconstrained binary optimization (QUBO). The solution(s) of a QUBO problem are the set of binary parameters, $$w_i$$, that minimize a function of the form:
 
 $$F(\vec w)= -\frac p 2 \sum_{ij} w_i J_{ij} w_j + \sum_j h_j w_j. $$
 
-This is because the dynamics of memristors which are described by the equation above are such that a QUBO functional is minimized (in the language of dynamical systems, they possess a Lyapunov functional). For the case of realistic circuits, $$\Omega$$ has to be a very specific matrix which we will discuss later, but from the point of view of optimization theory, the system of differential equations can be simulated for arbitrary $$\Omega$$ in principle. Therefore, the memristive differential equation can serve as a heuristic method for an NP-Complete problem such as QUBO [3]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, we have to explore all the $$2^N$$ possible values of the variables $$w$$’s to decide which extremum (or extrema) is better. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables. 
+This is because the dynamics of memristors which are described by the equation above are such that a QUBO functional is minimized (in the language of dynamical systems, they possess a Lyapunov functional). For the case of realistic circuits, $$\Omega$$ has to be a very specific matrix which we will discuss later, but from the point of view of optimization theory, the system of differential equations can be simulated for arbitrary $$\Omega$$ in principle. Therefore, the memristive differential equation can serve as a \textit{heuristic} solution method for an NP-Complete problem such as QUBO [3]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, in the worst case we have to explore all $$2^N$$ possible values of the variables $$w$$’s to determine the extreme of the problem. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables. 
 
-An application of the above to a standard problem is the following: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, where the decision variables are real valued. More formally, the objective is to maximize:
+Next lets look at an application to a standard problem: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, where the decision variables are real valued (fractions of wealth to allocate to assets). More formally, the objective is to maximize:
 
 $$M(W)=\sum_i \left(r_i-\frac{p}{2}\Sigma_{ii} \right)W_i-\frac{p}{2} \sum_{i\neq j} W_i \Sigma_{ij} W_j,$$
 
@@ -64,7 +64,8 @@ $$
 \end{align}
 $$
 
-The solution vector $$S$$ is obtained through inversion of the matrix $$\Sigma$$ (if it is invertible). We still have the freedom of choosing $$\xi$$ and $$\alpha$$ freely given the constraint, but the two are slightly different in nature: $$\xi\gg 1$$ is the deep nonlinear regime, while $$\alpha\gg 1$$ is the deep diffusive regime. There are some conditions for this method to be suitable for heuristic optimization, which we do not go into the detail here (but are related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much easier than the exhaustive search: it requires a one time matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps (heuristically, of the order of the hundreds for Euler integration methods). As a comparison $$2^{100}$$ is circa $$10^{30}$$, while $$100\times(100)^3$$ is of the order of $$100$$ millions, which a regular computer can handle. We propose two approaches to this problem. One is based on the most common Metropolis-Hasting algorithm and the other one on the heuristic “memristive” equation.
+The solution vector $$S$$ is obtained through inversion of the matrix $$\Sigma$$ (if it is invertible). We still have the freedom of choosing $$\xi$$ and $$\alpha$$ freely given the constraint, but the two are slightly different in nature: $$\xi\gg 1$$ is the deep nonlinear regime, while $$\alpha\gg 1$$ is the deep diffusive regime. There are some conditions for this method to be suitable for heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: it requires a one time matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps. As a comparison $$2^{100}$$ is $$O(10^{30})$$, while $$100\times(100)^3$$ is $$O(10^{8})$$. We propose two approaches to this problem. One is based on the most common Metropolis-Hasting algorithm and the other on the heuristic memristive equation.
+
 
 ### MATLAB code
 
@@ -238,36 +239,31 @@ end
 {% endhighlight %}
 The equation for memristors is also interesting per se!
 
-Graph theory
-------------
 
-In the second half of this post, we will see how the geometry of a memristive circuit affects interactions between memristors.
+## Graph theory
 
-For purely memristive circuits, we saw we get the following system of equations:
+In the second half of this post we will see how the geometry of a memristive circuit affects interactions between memristors. For purely memristive circuits, we saw we get the following system of equations:
 
 $$\frac{\dif\vec{W}(t)}{\dif{t}} = \alpha \vec W(t) - \frac 1 \beta (I + \xi \Omega W(t))^{-1} \Omega \vec S(t),$$
 
-where $$\vec W$$ is the vector containing internal memory values of memristors in the circuit, $$\alpha, \beta, \xi$$ are constants, and $$\vec S$$ is the vector of voltages. We will first try to explain what $$\Omega$$ is in the next few sections. We start by introducing some concepts from graph theory.
+where $$\vec W$$ is the vector containing internal memory values of memristors in the circuit, $$\alpha, \beta, \xi$$ are constants, and $$\vec S$$ is the vector of voltages. Below we will discuss the properties of $$\Omega$$, but first we need some concepts from graph theory.
+
 
 ### Graph theoretic introduction
 
-A (directed) graph consists of two objects - vertices and edges. Vertices can be thought of as points and edges as lines that connect some of those points. We will label vertices as $$v_1, \dots, v_n$$ and edges as $$e_1, \dots, e_m$$. Mathematically, we represent an edge starting at vertex $$v_i$$ and ending at vertex $$v_j$$ as an ordered pair $$(v_i, v_j)$$.
-
-We call a graph *planar* if it can be drawn in a plane without any of its edges intersecting. The picture below shows an example of a directed planar graph.
+A (directed) graph consists of two objects - vertices and edges. We will label vertices as $$v_1, \dots, v_n$$ and edges as $$e_1, \dots, e_m$$. Mathematically, we represent an edge starting at vertex $$v_i$$ and ending at vertex $$v_j$$ as an ordered pair $$(v_i, v_j)$$. We call a graph *planar* if it can be drawn in a plane without any of its edges intersecting. An example of a directed planar graph is shown below.
 
 <img src="{{ site.baseurl }}/public/images/tikz-egplanargraph.png" alt="planar" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 
+
 ### Incidence matrix; $$\Omega_{B^T}$$
 
-Let $$G$$ be a directed graph. One way of representing $$G$$ is by specifying where each of its edges starts and where it ends. It is convenient to do this using a matrix. We call such a matrix an *incidence matrix*.
-
-As an example, consider the graph labelled as in the picture below.
+Let $$G$$ be a directed graph. One way of representing $$G$$ is by specifying where each of its edges starts and where it ends. It is convenient to do this using a matrix, called the \textit{incidence matrix}.
 
 <img src="{{ site.baseurl }}/public/images/tikz-egplanargraph_labelled.png" alt="planarlabelled" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 <!--\label{fig:tikz-egplanargraph_labelled.png}-->
 
-Each column of its incidence matrix represents an edge: the first edge starts at vertex $$1$$ and ends at vertex $$2$$, so the first column of the matrix has entry $$1$$ in the first row and entry $$-1$$ in the second row. All the other entries in the first column are $$0$$ because none of the other vertices are a part of that edge.
-By continuing this process for every edge, we get the incidence matrix $$B$$ of the given graph:
+Considering the graph above, each column of its incidence matrix represents an edge: the first edge starts at vertex $$1$$ and ends at vertex $$2$$, so the first column of the matrix has entry $$1$$ in the first row and entry $$-1$$ in the second row. All the other entries in the first column are $$0$$ because none of the other vertices are a part of that edge. By continuing this process for every edge, we get the incidence matrix $$B$$ of the given graph:
 
 $$
 B =
@@ -280,7 +276,7 @@ B =
 \end{pmatrix}.
 $$
 
-More formally, if a graph $$G$$ has $$n$$ vertices and $$m$$ edges, then the incidence matrix $$B$$ of $$G$$ is an $$n \times m$$ matrix (i.e. a matrix with $$n$$ rows and $$m$$ columns), whose entry $$(i,j)$$ is defined as
+More formally, if a graph $$G$$ has $$n$$ vertices and $$m$$ edges, then the incidence matrix $$B$$ of $$G$$ is an $$n \times m$$ matrix, whose $$(i,j)$$ entry is defined as:
 
 $$
 B_{ij} \coloneqq \begin{cases}
@@ -290,90 +286,35 @@ B_{ij} \coloneqq \begin{cases}
 \end{cases}
 $$
 
-If $$B$$ is an incidence matrix, we can define the projector operator $$\Omega_{B^T}$$:
+If $$B$$ is an incidence matrix, we can define the projection operator $$\Omega_{B^T}$$:
 
 $$
 \label{eq:Omega_def}
 \Omega_{B^T} = B^T\left(B B^T\right)^{-1} B.
 $$
+This is a projection operator because $$ \Omega_{B^T}^2 = \Omega_{B^T}. $$ It is interresting to note that the inverse $$\left(B B^T\right)^{-1}$$ does not exist in general. This can be dealt with by either considering the reduced incidence matrix (obtained by removing a row from the original incidence matrix) or by taking the pseudo-inverse..
 
-This is a *projector* operator because $$ \Omega_{B^T}^2 = \Omega_{B^T}. $$
-
-If we try to compute $$\Omega_{B^T}$$ from the definition, we will find that the inverse $$\left(B B^T\right)^{-1}$$ does not exist in general. This can be solved by either considering the reduced incidence matrix (obtained by removing a row from the original incidence matrix) or by taking the pseudoinverse of the expression instead of the "regular" inverse.
 
 ### Cycle matrix; $$\Omega$$
 
-Before we define the projector operator $$\Omega$$, let us discuss a few more objects from graph theory.
-
-We define a *walk* on a directed graph $$G$$ to be a sequence of vertices, say $$v_1, v_2, \dots, v_n$$, such that for every pair of consecutive vertices in the sequence there exists an edge that connects them, i.e. for every $$i$$ such that $$1<i\leq n$$ either $$(v_{i-1}, v_i) \in E(G)$$ or $$(v_i, v_{i-1}) \in E(G)$$, where $$E(G)$$ is the edge set of the graph $$G$$.
-
-An example of a walk on a graph is shown in orange in picture below.
+We define a \textit{walk} on a directed graph $$G$$ to be a sequence of vertices, say $$v_1, v_2, \dots, v_n$$, such that for every pair of consecutive vertices in the sequence there exists an edge that connects them, i.e. for every $$i$$ such that $$1<i\leq n$$ either $$(v_{i-1}, v_i) \in E(G)$$ or $$(v_i, v_{i-1}) \in E(G)$$, where $$E(G)$$ is the edge set of the graph $$G$$. An example of a walk is shown below.
 
 <img src="{{ site.baseurl }}/public/images/tikz-egplanargraph_walk.png" alt="graphwalk" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 
-A *cycle* is a walk $$W = v_1 v_2 \dots v_n$$ such that $$l\geq 3$$, $$v_0 = v_n$$ and the vertices $$v_i$$, $$0<i<n$$ are distinct from each other and from $$v_0$$. An example of a cycle is shown in the image below.
+A *cycle* is a walk $$W = v_1 v_2 \dots v_n$$ such that $$l\geq 3$$, $$v_0 = v_n$$ and the vertices $$v_i$$, $$0<i<n$$ are distinct from each other and from $$v_0$$. An example of a cycle is shown below.
 
 <img src="{{ site.baseurl }}/public/images/tikz-egplanargraph_cycle.png" alt="egplanarcycle" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 
-Edge space has the structure of a vector space. A *cycle space* is the subset of edge space that is spanned by all cycles of a graph.
+The space of edges has the structure of a vector space. A *cycle space* is the subset of edge space that is spanned by all cycles of a graph. A cycle matrix $$A$$ is a matrix whose columns form a basis of the cycle space. For example, if $$\{\vec c_1, \dots, \vec c_n\}$$ is a set of column vectors that form a basis of the cycle space, then the cycle matrix is $$ A = (\vec c_1, \dots, \vec c_n). $$ Finally, the projection operator $$\Omega$$ on the cycle space of the graph is defined to be $$\Omega = A(A^T A)^{-1}A^T $$.
 
----
-
-**On vector spaces**
-
-The property of being a *vector space* is an abstract mathematical notion, but here we will try to explain it in an intuitive way. We can think of a vector space as a collection of arrows. The two key properties of a vector space (in terms of our arrows) are:
-
-- if we add two arrows, we get an arrow:
-
-<img src="{{ site.baseurl }}/public/images/tikz-vs_add.png" alt="vsadd" style="width:400px;margin:0 auto 0 auto;" class="img-responsive">
-
- - if we multiply an arrow by some number, we still end up with an arrow (possibly of different length):
-
-<img src="{{ site.baseurl }}/public/images/tikz-vs_multiply.png" alt="vsmult" style="width:400px;margin:0 auto 0 auto;" class="img-responsive">
-
-It is the same with cycles -- just that we think of cycles on a graph instead of arrows in Euclidean space. For example, if we add two cycles, we will get a cycle (figure below).
-
-<img src="{{ site.baseurl }}/public/images/tikz-egplanargraph_cycle_add.png" alt="cyclesadd" style="width:600px;margin:0 auto 0 auto;" class="img-responsive">
-<!--\label{fig:tikz-egplanargraph_cycle_add.png}-->
-
-To make this even more clear, let us see what happens when we represent these vectors as column vectors.
-
-In the case of "arrows", if the first row corresponds to the $$x$$-axis and the second row to the $$y$$-axis, the arrow addition example above written out in coordinates becomes:
-
-$$
-\begin{pmatrix}3 \\ 0\end{pmatrix} +
-\begin{pmatrix}1 \\ 2\end{pmatrix} =
-\begin{pmatrix}5 \\ 2\end{pmatrix}.
-$$
-
-In the case of cycles, if the $$i$$-th row corresponds the $$i$$-th edge of a graph and we label edges as in the figure above, the graph addition example becomes:<!-- In the case of cycles (shown in Figure \ref{fig:tikz-egplanargraph_cycle_add.png}), if the $$i$-th row corresponds the $$i$-th edge of a graph and we label edges as in Figure \ref{fig:tikz-egplanargraph_labelled.png}, we have: -->
-
-$$
-\begin{pmatrix}1\\0\\1\\0\\1\\0\\0\\0\end{pmatrix} +
-\begin{pmatrix}0\\0\\0\\1\\-1\\0\\-1\\0\end{pmatrix} =
-\begin{pmatrix}1\\0\\1\\1\\0\\0\\-1\\0\end{pmatrix}.
-$$
-
-One of the properties of a vector space is that there exists a set of vectors that can be used to express any other vector. We call that set a "basis". It is not necessarily a unique set.
-
----
-
-A cycle matrix $$A$$ is a matrix whose columns form a basis of the cycle space. For example, if $$\{\vec c_1, \dots, \vec c_n\}$$ is a set of column vectors that form a basis of the cycle space, then the cycle matrix is
-
-$$ A = (\vec c_1, \dots, \vec c_n). $$
-
-Finally, the *projector operator $$\Omega$$ on the cycle space of the graph* is defined to be $$\Omega = A(A^T A)^{-1}A^T $$.
-
-Locality
---------
 
 ### Locality in planar graphs
 
-In [5] the following bound on locality of interactions in planar graphs was proved:
+In [5] the following bound on the locality of interactions in planar graphs was proved:
 
 $$ |\Omega_{i,j}| \leq e^{-z \text{d}(i,j) + \tilde \rho}. $$
 
-For the purpose of this blog post, we can think of $$z$$, $$\tilde \rho$$ as constants and of $$\text{d}(i,j)$$ as the distance between edges $$i$$ and $$j$$.
+For the purpose of this blog post, we can think of $$z$$, $$\tilde \rho$$ as constants, and of $$\text{d}(i,j)$$ as the distance between edges $$i$$ and $$j$$.
 
 Full derivation can be found in [5]. Here we will focus on one of the key parts of the calculation.
 
@@ -418,6 +359,7 @@ is the length of the cycle corresponding to the $$i$$-th vertex of $$G'$$.
 
 This is the key step that allow manipulations which ultimately lead to the expression for the bound in [5].
 
+
 ### Locality in nonplanar graphs
 
 We find that the same method cannot be applied to the nonplanar graphs.
@@ -437,6 +379,7 @@ An embedding of $$K_{3,3}$$ in a torus is shown below. We thus define the faces 
 To be able to use the method from [5], we would have to form a basis of the cycle space using only cycles that bound faces.
 
 However, the number of elements in the basis of a cycle space of $$K_{3,3}$$ is four (see [6] for a way of calculating the dimension of a cycle space). As can be seen in the figure above, there are only three faces in the embedding of $$K_{3,3}$$ in a torus. This is a problem.
+
 
 ### Formal discussion in a more general setting
 

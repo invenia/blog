@@ -57,7 +57,7 @@ With the advent of [Julia 1.0](https://julialang.org/blog/2018/08/one-point-zero
 
 For the past year, the absence of a debugger that equalled the pleasure of using Pkg.jl remained an open question. An answer was unveiled in [Debugger.jl](https://github.com/JuliaDebug/Debugger.jl), by the venerable Tim Holy, Sebastian Pfitzner, and Kristoffer Carlsson. They discussed  the ease with which Debugger.jl can be used to declare break points, enter functions, traverse lines of code, and modify environment variables, all from within a new debugger REPL mode! This is a very welcome addition to the Julia toolbox.
 
-Style guides are easy to understand but it's all too easy to misstep in writing code. Dominique Luma [gave a simple walkthrough](https://www.youtube.com/watch?v=12z5MzoFQOM) of his [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl) package, which formats the line width of source code according to specified parameters. The formatter spruces up and nests lines of code to present more aesthetically pleasing text. Only recently registered as a package, and not a comprehensive linter, it is still a good step in the right direction, and one that will save countless hours of code review for such a simple package.
+Style guides are easy to understand but it's all too easy to misstep in writing code. Dominique Luna [gave a simple walkthrough](https://www.youtube.com/watch?v=12z5MzoFQOM) of his [JuliaFormatter.jl](https://github.com/domluna/JuliaFormatter.jl) package, which formats the line width of source code according to specified parameters. The formatter spruces up and nests lines of code to present more aesthetically pleasing text. Only recently registered as a package, and not a comprehensive linter, it is still a good step in the right direction, and one that will save countless hours of code review for such a simple package.
 
 Code is only as useful as its documentation and [Documenter.jl](https://github.com/JuliaDocs/Documenter.jl) is the canonical tool for generating package documentation. Morten Piibeleht gave an excellent overview of the API including docstring generation, example code evaluation, and using custom CSS for online manuals. A great feature is the inclusion of doc testing as part of a unit testing set up to ensure that examples match function outputs. While Documenter has had doctests for a long time, they are now much easier to trigger: just add `using Documenter, MyPackage; doctest(MyPackage)` to your `runtests.jl` file. Coupled with Invenia's own [PkgTemplates.jl](https://github.com/invenia/PkgTemplates.jl), creating a maintainable package framework has never been easier.
 
@@ -135,9 +135,9 @@ It turns out that the type parameter `N` matters a lot. Removing this explicit t
 Here are some of our other favourite talks not discussed above:
 1. [Heterogeneous Agent DSGE Models](https://www.youtube.com/watch?v=Et-5AncK8TU)
 2. [Solving Cryptic Crosswords](https://www.youtube.com/watch?v=SVsA55h8pdg)
-3. [Differentiate All The Things!](https://www.youtube.com/watch?v=SVsA55h8pdg)
-4. [Building a Debugger with Cassette](https://www.youtube.com/watch?v=SVsA55h8pdg)
-5. [FilePaths](https://www.youtube.com/watch?v=SVsA55h8pdg)
+3. [Differentiate All The Things!](https://www.youtube.com/watch?v=OcUXjk7DFvU)
+4. [Building a Debugger with Cassette](https://www.youtube.com/watch?v=lTR6IPjDPlo)
+5. [FilePaths](https://www.youtube.com/watch?v=Ed6LklkKL6c)
 6. [Ultimate Datetime](https://www.youtube.com/watch?v=HHjvv5yWMmc)
 7. [Smart House with JuliaBerry](https://www.youtube.com/watch?v=1_S3aU3P3rE)
 8. [Why writing C interfaces in Julia is so easy](https://www.youtube.com/watch?v=ez-KVi0leOw)

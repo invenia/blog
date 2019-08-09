@@ -3,7 +3,7 @@ layout: post
 
 title: "JuliaCon 2019"
 
-authors: "Eric Davies, Fernando Chorney, Glenn Moynihan, Lyndon White, Mary Jo Ramos, Nicole Epp, Sean Lovett, Will Tebbutt"
+author: "Eric Davies, Fernando Chorney, Glenn Moynihan, Lyndon White, Mary Jo Ramos, Nicole Epp, Sean Lovett, Will Tebbutt"
 
 comments: false
 

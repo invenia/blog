@@ -28,7 +28,8 @@ In this post we will explore an interesting area of modern circuit theory and co
 
 If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the current splits at each intersection according to the inverse resistance rule, and so the currents will flow equally in all directions to reach B. This implies that if we follow the maximal current at each intersection, we can use this circuit to solve the minimum distance (or cost) problem on a graph. This can be seen as an example of a physical system performing analog computation. More generally, there is a deep connection between graph theory and resistor networks.
 
-In 2008, HP discovered what is now called the "nanoscale memristor". This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time. For the case of titanium dioxide, the resistance changes between two limiting values according to a seemingly simple convex law depending on an internal parameter $$w$$ constrained between $$0$$ and $$1$$:
+In 2008, HP introduced what is now called the "nanoscale memristor". The history of this type of devices is longer than that, but the interest in these components grew exponentially since the 2008 paper.
+This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a seemingly simple convex law depending on an internal parameter $$w$$ constrained between $$0$$ and $$1$$:
 
 $$ R(w)=\Ron (1-w) +w \Roff,$$
 

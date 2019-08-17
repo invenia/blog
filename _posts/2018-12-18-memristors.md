@@ -22,7 +22,7 @@ $$ \newcommand{\coloneqq}{\mathrel{\vcenter{:}}=} $$
 Introduction
 ------------
 
-In this post we will explore an interesting area of modern circuit theory and computing: how exotic properties of certain nanoscale circuit components (analogous to tungsten filament lightblulbs) can be used for solving certain optimization problems. Lets start with a simple example: imagine a circuit made up of resistors, which all have the same resitance.
+In this post we will explore an interesting area of modern circuit theory and computing: how exotic properties of certain nanoscale circuit components (analogous to tungsten filament lightblulbs) can be used for solving certain optimization problems. Let's start with a simple example: imagine a circuit made up of resistors, which all have the same resitance.
 
 <img src="{{ site.baseurl }}/public/images/tikz_cubecircuit.png" alt="circuit" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 

@@ -15,7 +15,6 @@ tags: optimization, graph theory, memristors
 ---
 
 $$ \newcommand{\Ron}{R_{\text{on}}} $$
-$$ \newcommand{\Roff}{R_{\text{off}}} $$
 $$ \newcommand{\dif}{\mathop{}\!\mathrm{d}} $$
 $$ \newcommand{\coloneqq}{\mathrel{\vcenter{:}}=} $$
 
@@ -51,7 +50,9 @@ $$F(\vec w)= -\frac p 2 \sum_{ij} w_i J_{ij} w_j + \sum_j h_j w_j. $$
 
 This is because the dynamics of memristors which are described by the equation above are such that a QUBO functional is minimized (in the language of dynamical systems, there exists a Lyapunov functional). For the case of realistic circuits, $$\Omega$$ has to be a very specific matrix which we will discuss later, but from the point of view of optimization theory, the system of differential equations can be simulated for arbitrary $$\Omega$$ in principle. Therefore, the memristive differential equation can serve as a \textit{heuristic} solution method for an NP-Complete problem such as QUBO [4]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, in the worst case we have to explore all $$2^N$$ possible values of the variables $$w$$’s to determine the extreme of the problem. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables. 
 
-Next let's look at an application to a standard problem: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, where the decision variables are real valued (fractions of wealth to allocate to assets). More formally, the objective is to maximize:
+Next let's look at an application to a standard problem: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, where the decision variables are real valued (fractions of wealth to allocate to assets). 
+Indeed, this is a combinatorial decision on whether to invest or not in which asset, but not on the amount. This can be used as a screening procedure (clustering) before the real portfolio optimization is performed, as a dimensionality reduction technique.
+More formally, the objective is to maximize:
 
 $$M(W)=\sum_i \left(r_i-\frac{p}{2}\Sigma_{ii} \right)W_i-\frac{p}{2} \sum_{i\neq j} W_i \Sigma_{ij} W_j,$$
 

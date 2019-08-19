@@ -254,4 +254,4 @@ You can study the math behind these equations in [5] and [6]. We summarized thes
 -	[5] Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
 -	[6] http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
 -	[7] A. Zegarac, F. Caravelli, EPL 125 10001, 2019 -  https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
-    [8] For a recent review, see F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9
+-    [8] For a recent review, see F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9

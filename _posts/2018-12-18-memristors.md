@@ -27,7 +27,7 @@ In this post we will explore an interesting area of modern circuit theory and co
 
 If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the current splits at each intersection according to the inverse resistance rule, and so the currents will flow equally in all directions to reach B. This implies that if we follow the maximal current at each intersection, we can use this circuit to solve the minimum distance (or cost) problem on a graph. This can be seen as an example of a physical system performing analog computation. More generally, there is a deep connection between graph theory and resistor networks.
 
-In 2008, HP introduced what is now called the "nanoscale memristor". The history of this type of devices is longer than that, but the interest in these components grew exponentially since the 2008 paper.
+In 2008, HP introduced what is now called the "nanoscale memristor" [1]. The history of this type of devices is longer than that, but the interest in these components grew exponentially since the 2008 paper.
 This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a seemingly simple convex law depending on an internal parameter $$w$$ constrained between $$0$$ and $$1$$:
 
 $$ R(w)=\Ron (1-w) +w \Roff,$$
@@ -38,7 +38,7 @@ $$ \frac{\dif}{\dif t} w(t)=\alpha w- \Ron \frac{I}{\beta}, $$
 
 and $$I$$ is the current in the device. Even though this simple model has been revised several times, it still serves as a prototypical model of a memory-resistor, or \textit{memristor}. 
 
-In the general case of a network of memristors, the differential equation becomes [1,2,3,4]:
+In the general case of a network of memristors, the differential equation becomes [2,3,4,5]:
 
 $$ \frac{\dif}{\dif t}\vec{w}(t)=\alpha\vec{w}(t)-\frac{1}{\beta} \left(I+\frac{\Roff-\Ron}{\Ron} \Omega W(t)\right)^{-1} \Omega \vec S(t), $$
 
@@ -66,7 +66,14 @@ $$
 \end{align}
 $$
 
-The solution vector $$S$$ is obtained through inversion of the matrix $$\Sigma$$ (if it is invertible). We still have the freedom of choosing $$\xi$$ and $$\alpha$$ freely given the constraint, but the two are slightly different in nature: $$\xi\gg 1$$ is the deep nonlinear regime, while $$\alpha\gg 1$$ is the deep diffusive regime. There are some conditions for this method to be suitable for heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: it requires a one time matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps. As a comparison $$2^{100}$$ is $$O(10^{30})$$, while $$100\times(100)^3$$ is $$O(10^{8})$$. We propose two approaches to this problem. One is based on the most common Metropolis-Hasting algorithm and the other on the heuristic memristive equation.
+The solution vector $$S$$ is obtained through inversion of the matrix $$\Sigma$$ (if it is invertible). 
+We still have the freedom of choosing $$\xi$$ and $$\alpha$$ freely given the constraint, but the two are slightly different in nature: 
+$$\xi\gg 1$$ is the deep nonlinear regime, while $$\alpha\gg 1$$ is the deep diffusive regime. There are some conditions for this method to be suitable for 
+heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: 
+it requires a one time matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion 
+step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps. As a comparison $$2^{100}$$ is $$O(10^{30})$$, 
+while $$100\times(100)^3$$ is $$O(10^{8})$$. We propose two approaches to this problem. One is based on the most common Metropolis-Hasting algorithm and the 
+other on the heuristic memristive equation.
 
 
 ### MATLAB code
@@ -240,18 +247,18 @@ end
 
 {% endhighlight %}
 The equation for memristors is also interesting per se!
-If you are interested in understanding the graph theoretical underpinnings of the equation and the network of memristors, see the original papers [1,2,3]. 
-The reason why the memristors networks equation is connected to optimization is described in [4].
-You can study the math behind these equations in [5] and [6]. We summarized these in [7]. For a general overview of the field of memristors, see the recent review [8].
+If you are interested in understanding the graph theoretical underpinnings of the equation and the network of memristors, see the original papers [2,3,4]. 
+The reason why the memristors networks equation is connected to optimization is described in [5].
+You can study the math behind these equations in [6] and [7]. We summarized these in [8]. For a general overview of the field of memristors, see the recent review [9].
 
 
 ---
-
--	[1] F. Caravelli, F. L. Traversa, M. Di Ventra, Phys. Rev. E 95, 022140 (2017) - https://arxiv.org/abs/1608.08651
--	[2] F. Caravelli, 	International Journal of Parallel, Emergent and Distributed Systems, 1-17 (2017) - https://arxiv.org/abs/1611.02104
--	[3] F. Caravelli, Phys. Rev. E 96, 052206 (2017) - https://arxiv.org/abs/1705.00244
--	[4] F. Caravelli, Entropy 2019, 21(8), 789 - https://www.mdpi.com/1099-4300/21/8/789, https://arxiv.org/abs/1712.07046
--	[5] Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
--	[6] http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
--	[7] A. Zegarac, F. Caravelli, EPL 125 10001, 2019 -  https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
--    [8] For a recent review, see F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9
+-   [1] D. B. Strukov, G. S. Snider, D. R. Stewart, R. S. Williams, Nature 453, pages 80–83 (01 May 2008)
+-	[2] F. Caravelli, F. L. Traversa, M. Di Ventra, Phys. Rev. E 95, 022140 (2017) - https://arxiv.org/abs/1608.08651
+-	[3] F. Caravelli, 	International Journal of Parallel, Emergent and Distributed Systems, 1-17 (2017) - https://arxiv.org/abs/1611.02104
+-	[4] F. Caravelli, Phys. Rev. E 96, 052206 (2017) - https://arxiv.org/abs/1705.00244
+-	[5] F. Caravelli, Entropy 2019, 21(8), 789 - https://www.mdpi.com/1099-4300/21/8/789, https://arxiv.org/abs/1712.07046
+-	[6] Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
+-	[7] http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
+-	[8] A. Zegarac, F. Caravelli, EPL 125 10001, 2019 -  https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
+-   [9] For a recent review, see F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9

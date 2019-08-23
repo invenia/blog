@@ -21,14 +21,13 @@ $$ \newcommand{\coloneqq}{\mathrel{\vcenter{:}}=} $$
 Introduction
 ------------
 
-In this post we will explore an interesting area of modern circuit theory and computing: how exotic properties of certain nanoscale circuit components (analogous to tungsten filament lightblulbs) can be used for solving certain optimization problems. Let's start with a simple example: imagine a circuit made up of resistors, which all have the same resitance.
+In this post we will explore an interesting area of modern circuit theory and computing: how exotic properties of certain nanoscale circuit components (analogous to tungsten filament lightblulbs) can be used for solving certain optimization problems. Let's start with a simple example: imagine a circuit made up of resistors, all of which have the same resistance.
 
 <img src="{{ site.baseurl }}/public/images/tikz_cubecircuit.png" alt="circuit" style="width:300px;margin:0 auto 0 auto;" class="img-responsive">
 
 If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the current splits at each intersection according to the inverse resistance rule, and so the currents will flow equally in all directions to reach B. This implies that if we follow the maximal current at each intersection, we can use this circuit to solve the minimum distance (or cost) problem on a graph. This can be seen as an example of a physical system performing analog computation. More generally, there is a deep connection between graph theory and resistor networks.
 
-In 2008, HP introduced what is now called the "nanoscale memristor" [1]. The history of this type of devices is longer than that, but the interest in these components grew exponentially since the 2008 paper.
-This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a seemingly simple convex law depending on an internal parameter $$w$$ constrained between $$0$$ and $$1$$:
+In 2008, researchers from Hewlett Packard introduced what is now called the "nanoscale memristor" [1]. This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a simple convex law depending on an internal parameter $$w$$, which is constrained between $$0$$ and $$1$$:
 
 $$ R(w)=\Ron (1-w) +w \Roff,$$
 
@@ -36,22 +35,23 @@ where,
 
 $$ \frac{\dif}{\dif t} w(t)=\alpha w- \Ron \frac{I}{\beta}, $$
 
-and $$I$$ is the current in the device. Even though this simple model has been revised several times, it still serves as a prototypical model of a memory-resistor, or \textit{memristor}. 
+and $$I$$ is the current in the device. This is a simple prototypical model of a memory-resistor, or \textit{memristor}. 
 
 In the general case of a network of memristors, the differential equation becomes [2,3,4,5]:
 
 $$ \frac{\dif}{\dif t}\vec{w}(t)=\alpha\vec{w}(t)-\frac{1}{\beta} \left(I+\frac{\Roff-\Ron}{\Ron} \Omega W(t)\right)^{-1} \Omega \vec S(t), $$
 
-where $$\Omega$$ is a matrix representing the circuit topology, $$\vec S(t)$$ are the applied voltages and $$W$$ a diagonal matrix of the values of $$w$$ for each memristor in the network. 
+where $$\Omega$$ is a matrix representing the circuit topology, $$\vec S(t)$$ are the applied voltages, and $$W$$ a diagonal matrix of the values of $$w$$ for each memristor in the network. 
 
-It is interesting to note that the equation above, similarly to the case of a circuit of simple resistors, is related to an optimization problem: quadratically unconstrained binary optimization (QUBO). The solution(s) of a QUBO problem are the set of binary parameters, $$w_i$$, that minimize a function of the form:
+It is interesting to note that the equation above is related to a class of optimization problems, similarly to the case of a circuit of simple resistors.
+In the memristor case, this class is called quadratically unconstrained binary optimization (QUBO). The solution of a QUBO problem is the set of binary parameters, $$w_i$$, that minimize a function of the form:
 
 $$F(\vec w)= -\frac p 2 \sum_{ij} w_i J_{ij} w_j + \sum_j h_j w_j. $$
 
-This is because the dynamics of memristors which are described by the equation above are such that a QUBO functional is minimized (in the language of dynamical systems, there exists a Lyapunov functional). For the case of realistic circuits, $$\Omega$$ has to be a very specific matrix which we will discuss later, but from the point of view of optimization theory, the system of differential equations can be simulated for arbitrary $$\Omega$$ in principle. Therefore, the memristive differential equation can serve as a \textit{heuristic} solution method for an NP-Complete problem such as QUBO [4]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, in the worst case we have to explore all $$2^N$$ possible values of the variables $$w$$’s to determine the extreme of the problem. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables. 
+This is because the dynamics of memristors, which are described by the equation above, are such that a QUBO functional is minimized. For the case of realistic circuits, $$\Omega$$ satisfies certain properties which we will discuss below, but from the point of view of optimization theory, the system of differential equations can in principle be simulated for arbitrary $$\Omega$$. Therefore, the memristive differential equation can serve as a \textit{heuristic} solution method for an NP-Complete problem such as QUBO [4]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, in the worst case we have to explore all $$2^N$$ possible values of the variables $$w$$ to find the extrema of the problem. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables. 
 
-Next let's look at an application to a standard problem: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, where the decision variables are real valued (fractions of wealth to allocate to assets). 
-Indeed, this is a combinatorial decision on whether to invest or not in which asset, but not on the amount. This can be used as a screening procedure (clustering) before the real portfolio optimization is performed, as a dimensionality reduction technique.
+Let's look at an application to a standard problem: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, in which the decision variables are real valued (fractions of wealth to allocate to assets). 
+This is a combinatorial decision whether or not to invest in a given asset, but not the amount. This can be used as a screening procedure before the real portfolio optimization is performed, i.e., as a dimensionality reduction technique.
 More formally, the objective is to maximize:
 
 $$M(W)=\sum_i \left(r_i-\frac{p}{2}\Sigma_{ii} \right)W_i-\frac{p}{2} \sum_{i\neq j} W_i \Sigma_{ij} W_j,$$
@@ -67,13 +67,7 @@ $$
 $$
 
 The solution vector $$S$$ is obtained through inversion of the matrix $$\Sigma$$ (if it is invertible). 
-We still have the freedom of choosing $$\xi$$ and $$\alpha$$ freely given the constraint, but the two are slightly different in nature: 
-$$\xi\gg 1$$ is the deep nonlinear regime, while $$\alpha\gg 1$$ is the deep diffusive regime. There are some conditions for this method to be suitable for 
-heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: 
-it requires a one time matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion 
-step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps. As a comparison $$2^{100}$$ is $$O(10^{30})$$, 
-while $$100\times(100)^3$$ is $$O(10^{8})$$. We propose two approaches to this problem. One is based on the most common Metropolis-Hasting algorithm and the 
-other on the heuristic memristive equation.
+There are some conditions for this method to be suitable for heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: it requires a single matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps. We propose two approaches to this problem: one based on the most common Metropolis-Hasting algorithm, and the other on the heuristic memristive equation.
 
 
 ### MATLAB code
@@ -244,12 +238,9 @@ E = -p/2 * W' * Sigma*W + (returns - p/2 * diag(Sigma))' * W;
 
 end
 
-
 {% endhighlight %}
-The equation for memristors is also interesting per se!
-If you are interested in understanding the graph theoretical underpinnings of the equation and the network of memristors, see the original papers [2,3,4]. 
-The reason why the memristors networks equation is connected to optimization is described in [5].
-You can study the math behind these equations in [6] and [7]. We summarized these in [8]. For a general overview of the field of memristors, see the recent review [9].
+
+The equation for memristors is also interesting in other ways, for example, it has graph theoretical underpinnings [2,3,4]. Further, the memristor network equation is connected to optimization [5, 6, 7]. These are summarized in [8]. For a general overview of the field of memristors, see the recent review [9].
 
 
 ---

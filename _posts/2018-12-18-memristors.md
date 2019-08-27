@@ -80,7 +80,7 @@ using FillArrays
 using LinearAlgebra
 
 """
-    metropolis_hastings(
+    monte_carlo(
         expected_returns::Vector{Float64},
         Σ::Matrix{Float64},
         p::Float64,
@@ -97,7 +97,7 @@ constant for `Σ`, `λ` is the annealing factor, with the temperature `τ` decre
 step and `effective_its` determines how many times, in average, each asset will have its 
 weight changed.
 """
-function metropolis_hastings(
+function monte_carlo(
     expected_returns::Vector{Float64},
     Σ::Matrix{Float64},
     p::Float64,

@@ -84,11 +84,10 @@ using LinearAlgebra
         expected_returns::Vector{Float64},
         Σ::Matrix{Float64},
         p::Float64,
-        weights_init::Vector{Float64};
-        reg::Float64=1e-10,
-        λ::Float64=0.999,
-        effective_its::Int=1000,
-        τ::Real=1000,
+        weights_init::Vector{Bool};
+        λ::Float64=0.999995,
+        effective_its::Int=3000,
+        τ::Real=0.75,
     )
 
 Execute Monte Carlo in order to find the optimal portifolio composition, considering an 
@@ -146,7 +145,7 @@ end
         expected_returns::Vector{Float64},
         Σ::Matrix{Float64},
         p::Float64,
-        weights_init::Vector{Float64};
+        weights_init::Vector{<:Real};
         α=0.1,
         β=10,
         δt=0.1,

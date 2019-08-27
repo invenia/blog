@@ -67,7 +67,8 @@ $$
 $$
 
 The solution vector $$S$$ is obtained through inversion of the matrix $$\Sigma$$ (if it is invertible). 
-There are some conditions for this method to be suitable for heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: it requires a single matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps. We propose two approaches to this problem: one based on the most common Metropolis-Hasting algorithm, and the other on the heuristic memristive equation.
+There are some conditions for this method to be suitable for heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: it requires a single matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps. We propose two approaches to this problem: one based on the most common Metropolis-Hasting type algorithm (at each time step we flip a single spin, which in the ML community is usually referred as "Gibbs sampling"), 
+and the other on the heuristic memristive equation.
 
 
 ### MATLAB code

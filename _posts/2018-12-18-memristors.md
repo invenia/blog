@@ -233,4 +233,4 @@ The equation for memristors is also interesting in other ways, for example, it h
 -	[6] Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
 -	[7] http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
 -	[8] A. Zegarac, F. Caravelli, EPL 125 10001, 2019 -  https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
--   [9] For a recent review, see F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9
+-   [9] F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9

@@ -71,175 +71,158 @@ There are some conditions for this method to be suitable for heuristic optimizat
 and the other on the heuristic memristive equation.
 
 
-### MATLAB code
+### Sample implementation
 
-Below we included the MATLAB code for both algorithms.
+Below we include julia code for both algorithms.
 
 Firstly, an example of input parameters and calls to functions:
 
-{% highlight MATLAB %}
-clc
-clear
+```julia
+using FillArrays
+using LinearAlgebra
 
-n = 20;
+"""
+    metropolis_hastings(
+        expected_returns::Vector{Float64},
+        Σ::Matrix{Float64},
+        p::Float64,
+        weights_init::Vector{Float64};
+        reg::Float64=1e-10,
+        λ::Float64=0.999,
+        effective_its::Int=1000,
+        τ::Real=1000,
+    )
 
-returns = rand(n,1) - 0.5;
-Sigma = 1/n*rand(n);
-p = 1;
-W0 = rand(n,1);
+Execute Monte Carlo in order to find the optimal portifolio composition, considering an 
+asset covariance matrix `Σ` and a risk parameter `p`. `reg` represents the regularisation 
+constant for `Σ`, `λ` is the annealing factor, with the temperature `τ` decreases at each 
+step and `effective_its` determines how many times, in average, each asset will have its 
+weight changed.
+"""
+function metropolis_hastings(
+    expected_returns::Vector{Float64},
+    Σ::Matrix{Float64},
+    p::Float64,
+    weights_init::Vector{Bool};
+    λ::Float64=0.999995,
+    effective_its::Int=3000,
+    τ::Real=0.75,
+)
+    weights = weights_init
+    n = size(weights_init, 1)
 
-[WfinalMH, EtotalMH] = MetropolisHastings(returns, Sigma, p, W0);
-[WfinalMO, EtotalMO] = MemristiveOptimization(returns, Sigma, p, W0);
-{% endhighlight %}
+    total_time = effective_its * n
+    energies = Vector{Float64}(undef, total_time)
 
-Then we have the Metropolis-Hastings algorithm:
+    # Compute energy of initial configuration
+    energy_min = energy(expected_returns, Σ, p, weights_init)
 
- {% highlight MATLAB %}
- % The Metropolis-Hasting Monte Carlo annealing optimization code
+    for t in 1:total_time
+        # Anneal temperature
+        τ = τ * λ
+        # Randomly draw asset
+        rand_index = rand(1:n)
+        weights_current = weights
+        # Flip weight from 0 to 1 and vice-versa
+        weights_current[rand_index] = 1 - weights_current[rand_index]
+        # Compute new energy
+        energy_current = energy(expected_returns, Σ, p, weights)
 
- % Input:
- % returns = vector of returns for each variable (n x 1)
- % Sigma   = covariance matrix (n x n)
- % p       = parameter (scalar)
- % W0      = vector of initial conditions for variables Wi (n x 1)
+        # Compute Boltzmann factor
+        β = exp(-(energy_current - energy_min) / τ)
 
- % Output:
- % Wfinal = values of Ws in the last iteration (n x 1)
- % Etotal = energy at every iteration (1 x total_time)
+        # Randomly accept update
+        if rand() < min(1, β)
+            energy_min = energy_current
+            weights = weights_current
+        end
 
-
- % auxiliary function Energy evaluates the function we are trying to
- % minimize
-
- function [Wfinal, Etotal] = MetropolisHastings(returns, Sigma, p, W0)
-
- n = length(W0);                 % number of variables
-
- reg = 0.0001;                   % regularizer
- Sigma = reg*eye(n) + Sigma;     % regularised covariance matrix
-
- lambda = 0.999;                 % annealing factor
-
- eff_timesteps=1000;             % number of effective time steps
- temperature=100;                % temperature
-
- total_time = eff_timesteps * n; % number of iterations
- Etotal = zeros(1,total_time);   % energy at every time step
-
- Emin = Energy(returns,Sigma,p,W0); % initial energy
- W = W0;
-
- for t = 1:total_time
-     temperature = temperature * lambda;
-     rand_index = floor(rand*n) + 1;
-
-     Wtemp = W;
-     Wtemp(rand_index) = 1 - Wtemp(rand_index);
-     Etemp = Energy(returns,Sigma,p,W);
-
-     if (rand < 1/(1+exp(-(Emin-Etemp)/temperature)))
-         Emin = Etemp;
-         W = Wtemp;
-     end
-
-     Etotal(t) = Emin;
-
- end
-
- Wfinal = W;
-
- end
-
-
- function E = Energy(returns,Sigma,p,W)
- n = length(W);
- E = 0;
-
- for i = 1:n
-     E = E + (returns(i) - p/2*Sigma(i,i))*W(i);
-
-     for j=1:n
-         if (j ~= i)
-             E = E - p/2*Sigma(i,j)*W(j)*W(i);
-         end
-     end
- end
-
- end
-{% endhighlight %}
-
-
-And finally, the memristive optimisation code:
-
-{% highlight MATLAB %}
-
-% Memristive Optimization code
-
-% Input:
-% returns = vector of returns for each variable (n x 1)
-% Sigma   = covariance matrix (n x n)
-% p       = parameter (scalar)
-% W0      = vector of initial conditions for variables Wi (n x 1)
-
-% Output:
-% Wfinal = values of Ws in the last iteration (n x 1)
-% Etotal = energy at every iteration (1 x total_time)
-
-% auxiliary function Energy evaluates the function we are trying to
-% minimize
-
-function [Wfinal,Etotal] = MemristiveOptimization(returns, Sigma, p, W0)
-
-n = size(Sigma, 1);              % number of variables
-
-alpha = 0.1;                    % nonlinearity parameter
-xi = p/2 / alpha;
-beta = 10;
-
-reg = 0.0001;                   % regularizer
-Sigma = reg * eye(n) + Sigma;     % regularising the covariance matrix
-
-S = beta * inv(Sigma) * ...
-    (alpha/2 * ones(n,1) + (p/2 + alpha*xi/3) * diag(Sigma) - returns);
-
-
-% Euler integration
-
-dt = 0.1;                       % time step
-total_time = 3000;              % total time steps
-
-Wtotal = zeros(n, total_time);
-Wtotal(:,1) = W0;
-
-Etotal = zeros(1, total_time);
-Etotal(1) = Energy(returns, Sigma, p, Wtotal(:, 1));
-
-for t = 1:total_time-1
-
-    Wtotal(:,t + 1) = Wtotal(:, t) + ...
-        dt*(alpha*Wtotal(:, t) - 1/beta * ...
-        inv(eye(n) + xi * Sigma * diag(Wtotal(:, t))) * Sigma * S);
-
-    % making sure W are never greater than 1 nor less than 0:
-    Wtotal(Wtotal(:,t+1)>1, t+1)=1;
-    Wtotal(Wtotal(:,t+1)<0, t+1)=0;
-
-    Etotal(t + 1) = Energy(returns, Sigma, p, Wtotal(:, t + 1));
-
+        # Store current best energy
+        energies[t] = energy_min
+    end
+    return weights, energies
 end
 
-Wfinal = Wtotal(:, end);
+"""
+    memristive_opt(
+        expected_returns::Vector{Float64},
+        Σ::Matrix{Float64},
+        p::Float64,
+        weights_init::Vector{Float64};
+        α=0.1,
+        β=10,
+        δt=0.1,
+        total_time=3000,
+    )
 
+Execute optimisation via the heuristic "memristive" equation in order to find the optimal
+portifolio composition, considering an asset covariance matrix `Σ` and a risk parameter `p`.
+`reg` represents the regularisation constant for `Σ`, `α` and `β` are the constants that
+parametrise the memristor state (see Equation (2)), `δt` is the size of the time step for
+the dynamical updates and `total_time` is the number of time stamps for which the dynamics
+will be run.
+"""
+function memristive_opt(
+    expected_returns::Vector{Float64},
+    Σ::Matrix{Float64},
+    p::Float64,
+    weights_init::Vector{<:Real};
+    α=0.1,
+    β=10,
+    δt=0.1,
+    total_time=3000,
+)
+    n = size(weights_init, 1)
+
+    weights_series = Matrix{Float64}(undef, n, total_time)
+    weights_series[:, 1] = weights_init
+    energies = Vector{Float64}(undef, total_time)
+    energies[1] = energy(expected_returns, Σ, p, weights_series[:, 1])
+
+    # Compute resistance change ratio
+    ξ = p / 2α
+    # Compute Σ times applied voltages matrix
+    ΣS = β * (α/2 * ones(n, 1) + (p/2 + α * ξ/3) * diag(Σ) - expected_returns)
+
+    for t in 1:total_time-1
+        update = δt * (α * weights_series[:, t] - 1/β * (Eye(n) + ξ *
+            Σ * Diagonal(weights_series[:, t])) \ ΣS)
+        weights_series[:, t+1] = weights_series[:, t] + update
+
+        weights_series[weights_series[:, t+1] .> 1, t+1] .= 1.0
+        weights_series[weights_series[:, t+1] .< 1, t+1] .= 0.0
+
+        energies[t + 1] = energy(expected_returns, Σ, p, weights_series[:, t+1])
+    end
+
+    weights_final = weights_series[:, end]
+
+    return weights_final, energies
 end
 
+"""
+    energy(
+        expected_returns::Vector{Float64},
+        Σ::Matrix{Float64},
+        p::Float64,
+        weights::Vector{Float64},
+    )
 
-function E = Energy(returns, Sigma, p, W)
-
-E = -p/2 * W' * Sigma*W + (returns - p/2 * diag(Sigma))' * W;
-
+Return minus the expected return corrected by the variance of the portifolio, according to
+the Markowitz approach. `Σ` represents the covariance of the assets, `p` controls the risk
+tolerance and `weights` represent the (here binary) portifolio composition.
+"""
+function energy(
+    expected_returns::Vector{Float64},
+    Σ::Matrix{Float64},
+    p::Float64,
+    weights::Vector{<:Real},
+)
+    -dot(expected_returns, weights) + p/2 * weights' * Σ * weights
 end
+```
 
-{% endhighlight %}
+A simple comparison between the two approaches shows the superiority of the memristor equation-based approach for this problem. We used a portifolio of 200 assets, with randomly generated initial allocations, expected returns and covariances. After 3000 effective iterations (that is 3000 times 200, the number of assets), the Monte Carlo approach lead to a corrected expected portifolio return of 3.9, while the memristive approach, in only 2 steps, already converged to a solution with a corrected expected portifolio return of 19.5! Moreover, the solution found via Monte Carlo allocated investiments to 91 different assets, while the memristor-based one only invested in 71 assets, thus showing an even better return to investment. There are obvious caveats here, as each of these methods have their own parameters which can be tuned in order to improve performance (which we did try doing), and it is known that Monte Carlo methods are ill-suited to combinatorial problems. Yet, such a starking difference shows how powerful memristors can be for optimization. 
 
 The equation for memristors is also interesting in other ways, for example, it has graph theoretical underpinnings [2,3,4]. Further, the memristor network equation is connected to optimization [5, 6, 7]. These are summarized in [8]. For a general overview of the field of memristors, see the recent review [9].
 

@@ -75,8 +75,6 @@ and the other on the heuristic memristive equation.
 
 Below we include julia code for both algorithms.
 
-Firstly, an example of input parameters and calls to functions:
-
 ```julia
 using FillArrays
 using LinearAlgebra

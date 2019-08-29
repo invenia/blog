@@ -2,7 +2,7 @@
 
 layout: post
 
-title: "Memristive dynamics: a heuristic optimization tool and problem in graph theory"
+title: "Memristive dynamics: a heuristic optimization tool"
 
 author: "Ana Zegarac and Francesco Caravelli"
 

@@ -15,6 +15,7 @@ tags: optimization, graph theory, memristors
 ---
 
 $$ \newcommand{\Ron}{R_{\text{on}}} $$
+$$ \newcommand{\Roff}{R_{\text{off}}} $$
 $$ \newcommand{\dif}{\mathop{}\!\mathrm{d}} $$
 $$ \newcommand{\coloneqq}{\mathrel{\vcenter{:}}=} $$
 

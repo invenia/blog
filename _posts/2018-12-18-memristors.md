@@ -28,7 +28,7 @@ In this post we will explore an interesting area of modern circuit theory and co
 
 If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the current splits at each intersection according to the inverse resistance rule, and so the currents will flow equally in all directions to reach B. This implies that if we follow the maximal current at each intersection, we can use this circuit to solve the minimum distance (or cost) problem on a graph. This can be seen as an example of a physical system performing analog computation. More generally, there is a deep connection between graph theory and resistor networks.
 
-In 2008, researchers from Hewlett Packard introduced what is now called the "nanoscale memristor" [1]. This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a simple convex law depending on an internal parameter $$w$$, which is constrained between $$0$$ and $$1$$:
+In 2008, researchers from Hewlett Packard introduced what is now called the "nanoscale memristor" [^1]. This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a simple convex law depending on an internal parameter $$w$$, which is constrained between $$0$$ and $$1$$:
 
 $$ R(w)=\Ron (1-w) +w \Roff,$$
 
@@ -38,7 +38,7 @@ $$ \frac{\dif}{\dif t} w(t)=\alpha w- \Ron \frac{I}{\beta}, $$
 
 and $$I$$ is the current in the device. This is a simple prototypical model of a memory-resistor, or \textit{memristor}. 
 
-In the general case of a network of memristors, the differential equation becomes [2,3,4,5]:
+In the general case of a network of memristors, the differential equation becomes [^2] [^3] [^4] [^5]:
 
 $$ \frac{\dif}{\dif t}\vec{w}(t)=\alpha\vec{w}(t)-\frac{1}{\beta} \left(I+\frac{\Roff-\Ron}{\Ron} \Omega W(t)\right)^{-1} \Omega \vec S(t), $$
 
@@ -49,7 +49,7 @@ In the memristor case, this class is called quadratically unconstrained binary o
 
 $$F(\vec w)= -\frac p 2 \sum_{ij} w_i J_{ij} w_j + \sum_j h_j w_j. $$
 
-This is because the dynamics of memristors, which are described by the equation above, is such that a QUBO functional is minimized. For the case of realistic circuits, $$\Omega$$ satisfies certain properties which we will discuss below, but from the point of view of optimization theory, the system of differential equations can in principle be simulated for arbitrary $$\Omega$$. Therefore, the memristive differential equation can serve as a \textit{heuristic} solution method for an NP-Complete problem such as QUBO [4]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, in the worst case we have to explore all $$2^N$$ possible values of the variables $$w$$ to find the extrema of the problem. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables. 
+This is because the dynamics of memristors, which are described by the equation above, is such that a QUBO functional is minimized. For the case of realistic circuits, $$\Omega$$ satisfies certain properties which we will discuss below, but from the point of view of optimization theory, the system of differential equations can in principle be simulated for arbitrary $$\Omega$$. Therefore, the memristive differential equation can serve as a \textit{heuristic} solution method for an NP-Complete problem such as QUBO [^4]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, in the worst case we have to explore all $$2^N$$ possible values of the variables $$w$$ to find the extrema of the problem. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables.
 
 Let's look at an application to a standard problem: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, in which the decision variables are real valued (fractions of wealth to allocate to assets). 
 This is a combinatorial decision whether or not to invest in a given asset, but not the amount: the combinatorial Markowitz problem.  The heuristic solution we propose has been introduced in the appendix of [this paper](https://www.mdpi.com/1099-4300/21/8/789).
@@ -226,16 +226,16 @@ A simple comparison between the two approaches shows the superiority of the memr
 in only a few steps, already converges to a solution with a corrected expected portifolio return of 19.5! Moreover, the solution found via Monte Carlo allocated investiments to 91 different assets, while the memristor-based one only invested in 71 assets, thus showing an even better return to investment. There are obvious caveats here, as each of these methods have their own parameters which can be tuned in order to improve performance (which we did try doing), and it is known that Monte Carlo methods are ill-suited to combinatorial problems. 
 Yet, such a starking difference shows how powerful memristors can be for optimization purposes (in particular for quickly generating some sufficiently good but not necessarily optimal solutions). 
 
-The equation for memristors is also interesting in other ways, for example, it has graph theoretical underpinnings [2,3,4]. Further, the memristor network equation is connected to optimization [5, 6, 7]. These are summarized in [8]. For a general overview of the field of memristors, see the recent review [9].
+The equation for memristors is also interesting in other ways, for example, it has graph theoretical underpinnings [^2] [^3] [^4]. Further, the memristor network equation is connected to optimization [^5] [^6] [^7]. These are summarized in [^8]. For a general overview of the field of memristors, see the recent review [^9].
 
 
 ---
-- [1] D. B. Strukov, G. S. Snider, D. R. Stewart, R. S. Williams, Nature 453, pages 80–83 (01 May 2008)
-- [2] F. Caravelli, F. L. Traversa, M. Di Ventra, Phys. Rev. E 95, 022140 (2017) - https://arxiv.org/abs/1608.08651
-- [3] F. Caravelli, International Journal of Parallel, Emergent and Distributed Systems, 1-17 (2017) - https://arxiv.org/abs/1611.02104
-- [4] F. Caravelli, Phys. Rev. E 96, 052206 (2017) - https://arxiv.org/abs/1705.00244
-- [5] F. Caravelli, Entropy 2019, 21(8), 789 - https://www.mdpi.com/1099-4300/21/8/789, https://arxiv.org/abs/1712.07046
-- [6] Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
-- [7] http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
-- [8] A. Zegarac, F. Caravelli, EPL 125 10001, 2019 - https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
-- [9] F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9
+[^1]: D. B. Strukov, G. S. Snider, D. R. Stewart, R. S. Williams, Nature 453, pages 80–83 (01 May 2008)
+[^2]: F. Caravelli, F. L. Traversa, M. Di Ventra, Phys. Rev. E 95, 022140 (2017) - https://arxiv.org/abs/1608.08651
+[^3]: F. Caravelli, International Journal of Parallel, Emergent and Distributed Systems, 1-17 (2017) - https://arxiv.org/abs/1611.02104
+[^4]: F. Caravelli, Phys. Rev. E 96, 052206 (2017) - https://arxiv.org/abs/1705.00244
+[^5]: F. Caravelli, Entropy 2019, 21(8), 789 - https://www.mdpi.com/1099-4300/21/8/789, https://arxiv.org/abs/1712.07046
+[^6]: Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
+[^7]: http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
+[^8]: A. Zegarac, F. Caravelli, EPL 125 10001, 2019 - https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
+[^9]: F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9

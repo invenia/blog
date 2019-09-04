@@ -1,5 +1,5 @@
 # Dependencies
-markdown:         redcarpet
+markdown:         kramdown
 #highlighter:      pygments
 
 # Permalinks
@@ -23,10 +23,12 @@ author:
 paginate:         5
 
 # Custom vars
-version:          0.0.1
+version:          0.0.2
 
 github:
   repo:           https://github.com/invenia/blog
+
+repository:       invenia/blog
 
 google_analytics: UA-120694221-1
 

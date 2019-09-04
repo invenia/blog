@@ -92,11 +92,11 @@ using LinearAlgebra
         τ::Real=0.75,
     )
 
-Execute Monte Carlo in order to find the optimal portifolio composition, considering an 
-asset covariance matrix `Σ` and a risk parameter `p`. `reg` represents the regularisation 
-constant for `Σ`, `λ` is the annealing factor, with the temperature `τ` decreases at each 
-step and `effective_its` determines how many times, in average, each asset will have its 
-weight changed.
+Execute Monte Carlo in order to find the optimal portifolio composition,
+considering an asset covariance matrix `Σ` and a risk parameter `p`. `reg`
+represents the regularisation constant for `Σ`, `λ` is the annealing factor, with
+the temperature `τ` decreases at each step and `effective_its` determines how
+many times, in average, each asset will have its weight changed.
 """
 function monte_carlo(
     expected_returns::Vector{Float64},
@@ -154,12 +154,12 @@ end
         total_time=3000,
     )
 
-Execute optimisation via the heuristic "memristive" equation in order to find the optimal
-portifolio composition, considering an asset covariance matrix `Σ` and a risk parameter `p`.
-`reg` represents the regularisation constant for `Σ`, `α` and `β` are the constants that
-parametrise the memristor state (see Equation (2)), `δt` is the size of the time step for
-the dynamical updates and `total_time` is the number of time stamps for which the dynamics
-will be run.
+Execute optimisation via the heuristic "memristive" equation in order to find the
+optimal portifolio composition, considering an asset covariance matrix `Σ` and a
+risk parameter `p`. `reg` represents the regularisation constant for `Σ`, `α` and
+`β` are the constants that parametrise the memristor state (see Equation (2)),
+`δt` is the size of the time step for the dynamical updates and `total_time` is
+the number of time stamps for which the dynamics will be run.
 """
 function memristive_opt(
     expected_returns::Vector{Float64},
@@ -207,9 +207,10 @@ end
         weights::Vector{Float64},
     )
 
-Return minus the expected return corrected by the variance of the portifolio, according to
-the Markowitz approach. `Σ` represents the covariance of the assets, `p` controls the risk
-tolerance and `weights` represent the (here binary) portifolio composition.
+Return minus the expected return corrected by the variance of the portifolio,
+according to the Markowitz approach. `Σ` represents the covariance of the assets,
+`p` controls the risk tolerance and `weights` represent the (here binary)
+portifolio composition.
 """
 function energy(
     expected_returns::Vector{Float64},

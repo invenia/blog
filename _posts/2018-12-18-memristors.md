@@ -230,12 +230,12 @@ The equation for memristors is also interesting in other ways, for example, it h
 
 
 ---
--   [1] D. B. Strukov, G. S. Snider, D. R. Stewart, R. S. Williams, Nature 453, pages 80–83 (01 May 2008)
--	[2] F. Caravelli, F. L. Traversa, M. Di Ventra, Phys. Rev. E 95, 022140 (2017) - https://arxiv.org/abs/1608.08651
--	[3] F. Caravelli, 	International Journal of Parallel, Emergent and Distributed Systems, 1-17 (2017) - https://arxiv.org/abs/1611.02104
--	[4] F. Caravelli, Phys. Rev. E 96, 052206 (2017) - https://arxiv.org/abs/1705.00244
--	[5] F. Caravelli, Entropy 2019, 21(8), 789 - https://www.mdpi.com/1099-4300/21/8/789, https://arxiv.org/abs/1712.07046
--	[6] Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
--	[7] http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
--	[8] A. Zegarac, F. Caravelli, EPL 125 10001, 2019 -  https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
--   [9] F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9
+- [1] D. B. Strukov, G. S. Snider, D. R. Stewart, R. S. Williams, Nature 453, pages 80–83 (01 May 2008)
+- [2] F. Caravelli, F. L. Traversa, M. Di Ventra, Phys. Rev. E 95, 022140 (2017) - https://arxiv.org/abs/1608.08651
+- [3] F. Caravelli, International Journal of Parallel, Emergent and Distributed Systems, 1-17 (2017) - https://arxiv.org/abs/1611.02104
+- [4] F. Caravelli, Phys. Rev. E 96, 052206 (2017) - https://arxiv.org/abs/1705.00244
+- [5] F. Caravelli, Entropy 2019, 21(8), 789 - https://www.mdpi.com/1099-4300/21/8/789, https://arxiv.org/abs/1712.07046
+- [6] Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
+- [7] http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
+- [8] A. Zegarac, F. Caravelli, EPL 125 10001, 2019 - https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
+- [9] F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9

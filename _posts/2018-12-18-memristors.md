@@ -28,7 +28,7 @@ In this post we will explore an interesting area of modern circuit theory and co
 
 If we connect points A and B of the circuit above to a battery, current will flow through the conductors (let’s say from A to B), according to Kirchhoff's laws. Because of the symmetry of the problem, the current splits at each intersection according to the inverse resistance rule, and so the currents will flow equally in all directions to reach B. This implies that if we follow the maximal current at each intersection, we can use this circuit to solve the minimum distance (or cost) problem on a graph. This can be seen as an example of a physical system performing analog computation. More generally, there is a deep connection between graph theory and resistor networks.
 
-In 2008, researchers from Hewlett Packard introduced what is now called the "nanoscale memristor" [^1]. This is a type of resistor made of certain metal oxides such as tungsten or titanium whose resistance, as its physical dimensions reach the nanoscale, changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a simple convex law depending on an internal parameter $$w$$, which is constrained between $$0$$ and $$1$$:
+In 2008, researchers from Hewlett Packard introduced what is now called the "nanoscale memristor" [^1]. This is a type of resistor made of certain metal oxides such as tungsten or titanium, for which the resistance changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a simple convex law depending on an internal parameter, $$w$$, which is constrained between $$0$$ and $$1$$:
 
 $$ R(w)=\Ron (1-w) +w \Roff,$$
 
@@ -38,7 +38,7 @@ $$ \frac{\dif}{\dif t} w(t)=\alpha w- \Ron \frac{I}{\beta}, $$
 
 and $$I$$ is the current in the device. This is a simple prototypical model of a memory-resistor, or \textit{memristor}. 
 
-In the general case of a network of memristors, the differential equation becomes [^2] [^3] [^4] [^5]:
+In the general case of a network of memristors, the above differential equation becomes [^2] [^3] [^4] [^5]:
 
 $$ \frac{\dif}{\dif t}\vec{w}(t)=\alpha\vec{w}(t)-\frac{1}{\beta} \left(I+\frac{\Roff-\Ron}{\Ron} \Omega W(t)\right)^{-1} \Omega \vec S(t), $$
 
@@ -69,8 +69,7 @@ $$
 $$
 
 The solution vector $$S$$ is obtained through inversion of the matrix $$\Sigma$$ (if it is invertible). 
-There are some conditions for this method to be suitable for heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: it requires a single matrix inversion which scales as $$N^3$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$T \cdot N^3$$ where $$T$$ is the number of time steps. We propose two approaches to this problem: one based on the most common Metropolis-Hasting-type algorithm (at each time step we flip a single weight, which can be referred as "Gibbs sampling"), 
-and the other on the heuristic memristive equation.
+There are some conditions for this method to be suitable for heuristic optimization (related to the spectral properties of the matrix $$J$$), but as a heuristic method, this is much cheaper than exhaustive search: it requires a single matrix inversion which scales as $$O(N^3)$$, and the simulation of a first order differential equation which also requires a matrix inversion step by step, and thus scales as $$O(T \cdot N^3)$$ where $$T$$ is the number of time steps. We propose two approaches to this problem: one based on the most common Metropolis-Hasting-type algorithm (at each time step we flip a single weight, which can be referred as "Gibbs sampling"), and the other on the heuristic memristive equation.
 
 
 ### Sample implementation
@@ -96,7 +95,7 @@ Execute Monte Carlo in order to find the optimal portifolio composition,
 considering an asset covariance matrix `Σ` and a risk parameter `p`. `reg`
 represents the regularisation constant for `Σ`, `λ` is the annealing factor, with
 the temperature `τ` decreases at each step and `effective_its` determines how
-many times, in average, each asset will have its weight changed.
+many times, on average, each asset will have its weight changed.
 """
 function monte_carlo(
     expected_returns::Vector{Float64},
@@ -157,9 +156,9 @@ end
 Execute optimisation via the heuristic "memristive" equation in order to find the
 optimal portifolio composition, considering an asset covariance matrix `Σ` and a
 risk parameter `p`. `reg` represents the regularisation constant for `Σ`, `α` and
-`β` are the constants that parametrise the memristor state (see Equation (2)),
+`β` parametrise the memristor state (see Equation (2)),
 `δt` is the size of the time step for the dynamical updates and `total_time` is
-the number of time stamps for which the dynamics will be run.
+the number of time steps for which the dynamics will be run.
 """
 function memristive_opt(
     expected_returns::Vector{Float64},
@@ -223,8 +222,8 @@ end
 ```
 
 A simple comparison between the two approaches shows the superiority of the memristor equation-based approach for this problem. We used a portifolio of 200 assets, with randomly generated initial allocations, expected returns and covariances. After 3000 effective iterations (that is 3000 times 200, the number of assets), the Monte Carlo approach leads to a corrected expected portifolio return of 3.9, while the memristive approach, 
-in only a few steps, already converges to a solution with a corrected expected portifolio return of 19.5! Moreover, the solution found via Monte Carlo allocated investiments to 91 different assets, while the memristor-based one only invested in 71 assets, thus showing an even better return to investment. There are obvious caveats here, as each of these methods have their own parameters which can be tuned in order to improve performance (which we did try doing), and it is known that Monte Carlo methods are ill-suited to combinatorial problems. 
-Yet, such a starking difference shows how powerful memristors can be for optimization purposes (in particular for quickly generating some sufficiently good but not necessarily optimal solutions). 
+in only a few steps, already converges to a solution with a corrected expected portifolio return of 19.5! Moreover, the solution found via Monte Carlo allocated investment to 91 different assets, while the memristor-based one only invested in 71 assets, thus showing an even better return to investment. There are obvious caveats here, as each of these methods have their own parameters which can be tuned in order to improve performance (which we did try doing), and it is known that Monte Carlo methods are ill-suited to combinatorial problems. 
+Yet, such a stark difference shows how powerful memristors can be for optimization purposes (in particular for quickly generating some sufficiently good but not necessarily optimal solutions). 
 
 The equation for memristors is also interesting in other ways, for example, it has graph theoretical underpinnings [^2] [^3] [^4]. Further, the memristor network equation is connected to optimization [^5] [^6] [^7]. These are summarized in [^8]. For a general overview of the field of memristors, see the recent review [^9].
 

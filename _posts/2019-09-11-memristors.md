@@ -91,7 +91,7 @@ using LinearAlgebra
         τ::Real=0.75,
     )
 
-Execute Monte Carlo in order to find the optimal portifolio composition,
+Execute Monte Carlo in order to find the optimal portfolio composition,
 considering an asset covariance matrix `Σ` and a risk parameter `p`. `reg`
 represents the regularisation constant for `Σ`, `λ` is the annealing factor, with
 the temperature `τ` decreases at each step and `effective_its` determines how
@@ -154,7 +154,7 @@ end
     )
 
 Execute optimisation via the heuristic "memristive" equation in order to find the
-optimal portifolio composition, considering an asset covariance matrix `Σ` and a
+optimal portfolio composition, considering an asset covariance matrix `Σ` and a
 risk parameter `p`. `reg` represents the regularisation constant for `Σ`, `α` and
 `β` parametrise the memristor state (see Equation (2)),
 `δt` is the size of the time step for the dynamical updates and `total_time` is
@@ -206,10 +206,10 @@ end
         weights::Vector{Float64},
     )
 
-Return minus the expected return corrected by the variance of the portifolio,
+Return minus the expected return corrected by the variance of the portfolio,
 according to the Markowitz approach. `Σ` represents the covariance of the assets,
 `p` controls the risk tolerance and `weights` represent the (here binary)
-portifolio composition.
+portfolio composition.
 """
 function energy(
     expected_returns::Vector{Float64},
@@ -221,8 +221,8 @@ function energy(
 end
 ```
 
-A simple comparison between the two approaches shows the superiority of the memristor equation-based approach for this problem. We used a portifolio of 200 assets, with randomly generated initial allocations, expected returns and covariances. After 3000 effective iterations (that is 3000 times 200, the number of assets), the Monte Carlo approach leads to a corrected expected portifolio return of 3.9, while the memristive approach, 
-in only a few steps, already converges to a solution with a corrected expected portifolio return of 19.5! Moreover, the solution found via Monte Carlo allocated investment to 91 different assets, while the memristor-based one only invested in 71 assets, thus showing an even better return to investment. There are obvious caveats here, as each of these methods have their own parameters which can be tuned in order to improve performance (which we did try doing), and it is known that Monte Carlo methods are ill-suited to combinatorial problems. 
+A simple comparison between the two approaches shows the superiority of the memristor equation-based approach for this problem. We used a portfolio of 200 assets, with randomly generated initial allocations, expected returns and covariances. After 3000 effective iterations (that is 3000 times 200, the number of assets), the Monte Carlo approach leads to a corrected expected portfolio return of 3.9, while the memristive approach, 
+in only a few steps, already converges to a solution with a corrected expected portfolio return of 19.5! Moreover, the solution found via Monte Carlo allocated investment to 91 different assets, while the memristor-based one only invested in 71 assets, thus showing an even better return to investment. There are obvious caveats here, as each of these methods have their own parameters which can be tuned in order to improve performance (which we did try doing), and it is known that Monte Carlo methods are ill-suited to combinatorial problems. 
 Yet, such a stark difference shows how powerful memristors can be for optimization purposes (in particular for quickly generating some sufficiently good but not necessarily optimal solutions). 
 
 The equation for memristors is also interesting in other ways, for example, it has graph theoretical underpinnings [^2] [^3] [^4]. Further, the memristor network equation is connected to optimization [^5] [^6] [^7]. These are summarized in [^8]. For a general overview of the field of memristors, see the recent review [^9].
@@ -230,11 +230,11 @@ The equation for memristors is also interesting in other ways, for example, it h
 
 ---
 [^1]: D. B. Strukov, G. S. Snider, D. R. Stewart, R. S. Williams, Nature 453, pages 80–83 (01 May 2008)
-[^2]: F. Caravelli, F. L. Traversa, M. Di Ventra, Phys. Rev. E 95, 022140 (2017) - https://arxiv.org/abs/1608.08651
-[^3]: F. Caravelli, International Journal of Parallel, Emergent and Distributed Systems, 1-17 (2017) - https://arxiv.org/abs/1611.02104
-[^4]: F. Caravelli, Phys. Rev. E 96, 052206 (2017) - https://arxiv.org/abs/1705.00244
-[^5]: F. Caravelli, Entropy 2019, 21(8), 789 - https://www.mdpi.com/1099-4300/21/8/789, https://arxiv.org/abs/1712.07046
+[^2]: F. Caravelli, F. L. Traversa, M. Di Ventra, Phys. Rev. E 95, 022140 (2017) - [https://arxiv.org/abs/1608.08651](https://arxiv.org/abs/1608.08651)
+[^3]: F. Caravelli, International Journal of Parallel, Emergent and Distributed Systems, 1-17 (2017) - [https://arxiv.org/abs/1611.02104](https://arxiv.org/abs/1611.02104)
+[^4]: F. Caravelli, Phys. Rev. E 96, 052206 (2017) - [https://arxiv.org/abs/1705.00244](https://arxiv.org/abs/1705.00244)
+[^5]: F. Caravelli, Entropy 2019, 21(8), 789 - [https://www.mdpi.com/1099-4300/21/8/789](https://www.mdpi.com/1099-4300/21/8/789), [https://arxiv.org/abs/1712.07046](https://arxiv.org/abs/1712.07046)
 [^6]: Bollobás, B., 2012. Graph theory: an introductory course (Vol. 63). Springer Science & Business Media.
-[^7]: http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf
-[^8]: A. Zegarac, F. Caravelli, EPL 125 10001, 2019 - https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf
-[^9]: F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - https://engrxiv.org/c4qr9
+[^7]: [http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf](http://www.gipsa-lab.fr/~francis.lazarus/Enseignement/compuTopo3.pdf)
+[^8]: A. Zegarac, F. Caravelli, EPL 125 10001, 2019 - [https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf](https://iopscience.iop.org/article/10.1209/0295-5075/125/10001/pdf)
+[^9]: F. Caravelli and J. P. Carbajal, Technologies 2018, 6(4), 118 - [https://engrxiv.org/c4qr9](https://engrxiv.org/c4qr9)

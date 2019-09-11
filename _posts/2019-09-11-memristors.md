@@ -30,13 +30,13 @@ If we connect points A and B of the circuit above to a battery, current will flo
 
 In 2008, researchers from Hewlett Packard introduced what is now called the "nanoscale memristor" [^1]. This is a type of resistor made of certain metal oxides such as tungsten or titanium, for which the resistance changes as a function of time in a peculiar way. For the case of titanium dioxide, the resistance changes between two limiting values according to a simple convex law depending on an internal parameter, $$w$$, which is constrained between $$0$$ and $$1$$:
 
-$$ R(w)=\Ron (1-w) +w \Roff,$$
+$$ R(w)= (1-w) \Ron  + w \Roff,$$
 
 where,
 
 $$ \frac{\dif}{\dif t} w(t)=\alpha w- \Ron \frac{I}{\beta}, $$
 
-and $$I$$ is the current in the device. This is a simple prototypical model of a memory-resistor, or \textit{memristor}. 
+and $$I$$ is the current in the device. This is a simple prototypical model of a memory-resistor, or _memristor_. 
 
 In the general case of a network of memristors, the above differential equation becomes [^2] [^3] [^4] [^5]:
 
@@ -49,7 +49,7 @@ In the memristor case, this class is called quadratically unconstrained binary o
 
 $$F(\vec w)= -\frac p 2 \sum_{ij} w_i J_{ij} w_j + \sum_j h_j w_j. $$
 
-This is because the dynamics of memristors, which are described by the equation above, is such that a QUBO functional is minimized. For the case of realistic circuits, $$\Omega$$ satisfies certain properties which we will discuss below, but from the point of view of optimization theory, the system of differential equations can in principle be simulated for arbitrary $$\Omega$$. Therefore, the memristive differential equation can serve as a \textit{heuristic} solution method for an NP-Complete problem such as QUBO [^4]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, in the worst case we have to explore all $$2^N$$ possible values of the variables $$w$$ to find the extrema of the problem. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables.
+This is because the dynamics of memristors, which are described by the equation above, is such that a QUBO functional is minimized. For the case of realistic circuits, $$\Omega$$ satisfies certain properties which we will discuss below, but from the point of view of optimization theory, the system of differential equations can in principle be simulated for arbitrary $$\Omega$$. Therefore, the memristive differential equation can serve as a _heuristic_ solution method for an NP-Complete problem such as QUBO [^4]. These problems are NP-Complete because there is no known algorithm that is better than exhaustive search: because of the binary nature of the variables, in the worst case we have to explore all $$2^N$$ possible values of the variables $$w$$ to find the extrema of the problem. In a sense, the memristive differential equation is a relaxation of the QUBO problem to continuous variables.
 
 Let's look at an application to a standard problem: given the expected returns and covariance matrix between prices of some financial assets, which assets should an investor allocate capital to? This setup, with binary decision variables, is different than the typical question of portfolio allocation, in which the decision variables are real valued (fractions of wealth to allocate to assets). 
 This is a combinatorial decision whether or not to invest in a given asset, but not the amount: the combinatorial Markowitz problem.  The heuristic solution we propose has been introduced in the appendix of [this paper](https://www.mdpi.com/1099-4300/21/8/789).

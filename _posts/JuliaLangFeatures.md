@@ -27,138 +27,63 @@ others are rarely approriate (❌) but are interesting to understand how things 
  - You get to write `2m` for 2 meters, and units are use
  - It is not magic
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 using Unitful.DefaultSymbols
 
 1N
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 1m * 2m
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 10kg * 15m / 1s^2
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 150N == 10kg * 15m / 1s^2 
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
-
-
-</div>
 
 ### 🖼🗿✖️ Juxtaposition Multiplication
  - A literal number placed before an expression results in multiplication
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 x = 0.5π
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 2sin(x)
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
-
-
-</div>
 
 ### 🤔𐄷 How do we use this to make Units work?
  - We just need to overload multiplication
  - In particular we will overload the multiplication with the constructor
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 abstract type Unit end
 struct Meter{T} <: Unit
@@ -167,49 +92,24 @@ end
 
 Base.:*(x::Any, unit::Type{<:Unit}) = unit(x)
 {% endhighlight %}
-</div>
 
 #### 🍧 Now we have our own units-style syntactic sugar
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 4Meter
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 5.1Meter
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
-
-
-</div>
 
 # ✍️ Traits
  - (single) inheritances is a gun with only one bullet
@@ -264,7 +164,6 @@ def _AsList(x):
 **What if other packages want to extend this?**  
 **What about other functions that also depend on is something is a list or not?**
 
-
 ### ☑️✅ Answer: Traits
 
  - Traits let you mark types as having particular properties
@@ -273,7 +172,6 @@ def _AsList(x):
 
  - ⚠️ At some point you do have to document what properties a trait requires   
  (e.g. what methods must be implemented)
-
 
 ### ➕🙂  Advantages of Traits
  - You can do this after the type is declared (unlike a supertype)
@@ -304,9 +202,6 @@ This is the type that is used to make having the particular trait.
 We will consider a trait that highlights the properties of a type for statistical modeling.   
 Like MLJ's Sci-type, or StatsModels schema.
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 abstract type StatQualia end
 
@@ -315,16 +210,11 @@ struct Ordinal <: StatQualia end
 struct Categorical <: StatQualia end
 struct Normable <: StatQualia end
 {% endhighlight %}
-</div>
 
 ## 🔪➡️ Trait function
 The trait function take a type as input, and returns an instance of the trait type.  
 This is how we declare what traits something has.
 
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 statqualia(::Type{<:AbstractFloat}) = Continuous()
 statqualia(::Type{<:Integer}) = Ordinal()
@@ -334,26 +224,14 @@ statqualia(::Type{<:AbstractString}) = Categorical()
 
 statqualia(::Type{<:Complex}) = Normable()
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
 ### 🏁 Using our traits
 To use a trait we need to re-dispatch upon it.
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 using LinearAlgebra
 bounds(xs::AbstractVector{T}) where T = bounds(statqualia(T), xs)
@@ -362,107 +240,47 @@ bounds(::Categorical, xs) = unique(xs)
 bounds(::Normable, xs) = maximum(norm.(xs))
 bounds(::Union{Ordinal, Continuous}, xs) = extrema(xs)
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 bounds([false, false])
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 bounds([1,2,3])
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 bounds([1+1im, -2+4im, 0+-2im])
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 statqualia(::Type{<:AbstractVector}) = Normable()
 
 bounds([[1,1], [-2,4], [0,-2]])
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
 ### 🔙 🐍 So back to `AsList`
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 struct List end
 struct Nonlist end
@@ -471,83 +289,38 @@ islist(::Type{<:AbstractVector}) = List()
 islist(::Type{<:Tuple}) = List()
 islist(::Type{<:Number}) = Nonlist()
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
 ### 🔀 Define our trait dispatch:
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 aslist(x::T) where T = aslist(islist(T), x)
 aslist(::List, x) = x
 aslist(::Nonlist, x) = [x]
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 aslist(1)
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 aslist([1,2,3])
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
-
-
-</div>
 
 ### 🕳🔙 Dynamic dispatch as fallback.
 
@@ -557,45 +330,21 @@ and they compile-away.
 But we can also write runtime code,
 (at a small runtime cost.)
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 islist(T) = hasmethod(iterate, Tuple{T}) ? List() : Nonlist()
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 aslist("ABC")
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
-
-
-</div>
 
 ### 📇🔛 🧮 Traits on functions
 
@@ -614,23 +363,15 @@ None
 
  - We shouldn't have to deal with this as user though.
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 using Statistics
 is_large(x) = mean(x) > 0.5
 get_true_classes(xs) = map(is_large, xs)
 
-
 inputs = rand(100, 1_000);  # 100 features, 1000 observations
 labels = get_true_classes(eachcol(inputs));
 {% endhighlight %}
-</div>
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 using LIBSVM
 svm = svmtrain(inputs, labels)
@@ -638,23 +379,11 @@ svm = svmtrain(inputs, labels)
 estimated_classes_svm, probs = svmpredict(svm, inputs)
 mean(estimated_classes_svm .== labels)
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 using DecisionTree
 tree = DecisionTreeClassifier(max_depth=10)
@@ -663,19 +392,10 @@ fit!(tree, permutedims(inputs), labels)
 estimated_classes_tree = predict(tree, permutedims(inputs))
 mean(estimated_classes_tree .== labels)
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
-
-
-</div>
 
 ### 🕵️‍♂️ 🔪 Lets solve this with traits
 
@@ -685,9 +405,6 @@ So we will attach a trait to each function that needed to rearrange its inputs.
 
 #### 🔪⌨️  Trait types
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 abstract type ObsArrangement end
 
@@ -695,13 +412,9 @@ struct IteratorOfObs <: ObsArrangement end
 struct MatrixColsOfObs <: ObsArrangement end
 struct MatrixRowsOfObs <: ObsArrangement end
 {% endhighlight %}
-</div>
 
 #### 🔪➡️ Trait functions
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 obs_arrangement(::typeof(get_true_classes)) = IteratorOfObs()
 
@@ -711,23 +424,11 @@ obs_arrangement(::typeof(svmpredict)) = MatrixColsOfObs()
 obs_arrangement(::typeof(fit!)) = MatrixRowsOfObs()
 obs_arrangement(::typeof(predict)) = MatrixRowsOfObs()
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 isobs(::AbstractMatrix) = Val{true}()
 
@@ -735,25 +436,13 @@ isobs(::AbstractMatrix) = Val{true}()
 # else it doesn't contain observations
 isobs(::T) where T = Val{eltype(T) isa AbstractVector}()
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
 #### 🏁 Trait dispatch
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 function model_call(func, args...; kwargs...)
     return func(maybe_organise_obs.(func, args)...; kwargs...)
@@ -766,23 +455,11 @@ function maybe_organise_obs(func, arg, ::Val{true})
     organise_obs(obs_arrangement(func), arg)
 end
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 organise_obs(::IteratorOfObs, obs_iter) = obs_iter
 organise_obs(::MatrixColsOfObs, obsmat::AbstractMatrix) = obsmat
@@ -796,36 +473,20 @@ function organise_obs(::MatrixRowsOfObs, obs)
     permutedims(organise_obs(MatrixColsOfObs(), obs))
 end
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
 #### 🎢🧾 Demo
 now rather than calling things directly we use `model_call`
 which takes care of rearranging things.
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 inputs = rand(100, 1_000);  # 100 features, 1000 observations
 labels = model_call(get_true_classes, inputs);
 {% endhighlight %}
-</div>
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 using LIBSVM
 svm = model_call(svmtrain, inputs, labels)
@@ -833,23 +494,11 @@ svm = model_call(svmtrain, inputs, labels)
 estimated_classes_svm, probs = model_call(svmpredict, svm, inputs)
 mean(estimated_classes_svm .== labels)
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 using DecisionTree
 tree = DecisionTreeClassifier(max_depth=10)
@@ -858,19 +507,10 @@ model_call(fit!, tree, inputs, labels)
 estimated_classes_tree = model_call(predict, tree, inputs)
 mean(estimated_classes_tree .== labels)
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
-
-
-</div>
 
 # 🔪😀 Traits: Useful
 
@@ -886,11 +526,6 @@ https://stackoverflow.com/a/39150509/179081
 
 And it is pretty elegant in julia.
 
-
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 function newDuck(name)
     age=0
@@ -905,78 +540,38 @@ function newDuck(name)
 end
 
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
 #### 🏗 Can construct an object and can call public methods
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 duck1 = newDuck("Bill")
 duck1.get_age()
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
 #### 👛 Public methods can change state
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 duck1.inc_age()
 duck1.get_age()
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
-
-
-</div>
 
 #### 🛑 Can't access private fields
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 duck1.age
 {% endhighlight %}
-</div>
-
-**Output:**
-
 
 None
 
@@ -987,46 +582,17 @@ None
 None
 
 None
-
 
 ##### ⛔️ Can't access private methods
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 duck1.speak()
 {% endhighlight %}
-</div>
 
-**Output:**
 
-<div class="jupyter-stream jupyter-cell">
-{% highlight plaintext %}
-None
-{% endhighlight %}
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 duck1.quack()
 {% endhighlight %}
-</div>
-
-**Output:**
-
-
-None
-
-None
-
-None
-
-None
-
-None
 
 
 ### ❔👩‍🏫 How does this work?
@@ -1036,61 +602,30 @@ None
 
 #### 💡 So we can actually see those private fields via accessing the public method closures
 
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 duck1.inc_age.age
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 duck1.speak.quack
 {% endhighlight %}
-</div>
-
-**Output:**
-
-<div class="jupyter-cell">
-
 
 {% highlight plaintext %}
 None
 {% endhighlight %}
 
-
-</div>
-
-**Input:**
-
-<div class="jupyter-input jupyter-cell">
 {% highlight julia %}
 duck1.speak.quack()
 {% endhighlight %}
-</div>
-
-**Output:**
 
 <div class="jupyter-stream jupyter-cell">
 {% highlight plaintext %}
 None
 {% endhighlight %}
-</div>
 
 # How Cassette etc. works
 
@@ -1130,7 +665,6 @@ Generated functions take types as inputs and
 return the AST for what code should run.
 
 It is a kind of metaprogramming.
-
 
 ### 💤 Normal Function
 
@@ -1177,7 +711,6 @@ You can retrieve the different representations using the functions/macros.
  - We return a `CodeInfo` based on a modified version of one for a function argument.
  - We can use `@code_lowered` to look up what the original `CondeInfo` would have been
 
-
 ### 🚫⌨️ Untyped IR: this is what we are working with
  - basically a linearization of the AST.
  - Only 1 operation per statement (Nested expressions get broken up) 
@@ -1220,7 +753,7 @@ end
 ```
 
 This is how Cassette and IRTools work.   
-🌳 Arborist works similarly, but using AST level.
+🌳 Arborist works similarly, but at the Abstract Syntax Tree level.
 
 ### 🚫 🧙‍♂️ JuliaLang is not magic
  - Features give rise to other features
@@ -1242,6 +775,5 @@ All just fall out of the combination of other features.
  - One can specialize on value (c.f. constant-folding)
 
 Also: Multiple dispatch is just adding a human into the loop for how specialization is done.
-
 
 ### Julia just has a very late ahead-of-time compiler

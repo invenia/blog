@@ -8,7 +8,7 @@ By Lyndon White (Research Software Engineer)
 
 This blog post is based on a talk originally given at a Cambridge PyData Meetup, and also at a London Julia Users Meetup.
 
-## Introduction:
+## Introduction
 
 Julia is known to be a very expressive language with many interesting and cool features.
 It is worth considering that some features were not planned,

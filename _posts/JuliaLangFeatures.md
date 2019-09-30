@@ -16,10 +16,10 @@ but simply emerged from the combinations of other features.
 
 This post will describe how several interesting features are implemented:
 
- - ✅ Unit synatic sugar (`2kg`)
- - ✅ Traits
- - ❌ pseudo-OO objects with public/private methods
- - ❌ Dynamic Source Tranformation / Custom Compiler Passes (Cassette) 
+ - ✅ Unit synatic sugar (`2kg`),
+ - ✅ Traits,
+ - ❌ Pseudo-OO objects with public/private methods,
+ - ❌ Dynamic Source Tranformation / Custom Compiler Passes (Cassette). 
  
 Some of these you should do (✅) when appropriate,  
 others are rarely approriate (❌) but are interesting to understand how things work.

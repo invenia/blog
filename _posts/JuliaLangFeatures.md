@@ -24,7 +24,7 @@ This post will describe how several interesting features are implemented:
 Some of these (✅) should be used when appropriate,  
 while others (❌) are rarely appropriate, but are instructive.
 A particularly large portion of this post is about traits,
-because they are one of the most powerful and interested julia features.
+because they are one of the most powerful and interesting julia features.
 They emerge of of types, multiple dispatch,
 and the ability to dispatch on the types themselves (rather than just instances).
 We will talk about both the common use of traits on types,

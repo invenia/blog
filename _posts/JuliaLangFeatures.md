@@ -10,7 +10,7 @@ This blog post is based on a talk originally given at a Cambridge PyData Meetup,
 
 ## Introduction:
 
-Julia is notated as a very expressive language with lots of cool features.
+Julia is known to be a very expressive language with many interesting and cool features.
 It is worth considering that some features were not planned,
 but simply emerged from the combinations of other features.
 

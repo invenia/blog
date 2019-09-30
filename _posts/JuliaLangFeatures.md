@@ -6,7 +6,7 @@ tags:
 ---
 By Lyndon White (Research Software Engineer)
 
-This blog post is based on a talk originally given a Cambridge PyData Meetup, and also at London Julia Users Meetup.
+This blog post is based on a talk originally given at a Cambridge PyData Meetup, and also at a London Julia Users Meetup.
 
 ## Introduction:
 

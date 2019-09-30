@@ -21,9 +21,8 @@ This post will describe how several interesting features are implemented:
  - ❌ Pseudo-OO objects with public/private methods,
  - ❌ Dynamic Source Tranformation / Custom Compiler Passes (Cassette). 
  
-Some of these you should do (✅) when appropriate,  
-others are rarely approriate (❌) but are interesting to understand how things work.
-
+Some of these (✅) should be used when appropriate,  
+while others (❌) are rarely appropriate, but are instructive.
 A particularly large portion of this post is about traits,
 because they are one of the most powerful and interested julia features.
 They emerge of of types, multiple dispatch,

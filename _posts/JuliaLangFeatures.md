@@ -635,12 +635,12 @@ The compiler knows nothing of Cassette.
 This incredibly powerful and general feature
 And it came out of a very specific issue, and  very casual issue PR suggesting it might be useful for one particular case.
 Issue [#21146](https://github.com/JuliaLang/julia/issues/21146)
-<img src="./figs/cassette-issue.png"/>
+<img src="{{ site.baseurl }}/public/images/cassette-issue.png"/>
 
 PR [#22440](https://github.com/JuliaLang/julia/pull/22440)
-<img src="./figs/cassette-pr.png"/>
+<img src="{{ site.baseurl }}/public/images/cassette-pr.png"/>
 
-## 🏋️‍♂️ This Super-powerful
+### 🏋️‍♂️ This Super-powerful
 
 This capacity allows one to build:
  - AutoDiff tools (ForwardDiff2, Zygote, Yota)

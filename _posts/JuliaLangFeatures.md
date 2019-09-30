@@ -14,7 +14,7 @@ Julia is notated as a very expressive language with lots of cool features.
 It is worth considering that some features were not planned,
 but simply emerged from the combinations of other features.
 
-This post will will show you how several cool features are implemented:
+This post will describe how several interesting features are implemented:
 
  - ✅ Unit synatic sugar (`2kg`)
  - ✅ Traits

@@ -1,16 +1,12 @@
 ---
 layout: default
-title: "JuliaLangFeatures"
+title: "The Emergent Features of JuliaLang"
 tags:
     - julia
-    - jupyter-notebook
 ---
-# The Emergent Features of JuliaLang
-<img src="https://github.com/JuliaLang/julia-logo-graphics/raw/master/images/julia-logo-color.png" style="display: inline"></img>
+By Lyndon White (Research Software Engineer)
 
-## Lyndon White (@oxinabox)
-Research Software Engineer   
-<img  width="256" src="https://www.invenia.ca/wp-content/themes/relish_theme/img/labs-logo.png" />
+This blog post is based on a talk originally given a Cambridge PyData Meetup, and also at London Julia Users Meetup.
 
 ### Some features were not planned, but simply emerged from the combinations of other features.
 

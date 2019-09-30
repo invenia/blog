@@ -29,7 +29,7 @@ They emerge of types, multiple dispatch,
 and the ability to dispatch on the types themselves (rather than just instances).
 We will talk about both the common use of traits on types,
 and also the very interesting (but less common) use of traits on functions.
-The later of which is an emergent feature of functions being instances of singleton types.
+The latter of which is an emergent feature of functions being instances of singleton types.
 
 There are lots of other cool features that are similarly emmergent, not discussed in this post.
 Including for example that creating a vector using `Int[]` is actually just a overload of `getindex`, and that constructors are just overloads of `(::Type{<:T}()`.

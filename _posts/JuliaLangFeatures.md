@@ -57,7 +57,7 @@ true
 ```
 
 
-### 🖼🗿✖️ How does this work? Juxtaposition Multiplication
+### How does this work? Juxtaposition Multiplication
 A literal number placed before an expression results in multiplication.
 
 
@@ -73,7 +73,7 @@ julia> 2sin(x)
 ```
 
 
-### 🤔𐄷 How do we use this to make Units work?
+### How do we use this to make Units work?
 So, to make this work, we are going to make juxtaposition multiplication work for us.
 This is a simplified version of what goes on under the hood of Unitful.jl.
 We need to overload the multiplication with the constructor, to invoke that constructor.
@@ -102,9 +102,9 @@ It shows that we create a `Meter` object with `val=5`.
 From there, to get to a full unit system, one needs to overload all the stuff that numbers need, like addition and multiplication.
 But that is the core trick.
 
-🍧 Now we have our own units-style syntactic sugar
+Now we have our own units-style syntactic sugar
 
-## ✍️ Traits
+## Traits
  - (single) inheritances is a gun with only one bullet
  - Once you have a super-type, you can't have another
  - Traits are one method of multiple inheritance
@@ -113,7 +113,7 @@ But that is the core trick.
 I have earlier written [another blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) explaining them, this is a slightly different take, but still similar.
 Some parts (including the initial motivating example), are very similar.
 
-### 🙊 Sometimes people say Julia doesn't have traits
+### Sometimes people say Julia doesn't have traits
 
 This isn't true, what is true is that:
  - Julia doesn't have syntatic sugar for traits.
@@ -127,13 +127,13 @@ He originally proposed them to [make StridedArrays extensible](https://github.co
 Ironically, even though they are fairly well established today, `StridedArray` continues to not used them.
 One-day that will be fixed, [there are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality. 
 
-### 👨‍👨‍👦‍👦 Different ways to implement traits
+### Different ways to implement traits
 There are a few different ways to implement them, though all are broadly similar.
  - We're going to talk about the way based-on concrete types.
  - But you can do similar with `Type{<:SomeAbstractType}`, (Ugly, but flexible).
  - or even with values if they constant fold (like bools) particularly if you are happy to wrap them in `Val` when you want to dispatch on them (an example of this will be shown later).
 
-### 🐍 AsList
+### AsList a Python example
 In Python TensorFlow, these is a helper function, `_AsList`:
 
 ```python
@@ -147,14 +147,14 @@ It is useful for only needing to write code that deals with lists.
 
 This is not really idiomatic python code, but TensorFlow uses it in the wild, so it runs on thousands of computers.
 
-#### 😨 AsList fails for numpy arrays
+#### AsList fails for numpy arrays
 
 ```python
 >>> _AsList(np.asarray([1,2,3]))
 [array([1, 2, 3])]
 ```
 
-#### 🔨 Can we fix it?
+#### Can we fix it?
 
 ```python
 def _AsList(x):
@@ -165,7 +165,7 @@ But where will it end?
 What if other packages want to extend this?  
 What about other functions that also depend on is something is a list or not?
 
-### ☑️✅ Answer: Traits
+### Answer: Traits
 
  - Traits let you mark types as having particular properties.
  - In julia, in particular, you can dispatch on these traits.
@@ -176,18 +176,18 @@ What about other functions that also depend on is something is a list or not?
 There is no static type-checker enforcing it.
 You may want to write a test-suite for anything that has a trait that checks it works right.
 
-#### ➕🙂  Advantages of Traits
+#### Advantages of Traits
  - You can do this after the type is declared (unlike a supertype).
  - You don't have to do it upfront and can add new types later (unike a `Union`).
  - and you can have otherwise unrelated types (unlike a supertype).
  
 
-#### 🧩 Traits have a few parts: 
+#### Traits have a few parts: 
  - The trait types: these are the different traits a type can have.
  - The trait function: this tells you what traits a type has.
  - Trait dispatch: using the traits.
 
-#### ⌨️ 📇 The type of types
+#### The type of types
 
 Types are values, and so themselves have a type (`DataType`).
 However, they also have the special pseudo-supertype `Type`.
@@ -201,7 +201,7 @@ String isa Type{<:AbstractString} = true
 
 We can dispatch on `Type{T}` have it resolve at compile-time
 
-### 🔪⌨️ Trait Type
+### Trait Type
 This is the type that is used to make having the particular trait.
  
 In this exanmplem we will consider a trait that highlights the properties of a type for statistical modeling.   
@@ -216,7 +216,7 @@ struct Categorical <: StatQualia end
 struct Normable <: StatQualia end
 ```
  
-### 🔪➡️ Trait function
+### Trait function
 The trait function take a type as input, and returns an instance of the trait type.  
 We use the trait function to declare what traits a particular type has.
 
@@ -231,8 +231,7 @@ statqualia(::Type{<:AbstractString}) = Categorical()
 statqualia(::Type{<:Complex}) = Normable()
 ```
 
-
-### 🏁 Using our traits
+### Using our traits
 To use a trait we need to re-dispatch upon it.
 This is where we take a the type of an input,
 and invoke the trait function on it, to get objects of the trait type,
@@ -283,9 +282,9 @@ julia> bounds([[1,1], [-2,4], [0,-2]])
 ```
 
 
-### 🔙 🐍 So back to `AsList`
+### So back to `AsList`
 
-#### 🔪⌨️➡️ Define out trait type and trait function:
+#### Define out trait type and trait function:
 
 ```julia
 struct List end
@@ -297,7 +296,7 @@ islist(::Type{<:Number}) = Nonlist()
 ```
 
 
-#### 🔀 Define our trait dispatch:
+#### Define our trait dispatch:
 
 ```julia
 aslist(x::T) where T = aslist(islist(T), x)
@@ -325,7 +324,7 @@ julia> aslist([1])
 
 And as discussed it is fully extensible.
 
-### 🕳🔙 Dynamic dispatch as fallback.
+### Dynamic dispatch as fallback.
 
 All the traits discussed so far have been fully-static, and they compile-away.
 
@@ -344,13 +343,13 @@ julia> aslist("ABC")
 ```
 
 
-## 📇🔛 🧮 Traits on functions
+## Traits on functions
 We can  also attach traits to functions
 becuase functions are instances of singleton types
 e.g. `foo::typeof(foo)`
 We can use this to do declarative input transforms.
 
-### 💻🧠 Example: different functions expect the arrangement of observations to be different
+### Example: different functions expect the arrangement of observations to be different
 Difference ML Models might expect the inputs be:
     - Iterator of Observations
     - Matrix with Observations in Rows
@@ -405,7 +404,7 @@ We had to know what each different function needed and use `eachcol`, and `permu
 Why should the user need to remember these details?
 We should encode them into the program.
 
-### 🕵️‍♂️ 🔪 Lets solve this with traits
+### Lets solve this with traits
 
 We  will attach a trait to each function that needed to rearrange its inputs.
 
@@ -413,7 +412,7 @@ There is a more sophisticated version of this that we could do,
 which also attachs traits to inputs saying how the observations are currently arranged; or lets user specify.
 But for simplicity we will assume the data starts out, as a matrix with 1 observations per column.
 
-#### 🔪⌨️  Trait types
+#### Trait types
 So we are considering 3 possible ways a function might like its data to be arranged:
 ```julia
 abstract type ObsArrangement end
@@ -423,7 +422,7 @@ struct MatrixColsOfObs <: ObsArrangement end
 struct MatrixRowsOfObs <: ObsArrangement end
 ```
 
-#### 🔪➡️ Trait functions
+#### Trait functions
 Now we encode that knowledge about each functions expectations into a trait.
 Rather than force the user to look it up from the documentation.
 
@@ -455,7 +454,7 @@ isobs(::T) where T = Val{eltype(T) isa AbstractVector}()
 ```
 
 
-#### 🏁 Trait dispatch
+#### Trait dispatch
 Now we define `model_call`: a function which uses the traits to decide how to rearrane the observations before calling the function.
 It does this based on the function's type and the argument's types.
 
@@ -485,7 +484,7 @@ function organise_obs(::MatrixRowsOfObs, obs)
 end
 ```
 
-#### 🎢🧾 Demo
+#### Demo
 Now rather than calling things directly we use `model_call`
 which takes care of rearranging things.
 See how the code is now not having to be aware of the particular cases for each different library?
@@ -514,9 +513,9 @@ mean(estimated_classes_tree .== labels)
 
 It is basically the same code for each of them.
 
-**In short: 🔪😀 Traits: Useful**
+**In short: Traits: Useful**
 
-## 🏛 Closures, they give you "Classic OO"
+## Closures, they give you "Classic OO"
 "Classic OO" has classes, with member functions (method)
 that can see all the fields and methods,
 but that outside the class's methods,
@@ -527,7 +526,7 @@ but I first saw it applied to julia in one of
 [Jeff Bezanson's rare Stack Overflow posts](https://stackoverflow.com/a/39150509/179081).
 It is pretty elegant in Julia.
 
-### 🦆 Consider a Duck type.
+### Consider a Duck type.
 We use closes to define it as follows:
 
 ```julia
@@ -549,63 +548,62 @@ end
 ##### 🏗 Can construct an object and can call public methods
 
 ```julia
-julia> duck1 = newDuck("Bill")
+julia> 🦆 = newDuck("Bill")
 #7 (generic function with 1 method)
 
-julia> duck1.get_age()
+julia> 🦆.get_age()
 0
 ```
 
 
-##### 👛 Public methods can change private fields
+##### Public methods can change private fields
 
 ```julia
-julia> duck1.inc_age()
+julia> 🦆.inc_age()
 1
 
-julia> duck1.get_age()
+julia> 🦆.get_age()
 1
 ```
 
 
-##### 🛑 Outside the class we can't access private fields
+##### Outside the class we can't access private fields
 
 ```julia
-julia> duck1.age
+julia> 🦆.age
 ERROR: type ##7#12 has no field age
 ```
 
-##### ⛔️ Can't access private methods
+##### Can't access private methods
 
 ```julia
-julia> duck1.quack()
+julia> 🦆.quack()
 ERROR: type ##7#12 has no field quack
 ```
 
-##### ✅ But accessing their functionality via public methods works: 
+##### But accessing their functionality via public methods works: 
 ```julia
-julia> duck1.speak()
+julia> 🦆.speak()
 Quack!
 ```
 
-
-### ❔👩‍🏫 How does this work?
+### How does this work?
 Closures return singleton objects, with the directly referenced closed variables as fields.
 All our public fields/methods are directly referenced.
 But our private fields (e.g `age`, `quack`) is not directly referenced, but are closed over other methods that use them.
 
-#### 💡 So we can actually see those private methods and fields via accessing the public method closures
+#### So we can actually see those private methods and fields via accessing the public method closures
 
 ```julia
-julia> duck1.speak.quack
+julia> 🦆.speak.quack
 (::var"#quack#10") (generic function with 1 method)
 
-julia> duck1.speak.quack()
+julia> 🦆.speak.quack()
 Quack!
 ```
 
 ```julia
-julia> duck1.inc_age.age
+julia> 🦆.inc_age.age
 Core.Box(1)
 ```
 `Box` is the type julia uses for variables that closed over, but that might be rebound.
@@ -621,7 +619,7 @@ Where the default is to call the closure, but you could extend it by using it li
 
  <img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
 
-## 📼 🎓 The compiler knows nothing of these "custom compiler passes"
+## The compiler knows nothing of these "custom compiler passes"
 Cassette / IRTools (Zygote) is a notable julia feature.
 This feature is sometimes called:
 Custom Compiler Passes,
@@ -639,7 +637,7 @@ Issue [#21146](https://github.com/JuliaLang/julia/issues/21146)
 PR [#22440](https://github.com/JuliaLang/julia/pull/22440)
 <img src="{{ site.baseurl }}/public/images/cassette-pr.png"/>
 
-### 🏋️‍♂️ This Super-powerful
+### This super-powerful
 
 This capacity allows one to build:
  - AutoDiff tools (ForwardDiff2, Zygote, Yota)
@@ -655,8 +653,7 @@ Call overloading as much more general than operator overloading.
 Since it applies to every call special cased as appropriate,
 where as operator overloading applies to just one call and just one set of types.
 
-### 💤 Consider Normal Functions
-
+### Consider Normal Functions
 
 ```julia
 function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
@@ -671,7 +668,7 @@ To decide what will be in the merge.
 
 But we know all that information base on the types alone.
 
-### ⚡️ Now think about Generated Functions
+### Now think about Generated Functions
 
 [Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1) take types as inputs and 
 return the AST (Abstract Syntax Tree) for what code should run.
@@ -690,14 +687,14 @@ end
 
 This gives substantial preformance improvements.
 
-## 📼🚧 How Does Cassette Work?
+## How Does Cassette Work?
 It is not magic, Cassette is not specially baked into the compiler.
 `@generated` function can return a `Expr` **or** a `CodeInfo`
 We return a `CodeInfo` based on a modified version of one for a function argument.
 We can use `@code_lowered` to look up what the original `CondeInfo` would have been
 `@code_lowered` gives back one particular representation of the Julia code: the **Untyped IR**.
 
-## 🍰 Julia: layers of representenstation:
+## Julia: layers of representenstation:
 
 Julia has many representations of the code it moves through during compilation.
 
@@ -710,7 +707,7 @@ Julia has many representations of the code it moves through during compilation.
  
 You can retrieve the different representations using the functions/macros indicated in brackets.
 
-### 🚫⌨️ Untyped IR: this is what we are working with
+### Untyped IR: this is what we are working with
 This is Basically a linearization of the AST.
  - Only 1 operation per statement (Nested expressions get broken up) 
  - the return values for each statement is accessed as `SSAValue(index)`
@@ -725,7 +722,7 @@ but we want to do it manually to understand how it works.
 
 This example originally showed up in my [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)
 
-### ⚙️🤝 Manual pass
+### Manual pass
 
 We define a generated function `rewritten`,
 that makes a copy of the untyped IR, a  `CodeInfo` object, that it gets back from `@code_lowered`,
@@ -748,7 +745,7 @@ call_and_print(f, args...) = (println(f, " ", args); f(args...))
 end
 ```
 
-### ⚙️🤝 Result of our manual pass:
+### Result of our manual pass:
 We can see that this works:
 ```julia
 julia> foo() = 2*(1+1)
@@ -760,7 +757,7 @@ julia> rewritten(foo)
 4
 ```
 
-### 🔨📼 Overdub/recurse.
+### Overdub/recurse.
 Rather than replacing each call with `call_and_print`,
 We could make it call something that would do the work we are interested in,
 and then call `rewriten` on that function.
@@ -779,7 +776,7 @@ There are a few complexities and special cases that need to be taken care of,
 but that is the core of it.
 Recursive invocation of generated functions that rewrite the IR, like what is returned by `@code_lowered`.
 
-## 🚫 🧙‍♂️ Conclusion: JuliaLang is not magic
+## Conclusion: JuliaLang is not magic
  - Features give rise to other features
  - Types turn out to be very powerful
  - Especially with multiple dispatch

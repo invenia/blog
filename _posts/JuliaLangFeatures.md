@@ -74,7 +74,7 @@ julia> 2sin(x)
 
 
 ### 🤔𐄷 How do we use this to make Units work?
-So to make this work we are going to make juxtaposition multiplication work for us.
+So, to make this work, we are going to make juxtaposition multiplication work for us.
 This is a simplified version of what goes on under-the-hood of Unitful.jl.
 We need to overload the multiplication with the constructor, to invoke that constructor.
 

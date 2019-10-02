@@ -1,10 +1,10 @@
 ---
 layout: default
 title: "The Emergent Features of JuliaLang (Especially Traits)"
+Author: Lyndon White
 tags:
     - julia
 ---
-By Lyndon White (Research Software Engineer)
 
 This blog post is based on a talk originally given at a Cambridge PyData Meetup, and also at a London Julia Users Meetup.
 
@@ -37,10 +37,10 @@ Including, for example, that creating a vector using `Int[]` is actually just an
 
 ## ✖️ Juxtaposition multiplication, convenient syntax for Units
 
- - [Unitful](https://github.com/ajkeller34/Unitful.jl) is really cool
- - Units can protect you against arithmetic mistakes
- - You get to write `2m` for 2 meters, and units are used
- - It is not magic
+ - [Unitful](https://github.com/ajkeller34/Unitful.jl) is really cool.
+ - Units can protect you against arithmetic mistakes.
+ - You get to write `2m` for 2 meters, and units are used.
+ - It is not magic.
 
 Example of using Unitful units:
 ```julia
@@ -113,19 +113,19 @@ But that is the core trick.
 I have earlier written [another blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) explaining them, this is a slightly different take, but still similar.
 Some parts (including the initial motivating example), are very similar.
 
-### 🙊 Sometimes people say julia doesn't have traits
+### 🙊 Sometimes people say Julia doesn't have traits
 
 This isn't true, what is true is that:
- - Julia doesn't have syntatic sugar for traits
- - Julia doesn't have ubiqutious traits
- - Traits are even used in the Base standard library for iterators: `IteratorSize` and `IteratorEltype`, and for several other interfaces. [[Docs]](https://docs.julialang.org/en/v1/manual/interfaces/#man-interface-iteration-1)
+ - Julia doesn't have syntatic sugar for traits.
+ - Julia doesn't have ubiqutious traits.
+ - Traits are even used in the Base standard library for iterators: `IteratorSize` and `IteratorEltype`, and for several other interfaces. [[Docs]](https://docs.julialang.org/en/v1/manual/interfaces/#man-interface-iteration-1).
 
 ### 🙋🏻‍♂️ These are commonly called Holy traits.
-Not out of religious glorification, but after Tim Holy.
-Who is pretty great, to be fair. 
-<img src="https://avatars1.githubusercontent.com/u/1525481?s=160&v=4"/>
+Not out of religious glorification, but after [Tim Holy](https://github.com/timholy).
+Who is pretty great, to be fair, but still his ideas are not themselves religious objects.
 He originally proposed them to [make StridedArrays extensible](https://github.com/JuliaLang/julia/issues/2345#issuecomment-54537633).
-Ironically, even though they are fairly well established today, `StridedArray` continues to not used them. One-day that will be fixed, [there are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality. 
+Ironically, even though they are fairly well established today, `StridedArray` continues to not used them.
+One-day that will be fixed, [there are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality. 
 
 ### 👨‍👨‍👦‍👦 Different ways to implement traits
 There are a few different ways to implement them, though all are broadly similar.
@@ -167,9 +167,9 @@ What about other functions that also depend on is something is a list or not?
 
 ### ☑️✅ Answer: Traits
 
- - Traits let you mark types as having particular properties
- - In julia, in particular, you can dispatch on these traits
- - Often they will compile out of existance (due to static dispatch, during specialization.)
+ - Traits let you mark types as having particular properties.
+ - In julia, in particular, you can dispatch on these traits.
+ - Often they will compile out of existance (due to static dispatch, during specialization.).
 
 ⚠️ Do note that at some point you do have to document what properties a trait requires   
 (e.g. what methods must be implemented).
@@ -177,15 +177,15 @@ There is no static type-checker enforcing it.
 You may want to write a test-suite for anything that has a trait that checks it works right.
 
 #### ➕🙂  Advantages of Traits
- - You can do this after the type is declared (unlike a supertype)
- - You don't have to do it upfront and can add new types later (unike a `Union`)
- - and you can have otherwise unrelated types (unlike a supertype)
+ - You can do this after the type is declared (unlike a supertype).
+ - You don't have to do it upfront and can add new types later (unike a `Union`).
+ - and you can have otherwise unrelated types (unlike a supertype).
  
 
 #### 🧩 Traits have a few parts: 
- - The trait types: these are the different traits a type can have
- - The trait function: this tells you what traits a type has
- - Trait dispatch: using the traits
+ - The trait types: these are the different traits a type can have.
+ - The trait function: this tells you what traits a type has.
+ - Trait dispatch: using the traits.
 
 #### ⌨️ 📇 The type of types
 
@@ -717,8 +717,9 @@ This is Basically a linearization of the AST.
  - Variables become Slots
  - Control-flow becomes jumps (like Goto)
  - function names become qualified as `GlobalRef(mod, func)`
-It isn't great to work-with,
-it gives a special kind of headache.
+
+It isn't great to work-with.
+It is ok to read, but writing it gives a special kind of headache.
 That is why IRTools and Cassette exist, to take some of that pain away,
 but we want to do it manually to understand how it works.
 

@@ -110,7 +110,7 @@ But that is the core trick.
  - Traits are one method of multiple inheritance
  - They can be implemented using functions of types.
  
-I have earlier wrote [another blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) explaining them, this is a slightly different take, but still similar.
+I have earlier written [another blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) explaining them, this is a slightly different take, but still similar.
 Some parts (including the initial motivating example), are very similar.
 
 ### 🙊 Sometimes people say julia doesn't have traits

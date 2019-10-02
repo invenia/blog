@@ -97,7 +97,7 @@ We can see that if we try out the above code:
 julia> 5Meter
 Meter{Int64}(5)
 ```
-It shows that we creates a `Meter` object with `val=5`.
+It shows that we create a `Meter` object with `val=5`.
 
 From there to get to a full unit system one needs to overload all the stuff that numbers need, like addition and multiplication.
 But that is the core trick.

@@ -200,7 +200,7 @@ String isa Type{String} = true
 String isa Type{<:AbstractString} = true
 ```
 
-We can dispatch on `Type{T}` have it resolve at compile time
+We can dispatch on `Type{T}` and have it resolved at compile time
 
 ### Trait Type
 This is the type that is used to make having the particular trait.
@@ -272,7 +272,7 @@ julia> bounds([1+1im, -2+4im, 0+-2im])
 ```
 
 We can extend traits after the fact.
-So if we wanted to add that vectors have norms defiend we could:
+So, if we wanted to add that vectors have norms defined, we could do:
 
 ```julia
 julia> statqualia(::Type{<:AbstractVector}) = Normable()
@@ -285,7 +285,7 @@ julia> bounds([[1,1], [-2,4], [0,-2]])
 
 ### So back to `AsList`
 
-#### Define out trait type and trait function:
+#### Define our trait type and trait function:
 
 ```julia
 struct List end
@@ -323,14 +323,14 @@ julia> aslist([1])
  1
 ```
 
-And as discussed it is fully extensible.
+And, as discussed, it is fully extensible.
 
 ### Dynamic dispatch as fallback.
 
-All the traits discussed so far have been fully-static, and they compile-away.
+All the traits discussed so far have been fully-static, and they compile away.
 
 But we can also write runtime code, at a small runtime cost.
-The following makes a runtime call to `hasmethod` to lookup if the given type has a `iterate` method defined. (There are [plans](https://github.com/JuliaLang/julia/pull/32732) to make `hasmethod` compile time. But for now it can only be done at runtime)
+The following makes a runtime call to `hasmethod` to lookup if the given type has an `iterate` method defined. (There are [plans](https://github.com/JuliaLang/julia/pull/32732) to make `hasmethod` compile time. But for now it can only be done at runtime.)
 Similar code to this can be used to dispatch on the values of objects.
 
 ```julia
@@ -345,25 +345,25 @@ julia> aslist("ABC")
 
 
 ## Traits on functions
-We can  also attach traits to functions
-becuase functions are instances of singleton types
-e.g. `foo::typeof(foo)`
+We can  also attach traits to functions,
+becuase functions are instances of singleton types,
+e.g. `foo::typeof(foo)`.
 We can use this to do declarative input transforms.
 
 ### Example: different functions expect the arrangement of observations to be different
 Difference ML Models might expect the inputs be:
-    - Iterator of Observations
-    - Matrix with Observations in Rows
-    - Matrix with Observations in Columns
+    - Iterator of Observations.
+    - Matrix with Observations in Rows.
+    - Matrix with Observations in Columns.
 
 This isn't even a matter of personal perference or different field standards.
-For performance reasons there is good reasons to use the different options depending on what operations you are doing.
+For performance reasons there are good reasons to use the different options depending on what operations you are doing.
 
-We shouldn't have to deal with this as user though.
+We shouldn't have to deal with this as user, though.
 
 
 The following examples use [LIBSVM.jl](https://github.com/mpastell/LIBSVM.jl), and [DecisionTree.jl](https://github.com/bensadeghi/DecisionTree.jl).
-One could largely avoid this by using [MLJ's interface](https://github.com/alan-turing-institute/MLJ.jl) instead which takes care of this kind of thing for you.
+One could largely avoid this by using [MLJ's interface](https://github.com/alan-turing-institute/MLJ.jl) instead, which takes care of this kind of thing for you.
 
 First we have some basic functions for dealing with out data.
 `get_true_classes` expects an iterator of observations.
@@ -376,7 +376,7 @@ inputs = rand(100, 1_000);  # 100 features, 1000 observations
 labels = get_true_classes(eachcol(inputs));
 ```
 
-For examples sake we are going to test on our training data,
+For examples sake, we are going to test on our training data,
 not something you should ever do to test a real model, except to validate that training worked.
 First lets try LIBSVM.
 LIBSVM expects the data to come in as a matrix with 1 observation per column.

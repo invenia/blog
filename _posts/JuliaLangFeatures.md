@@ -126,7 +126,7 @@ Not out of religious glorification, but after [Tim Holy](https://github.com/timh
 Who is pretty great, to be fair, but still his ideas are not themselves religious objects.
 He originally proposed them to [make StridedArrays extensible](https://github.com/JuliaLang/julia/issues/2345#issuecomment-54537633).
 Ironically, even though they are fairly well established today, `StridedArray` continues to not use them.
-One-day that will be fixed, [there are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality. 
+One day that will be fixed. [There are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality. 
 
 ### Different ways to implement traits
 There are a few different ways to implement them, though all are broadly similar.

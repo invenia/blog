@@ -180,7 +180,7 @@ You may want to write a test suite for anything that has a trait that checks it 
 #### Advantages of Traits
  - You can do this after the type is declared (unlike a supertype).
  - You don't have to do it upfront and can add new types later (unike a `Union`).
- - and you can have otherwise unrelated types (unlike a supertype).
+ - You can have otherwise unrelated types (unlike a supertype).
  
 
 #### Traits have a few parts: 

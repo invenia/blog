@@ -200,7 +200,7 @@ String isa Type{String} = true
 String isa Type{<:AbstractString} = true
 ```
 
-We can dispatch on `Type{T}` have it resolve at compile-time
+We can dispatch on `Type{T}` have it resolve at compile time
 
 ### Trait Type
 This is the type that is used to make having the particular trait.

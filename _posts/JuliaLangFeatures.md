@@ -205,7 +205,7 @@ We can dispatch on `Type{T}` have it resolve at compile time
 ### Trait Type
 This is the type that is used to make having the particular trait.
  
-In this exanmplem we will consider a trait that highlights the properties of a type for statistical modeling.   
+In this exanmple we will consider a trait that highlights the properties of a type for statistical modeling.   
 Like MLJ's Sci-type, or StatsModel's schema.
 
 ```julia

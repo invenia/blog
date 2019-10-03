@@ -105,10 +105,11 @@ But that is the core trick.
 Now we have our own units-style syntactic sugar
 
 ## Traits
- - (single) inheritances is a gun with only one bullet
- - Once you have a super-type, you can't have another
- - Traits are one method of multiple inheritance
- - They can be implemented using functions of types.
+Inheritance is a gun with only one bullet, at least in the case of single-inheritance like Julia uses.
+Once you have a super-type, you can't have another.
+Traits are one method of achieving something like multiple inheritiance.
+They allow for a form of [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)), that is orthogonal to the inheritence tree.
+They can be implemented using functions of types.
  
 I have earlier written [another blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) explaining them, this is a slightly different take, but still similar.
 Some parts (including the initial motivating example), are very similar.

@@ -172,7 +172,7 @@ What about other functions that also depend on if something is a list or not?
  - In julia, in particular, you can dispatch on these traits.
  - Often, they will compile out of existence (due to static dispatch, during specialization.).
 
-⚠️ Do note that at some point you do have to document what properties a trait requires   
+⚠️ Do note that at some point you have to document what properties a trait requires   
 (e.g. what methods must be implemented).
 There is no static type-checker enforcing it.
 You may want to write a test-suite for anything that has a trait that checks it works right.

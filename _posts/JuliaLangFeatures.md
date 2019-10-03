@@ -130,7 +130,7 @@ One day that will be fixed. [There are on-going efforts](https://github.com/Juli
 
 ### Different ways to implement traits
 There are a few different ways to implement them, though all are broadly similar.
- - We're going to talk about the way based-on concrete types.
+ - We're going to talk about the way based on concrete types.
  - But you can do similar with `Type{<:SomeAbstractType}`, (Ugly, but flexible).
  - or even with values if they constant fold (like bools) particularly if you are happy to wrap them in `Val` when you want to dispatch on them (an example of this will be shown later).
 

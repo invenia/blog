@@ -164,7 +164,7 @@ def _AsList(x):
 
 But where will it end?
 What if other packages want to extend this?  
-What about other functions that also depend on is something is a list or not?
+What about other functions that also depend on if something is a list or not?
 
 ### Answer: Traits
 

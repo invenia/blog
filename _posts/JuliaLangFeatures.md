@@ -135,7 +135,7 @@ There are a few different ways to implement them, though all are broadly similar
  - Or even with values if they constantly fold (like `Bool`), particularly if you are happy to wrap them in `Val` when you want to dispatch on them (an example of this will be shown later).
 
 ### AsList a Python example
-In Python TensorFlow, these is a helper function, `_AsList`:
+In Python TensorFlow, this is a helper function, `_AsList`:
 
 ```python
 def _AsList(x):

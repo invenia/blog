@@ -175,7 +175,7 @@ What about other functions that also depend on if something is a list or not?
 ⚠️ Do note that at some point you have to document what properties a trait requires   
 (e.g. what methods must be implemented).
 There is no static type-checker enforcing it.
-You may want to write a test-suite for anything that has a trait that checks it works right.
+You may want to write a test suite for anything that has a trait that checks it works right.
 
 #### Advantages of Traits
  - You can do this after the type is declared (unlike a supertype).

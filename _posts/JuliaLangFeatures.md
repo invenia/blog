@@ -25,7 +25,7 @@ Some of these (✅) should be used when appropriate,
 while others (❌) are rarely appropriate, but are instructive.
 A particularly large portion of this post is about traits,
 because they are one of the most powerful and interesting julia features.
-They emerge of types, multiple dispatch,
+They emerge from types, and multiple dispatch,
 and the ability to dispatch on the types themselves (rather than just instances).
 We will talk about both the common use of traits on types,
 and also the very interesting (but less common) use of traits on functions.

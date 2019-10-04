@@ -32,7 +32,7 @@ and also the very interesting (but less common) use of traits on functions.
 The latter of which is an emergent feature of functions being instances of singleton types.
 
 There are lots of other cool features that are similarly emergent, which are not discussed in this post.
-Including, for example, that creating a vector using `Int[]` is actually just an overload of `getindex`, and that constructors are just overloads of `(::Type{<:T}()`.
+For example, creating a vector using `Int[]` is actually just an overload of `getindex`, and constructors are overloads of `(::Type{<:T}()`.
 
 
 ## ✖️ Juxtaposition multiplication, convenient syntax for Units

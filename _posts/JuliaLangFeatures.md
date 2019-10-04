@@ -139,10 +139,8 @@ def _AsList(x):
 ```
 
 
-This is supposed to convert scalars to single item lists. 
-It is useful for only needing to write code that deals with lists.
+This converts scalars to single item lists, and is useful because it only needs code that deals with lists. This is not really idiomatic python code, but TensorFlow uses it in the wild, so it runs on thousands of computers.
 
-This is not really idiomatic python code, but TensorFlow uses it in the wild, so it runs on thousands of computers.
 
 #### AsList fails for numpy arrays
 

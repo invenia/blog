@@ -87,10 +87,9 @@ end
 Base.:*(x::Any, U::Type{<:Unit}) = U(x)
 ```
 
-So, in the above code, we are overloading multiplication with a unit subtype.
-Not an instance of a unit subtype, but with the subtype itself.
-I.e. with `Meter` not with `Meter(2)`.
-That is what `::Type{<:Unit}` says.
+In the above code, we are overloading multiplication with a unit subtype, not an instance of a unit subtype, but with the subtype itself: `Meter` not `Meter(2)`.
+This is what `::Type{<:Unit}` says.
+
 
 We can see that if we try out the above code:
 ```julia

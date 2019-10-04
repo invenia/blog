@@ -38,7 +38,7 @@ Including, for example, that creating a vector using `Int[]` is actually just an
 ## ✖️ Juxtaposition multiplication, convenient syntax for Units
 
  - [Unitful](https://github.com/ajkeller34/Unitful.jl) is really cool.
- - Units can protect you against arithmetic mistakes.
+ - Units are helpful for protecting against arithmetic mistakes.
  - It is easy to write "2 meters" as `2m`, and units are used.
  - It is not magic.
 

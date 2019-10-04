@@ -125,7 +125,7 @@ Ironically, even though they are fairly well established today, `StridedArray` c
 [There are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality. 
 
 ### Different ways to implement traits
-There are a few different ways to implement them, though all are broadly similar.
+There are a few ways to implement traits, though all are broadly similar.
  - Here we will focus on the implementation based on concrete types.
  - Similar things can be done with `Type{<:SomeAbstractType}` (ugly, but flexible).
  - Or even with values if they are of types that [constant-fold](https://en.wikipedia.org/wiki/Constant_folding) (like `Bool`), particularly if you are happy to wrap them in `Val` when you want to dispatch on them (an example of this will be shown later).

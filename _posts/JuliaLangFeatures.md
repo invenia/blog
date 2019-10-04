@@ -338,12 +338,12 @@ julia> aslist("ABC")
 
 ## Traits on functions
 We can  also attach traits to functions,
-becuase functions are instances of singleton types,
+because functions are instances of singleton types,
 e.g. `foo::typeof(foo)`.
 We can use this to do declarative input transforms.
 
 ### Example: different functions expect the arrangement of observations to be different
-Difference ML Models might expect the inputs be:
+Different ML Models might expect the inputs be:
     - Iterator of Observations.
     - Matrix with Observations in Rows.
     - Matrix with Observations in Columns.
@@ -397,13 +397,13 @@ We had to know what each different function needed and use `eachcol`, and `permu
 Why should the user need to remember these details?
 We should encode them into the program.
 
-### Lets solve this with traits
+### Let's solve this with traits
 
 We  will attach a trait to each function that needed to rearrange its inputs.
 
 There is a more sophisticated version of this that we could do,
 which also attachs traits to inputs saying how the observations are currently arranged; or lets user specify.
-But for simplicity we will assume the data starts out, as a matrix with 1 observations per column.
+But, for simplicity, we will assume the data starts out as a matrix with 1 observations per column.
 
 #### Trait types
 So we are considering 3 possible ways a function might like its data to be arranged:
@@ -416,8 +416,8 @@ struct MatrixRowsOfObs <: ObsArrangement end
 ```
 
 #### Trait functions
-Now we encode that knowledge about each functions expectations into a trait.
-Rather than force the user to look it up from the documentation.
+Now we encode that knowledge about each function expectation into a trait,
+rather than force the user to look it up from the documentation.
 
 ```julia
 # Out intial code:
@@ -432,14 +432,13 @@ obs_arrangement(::typeof(fit!)) = MatrixRowsOfObs()
 obs_arrangement(::typeof(predict)) = MatrixRowsOfObs()
 ```
 
-We are also going to attach some simple traits to the data types.
-To say whether or not they contain observations.
+We are also going to attach some simple traits to the data types, to say whether or not they contain observations.
 We are just going to use [value types](https://docs.julialang.org/en/v1/manual/types/index.html#%22Value-types%22-1) for this, 
 rather than go and fully declare the trait-types.
-So we just skip strait to declaring the trait-functions:
+So we just skip straight to declaring the trait functions:
 
 ```julia
-# All matrixes contain observations
+# All matrices contain observations
 isobs(::AbstractMatrix) = Val{true}()
 
 # It must be iterator of vectors, else it doesn't contain observations
@@ -478,7 +477,7 @@ end
 ```
 
 #### Demo
-Now rather than calling things directly we use `model_call`
+Now, rather than calling things directly, we use `model_call`
 which takes care of rearranging things.
 See how the code is now not having to be aware of the particular cases for each different library?
 
@@ -509,9 +508,9 @@ It is basically the same code for each of them.
 **In short: Traits: Useful**
 
 ## Closures, they give you "Classic OO"
-"Classic OO" has classes, with member functions (method)
+"Classic OO" has classes with member functions (method)
 that can see all the fields and methods,
-but that outside the class's methods,
+but that outside the class' methods,
 only public fields and methods can be seen.
 
 Achieving this with closures is a classic functional programming trick,
@@ -583,7 +582,7 @@ Quack!
 ### How does this work?
 Closures return singleton objects, with the directly referenced closed variables as fields.
 All our public fields/methods are directly referenced.
-But our private fields (e.g `age`, `quack`) is not directly referenced, but are closed over other methods that use them.
+But our private fields (e.g `age`, `quack`) are not directly referenced, but are closed over other methods that use them.
 
 #### So we can actually see those private methods and fields via accessing the public method closures
 
@@ -600,13 +599,12 @@ julia> 🦆.inc_age.age
 Core.Box(1)
 ```
 `Box` is the type julia uses for variables that closed over, but that might be rebound.
-Which is the case for primatives (like `Int`) which are rebound whenever they are incremented.
+That is the case for primatives (like `Int`) which are rebound whenever they are incremented.
 
-This is a neat example of how closures are basically callable namedtuples.
+This is a neat example of how closures are basically callable NamedTuples.
 While this kind of code itself should never be done since Julia has a perfectly functional system for dispatch, and seems to get along fine without Classic OO style encapsulation,
 knowing how closures work opens other opertunities to see how they can be used.
-In our [ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl/) project, we are considering the use of closures as callable named tuples as part of a [difficult problem](https://github.com/JuliaDiff/ChainRulesCore.jl/issues/53#issuecomment-533833058) in extensibility and defaults.
-Where the default is to call the closure, but you could extend it by using it like a named tuple and accessing its fields.
+In our [ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl/) project, we are considering the use of closures as callable named tuples as part of a [difficult problem](https://github.com/JuliaDiff/ChainRulesCore.jl/issues/53#issuecomment-533833058) in extensibility and defaults, where the default is to call the closure, but you could extend it by using it like a named tuple and accessing its fields.
 
 # How Cassette etc. works
 
@@ -630,7 +628,7 @@ Issue [#21146](https://github.com/JuliaLang/julia/issues/21146)
 PR [#22440](https://github.com/JuliaLang/julia/pull/22440)
 <img src="{{ site.baseurl }}/public/images/cassette-pr.png"/>
 
-### This super-powerful
+### This is super-powerful
 
 This capacity allows one to build:
  - AutoDiff tools (ForwardDiff2, Zygote, Yota)
@@ -642,9 +640,9 @@ This capacity allows one to build:
 and more.
 
 One of the most basic features is to effectively overload what it means to call a function.
-Call overloading as much more general than operator overloading.
+Call overloading is much more general than operator overloading.
 Since it applies to every call special cased as appropriate,
-where as operator overloading applies to just one call and just one set of types.
+whereas operator overloading applies to just one call and just one set of types.
 
 ### Consider Normal Functions
 
@@ -656,17 +654,16 @@ function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
 end
 ```
 
-It at runtime checks the what fields each nametuple has.
-To decide what will be in the merge.
+It checks at runtime what fields each nametuple has, to decide what will be in the merge.
 
-But we know all that information base on the types alone.
+But we know all that information based on the types alone.
 
 ### Now think about Generated Functions
 
 [Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1) take types as inputs and 
 return the AST (Abstract Syntax Tree) for what code should run.
 It is a kind of metaprogramming.
-So as a computation of the types we can workout exactly what to return.
+So, as a computation of the types we can workout exactly what to return.
 It can generate code that only accesses the fields we want.
 
 ```julia
@@ -684,7 +681,7 @@ This gives substantial preformance improvements.
 It is not magic, Cassette is not specially baked into the compiler.
 `@generated` function can return a `Expr` **or** a `CodeInfo`
 We return a `CodeInfo` based on a modified version of one for a function argument.
-We can use `@code_lowered` to look up what the original `CondeInfo` would have been
+We can use `@code_lowered` to look up what the original `CondeInfo` would have been.
 `@code_lowered` gives back one particular representation of the Julia code: the **Untyped IR**.
 
 ## Julia: layers of representenstation:
@@ -702,11 +699,11 @@ You can retrieve the different representations using the functions/macros indica
 
 ### Untyped IR: this is what we are working with
 This is Basically a linearization of the AST.
- - Only 1 operation per statement (Nested expressions get broken up) 
- - the return values for each statement is accessed as `SSAValue(index)`
- - Variables become Slots
- - Control-flow becomes jumps (like Goto)
- - function names become qualified as `GlobalRef(mod, func)`
+ - Only 1 operation per statement (nested expressions get broken up);
+ - the return values for each statement are accessed as `SSAValue(index)`;
+ - variables become Slots;
+ - control-flow becomes jumps (like Goto);
+ - function names become qualified as `GlobalRef(mod, func)`.
 
 It isn't great to work-with.
 It is ok to read, but writing it gives a special kind of headache.
@@ -752,10 +749,10 @@ julia> rewritten(foo)
 
 ### Overdub/recurse.
 Rather than replacing each call with `call_and_print`,
-We could make it call something that would do the work we are interested in,
+we could make it call something that would do the work we are interested in,
 and then call `rewriten` on that function.
-So the not only does the function we call get rewritten,
-but so does every function it calls get written, all the way down.
+So, not only does the function we call get rewritten,
+but so does every function it calls, all the way down.
 
 ```julia
 function work_and_recurse(f, args...)
@@ -770,12 +767,12 @@ but that is the core of it.
 Recursive invocation of generated functions that rewrite the IR, like what is returned by `@code_lowered`.
 
 ## Conclusion: JuliaLang is not magic
- - Features give rise to other features
- - Types turn out to be very powerful
- - Especially with multiple dispatch
+ - Features give rise to other features.
+ - Types turn out to be very powerful.
+ - Especially with multiple dispatch.
 
 All just fall out of the combination of other features.
- - Unit syntax
- - Traits
- - Closure-based Objects
- - Contextual Compiler Passes
+ - Unit syntax.
+ - Traits.
+ - Closure-based Objects.
+ - Contextual Compiler Passes.

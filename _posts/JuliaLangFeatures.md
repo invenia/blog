@@ -124,7 +124,7 @@ This isn't true, what is true is that:
 ### 🙋🏻‍♂️ These are commonly called Holy traits.
 Not out of religious glorification, but after [Tim Holy](https://github.com/timholy).
 Who is pretty great, to be fair, but still his ideas are not themselves religious objects.
-He originally proposed them to [make StridedArrays extensible](https://github.com/JuliaLang/julia/issues/2345#issuecomment-54537633).
+They were originally proposed them to [make StridedArrays extensible](https://github.com/JuliaLang/julia/issues/2345#issuecomment-54537633).
 Ironically, even though they are fairly well established today, `StridedArray` continues to not use them.
 One day that will be fixed. [There are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality. 
 

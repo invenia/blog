@@ -161,9 +161,8 @@ What about other functions that also depend on if something is a list or not?
 
 ### Answer: Traits
 
- - Traits let you mark types as having particular properties.
- - In julia, in particular, you can dispatch on these traits.
- - Often, they will compile out of existence (due to static dispatch, during specialization.).
+Traits allow for marking types as having particular properties. In julia, in particular, dispatch works on these traits. Often they will compile out of existence (due to static dispatch, during specialization.).
+
 
 ⚠️ Do note that at some point you have to document what properties a trait requires   
 (e.g. what methods must be implemented).

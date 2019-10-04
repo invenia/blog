@@ -100,10 +100,6 @@ Meter{Int64}(5)
 It shows that we create a `Meter` object with `val=5`.
 
 From there, to get to a full unit system, one needs to overload all the stuff that numbers need, like addition and multiplication.
-But that is the core trick.
-
-Now we have our own units-style syntactic sugar
-
 ## Traits
 Inheritance is a gun with only one bullet, at least in the case of single-inheritance like Julia uses.
 Once you have a super-type, you can't have another.

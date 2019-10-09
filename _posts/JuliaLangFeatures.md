@@ -19,9 +19,9 @@ This post will describe how several interesting features are implemented:
  - ✅ Unit synatic sugar (`2kg`),
  - ✅ Traits,
  - ❌ Pseudo-OO objects with public/private methods,
- - ❌ Dynamic Source Tranformation / Custom Compiler Passes (Cassette). 
- 
-Some of these (✅) should be used when appropriate,  
+ - ❌ Dynamic Source Tranformation / Custom Compiler Passes (Cassette).
+
+Some of these (✅) should be used when appropriate,
 while others (❌) are rarely appropriate, but are instructive.
 A particularly large portion of this post is about traits,
 because they are one of the most powerful and interesting julia features.
@@ -106,7 +106,7 @@ Once you have a super-type, you can't have another.
 Traits are one method of achieving something like multiple inheritiance.
 They allow for a form of [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)), that is orthogonal to the inheritence tree.
 They can be implemented using functions of types.
- 
+
 In an earlier [blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) this is explained using slightly different take.
 Some parts (including the initial motivating example), are very similar.
 
@@ -121,7 +121,7 @@ This isn't true, what is true is that:
 Not out of religious glorification, but after [Tim Holy](https://github.com/timholy)/
 They were originally proposed them to [make StridedArrays extensible](https://github.com/JuliaLang/julia/issues/2345#issuecomment-54537633).
 Ironically, even though they are fairly well established today, `StridedArray` continues to not use them.
-[There are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality. 
+[There are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality.
 
 ### Different ways to implement traits
 There are a few ways to implement traits, though all are broadly similar.
@@ -129,7 +129,7 @@ There are a few ways to implement traits, though all are broadly similar.
  - Similar things can be done with `Type{<:SomeAbstractType}` (ugly, but flexible).
  - Or even with values if they are of types that [constant-fold](https://en.wikipedia.org/wiki/Constant_folding) (like `Bool`), particularly if you are happy to wrap them in `Val` when you want to dispatch on them (an example of this will be shown later).
 
-### AsList a Python example
+### A motivating example from Python: the  `AsList` function
 In Python TensorFlow, this is a helper function, `_AsList`:
 
 ```python
@@ -140,31 +140,31 @@ def _AsList(x):
 
 This converts scalars to single item lists, and is useful because it only needs code that deals with lists. This is not really idiomatic python code, but TensorFlow uses it in the wild, so it runs on thousands of computers.
 
-
-#### AsList fails for numpy arrays
+However, `AsList` fails for numpy arrays:
 
 ```python
 >>> _AsList(np.asarray([1,2,3]))
 [array([1, 2, 3])]
 ```
 
-#### Can we fix it?
-
+We could fix it by adding the numpy array to the list it checks against:
 ```python
 def _AsList(x):
     return x if isinstance(x, (list, tuple, np.ndarray)) else [x]
 ```
 
 But where will it end?
-What if other packages want to extend this?  
+What if other packages want to extend this?
 What about other functions that also depend on if something is a list or not?
 
 ### Answer: Traits
 
-Traits allow for marking types as having particular properties. In julia, in particular, dispatch works on these traits. Often they will compile out of existence (due to static dispatch, during specialization.).
+Traits allow for marking types as having particular properties.
+In julia, in particular, dispatch works on these traits.
+Often they will compile out of existence (due to static dispatch, during specialization.).
 
 
-⚠️ Do note that at some point you have to document what properties a trait requires   
+⚠️ Do note that at some point you have to document what properties a trait requires
 (e.g. what methods must be implemented).
 There is no static type-checker enforcing it.
 You may want to write a test suite for anything that has a trait that checks it works right.
@@ -173,16 +173,16 @@ You may want to write a test suite for anything that has a trait that checks it 
  - You can do this after the type is declared (unlike a supertype).
  - You don't have to do it upfront and can add new types later (unike a `Union`).
  - You can have otherwise unrelated types (unlike a supertype).
- 
 
-#### Traits have a few parts: 
+
+#### Traits have a few parts:
  - The trait types: these are the different traits a type can have.
  - The trait function: this tells you what traits a type has.
  - Trait dispatch: using the traits.
 
 #### The type of types
-
-Types are values, and so themselves have a type (`DataType`).
+To understand how traits work, one should understand about the type of types in Julia.
+Types are values, and so themselves have a type: `DataType`.
 However, they also have the special pseudo-supertype `Type`.
 A type `T` acts like `T<:Type{T}`.
 
@@ -196,8 +196,8 @@ We can dispatch on `Type{T}` and have it resolved at compile time
 
 ### Trait Type
 This is the type that is used to make having the particular trait.
- 
-In this exanmple we will consider a trait that highlights the properties of a type for statistical modeling.   
+
+In this exanmple we will consider a trait that highlights the properties of a type for statistical modeling.
 Like MLJ's Sci-type, or StatsModel's schema.
 
 ```julia
@@ -208,9 +208,9 @@ struct Ordinal <: StatQualia end
 struct Categorical <: StatQualia end
 struct Normable <: StatQualia end
 ```
- 
+
 ### Trait function
-The trait function take a type as input, and returns an instance of the trait type.  
+The trait function take a type as input, and returns an instance of the trait type.
 We use the trait function to declare what traits a particular type has.
 
 So we are going to say things like floats are continous, booleans are categorical etc.
@@ -382,7 +382,7 @@ mean(estimated_classes_svm .== labels)
 ```
 
 Then we can also try DecisionTree.jl.
-This library expects data to come as a matrix with 1 observation per row.  
+This library expects data to come as a matrix with 1 observation per row.
 ```julia
 using DecisionTree
 tree = DecisionTreeClassifier(max_depth=10)
@@ -433,7 +433,7 @@ obs_arrangement(::typeof(predict)) = MatrixRowsOfObs()
 ```
 
 We are also going to attach some simple traits to the data types, to say whether or not they contain observations.
-We are just going to use [value types](https://docs.julialang.org/en/v1/manual/types/index.html#%22Value-types%22-1) for this, 
+We are just going to use [value types](https://docs.julialang.org/en/v1/manual/types/index.html#%22Value-types%22-1) for this,
 rather than go and fully declare the trait-types.
 So we just skip straight to declaring the trait functions:
 
@@ -514,30 +514,39 @@ but that outside the class' methods,
 only public fields and methods can be seen.
 
 Achieving this with closures is a classic functional programming trick,
-but I first saw it applied to julia in one of   
+but I first saw it applied to julia in one of
 [Jeff Bezanson's rare Stack Overflow posts](https://stackoverflow.com/a/39150509/179081).
 It is pretty elegant in Julia.
 
-### Consider a Duck type.
-We use closes to define it as follows:
+I will emphasize, **don't do this in real Julia code**.
+It is unideomatic, and it is likely to hit edge-cases the compiler doesn't optimize well.
+Especially the [infamous closure boxing bug](https://github.com/JuliaLang/julia/issues/15276).
+(Even more so because it often actually requires boxing (see below); so the boxing of things won't even be a bug.)
+
+### Consider a type representing a Duck
+We use closures to define it as follows:
 
 ```julia
 function newDuck(name)
+    # Declare fields:
     age=0
+
+    # Declare methods:
     get_age() = age
     inc_age() = age+=1
-    
+
     quack() = println("Quack!")
     speak() = quack()
-    
+
     #Declare public:
     ()->(get_age, inc_age, speak, name)
 end
 
 ```
 
+It can do various things one would expect from classic "OO" encapsulation.
 
-##### 🏗 Can construct an object and can call public methods
+We can construct an object and can call public methods:
 
 ```julia
 julia> 🦆 = newDuck("Bill")
@@ -548,7 +557,7 @@ julia> 🦆.get_age()
 ```
 
 
-##### Public methods can change private fields
+The public methods can change private fields
 
 ```julia
 julia> 🦆.inc_age()
@@ -559,21 +568,21 @@ julia> 🦆.get_age()
 ```
 
 
-##### Outside the class we can't access private fields
+Outside of the class we can't access private fields:
 
 ```julia
 julia> 🦆.age
 ERROR: type ##7#12 has no field age
 ```
 
-##### Can't access private methods
+Nor can we call private methods:
 
 ```julia
 julia> 🦆.quack()
 ERROR: type ##7#12 has no field quack
 ```
 
-##### But accessing their functionality via public methods works: 
+But accessing their functionality via public methods works:
 ```julia
 julia> 🦆.speak()
 Quack!
@@ -584,7 +593,7 @@ Closures return singleton objects, with the directly referenced closed variables
 All our public fields/methods are directly referenced.
 But our private fields (e.g `age`, `quack`) are not directly referenced, but are closed over other methods that use them.
 
-#### So we can actually see those private methods and fields via accessing the public method closures
+So we can actually see those private methods and fields via accessing the public method closures:
 
 ```julia
 julia> 🦆.speak.quack
@@ -598,9 +607,39 @@ Quack!
 julia> 🦆.inc_age.age
 Core.Box(1)
 ```
-`Box` is the type julia uses for variables that closed over, but that might be rebound.
-That is the case for primatives (like `Int`) which are rebound whenever they are incremented.
 
+#### An aside on Boxing
+Boxing was mentioned earlier.
+The `Box` type is a lot like the `Ref` type, in functioning and purpose.
+`Box` is the type Julia uses for variables that closed over, but that might be rebound.
+That is the case for primatives (like `Int`) which are rebound whenever they are incremented.
+One should be clear on the difference between mutating the contents of a variable,
+and rebinding that variable name.
+
+```julia
+julia> x = [1, 2, 3, 4];
+
+julia> objectid(x)
+0x79eedc509237c203
+
+julia> x .= [10, 20, 30, 40];  # mutating contents
+
+julia> objectid(x)
+0x79eedc509237c203
+
+julia> x = [100, 200, 300, 400];  # rebinding the variable name
+
+julia> objectid(x)
+0xfa2c022285c148ed
+```
+
+In closures boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276),
+does mean julia will sometime overly eagerly Box variables because it thinks they might be rebound.
+It has no change on what the code does, but it does impact performance.
+
+
+
+### The implementation of closures as basically callable named tuples is neat
 This is a neat example of how closures are basically callable NamedTuples.
 While this kind of code itself should never be done since Julia has a perfectly functional system for dispatch, and seems to get along fine without Classic OO style encapsulation,
 knowing how closures work opens other opertunities to see how they can be used.
@@ -627,6 +666,8 @@ Issue [#21146](https://github.com/JuliaLang/julia/issues/21146)
 
 PR [#22440](https://github.com/JuliaLang/julia/pull/22440)
 <img src="{{ site.baseurl }}/public/images/cassette-pr.png"/>
+
+Technically, those do describe everything about Cassette, but only in passing.
 
 ### This is super-powerful
 
@@ -660,7 +701,7 @@ But we know all that information based on the types alone.
 
 ### Now think about Generated Functions
 
-[Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1) take types as inputs and 
+[Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1) take types as inputs and
 return the AST (Abstract Syntax Tree) for what code should run.
 It is a kind of metaprogramming.
 So, as a computation of the types we can workout exactly what to return.
@@ -694,7 +735,7 @@ Julia has many representations of the code it moves through during compilation.
  - Typed IR: `@code_typed`
  - LLVM: `@code_llvm`
  - ASM: `@code_native`
- 
+
 You can retrieve the different representations using the functions/macros indicated in brackets.
 
 ### Untyped IR: this is what we are working with

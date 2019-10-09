@@ -57,8 +57,8 @@ true
 ```
 
 
-### How does this work? Juxtaposition Multiplication
-A literal number placed before an expression results in multiplication.
+How does this work? Juxtaposition Multiplication:
+a literal number placed before an expression results in multiplication.
 
 
 ```julia
@@ -73,8 +73,7 @@ julia> 2sin(x)
 ```
 
 
-### How do we use this to make Units work?
-So, to make this work, we are going to make juxtaposition multiplication work for us.
+We can use this to create out unitful syntactic sugar.
 This is a simplified version of what goes on under the hood of Unitful.jl.
 We need to overload the multiplication with the constructor, to invoke that constructor.
 
@@ -110,21 +109,19 @@ They can be implemented using functions of types.
 In an earlier [blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) this is explained using slightly different take.
 Some parts (including the initial motivating example), are very similar.
 
-### Sometimes people say Julia doesn't have traits
-
+Sometimes people say Julia doesn't have traits.
 This isn't true, what is true is that:
  - Julia doesn't have syntatic sugar for traits.
  - Julia doesn't have ubiqutious traits.
  - Traits are even used in the Base standard library for iterators: `IteratorSize` and `IteratorEltype`, and for several other interfaces. [[Docs]](https://docs.julialang.org/en/v1/manual/interfaces/#man-interface-iteration-1).
 
-### 🙋🏻‍♂️ These are commonly called Holy traits.
+These are commonly called Holy traits.
 Not out of religious glorification, but after [Tim Holy](https://github.com/timholy)/
 They were originally proposed them to [make StridedArrays extensible](https://github.com/JuliaLang/julia/issues/2345#issuecomment-54537633).
 Ironically, even though they are fairly well established today, `StridedArray` continues to not use them.
 [There are on-going efforts](https://github.com/JuliaDiffEq/ArrayInterface.jl/) to add more traits to arrays, which one-day no-doubt will lead to powerful and general BLAS type functionality.
 
-### Different ways to implement traits
-There are a few ways to implement traits, though all are broadly similar.
+There are a few different ways to implement traits, though all are broadly similar.
  - Here we will focus on the implementation based on concrete types.
  - Similar things can be done with `Type{<:SomeAbstractType}` (ugly, but flexible).
  - Or even with values if they are of types that [constant-fold](https://en.wikipedia.org/wiki/Constant_folding) (like `Bool`), particularly if you are happy to wrap them in `Val` when you want to dispatch on them (an example of this will be shown later).
@@ -169,13 +166,13 @@ Often they will compile out of existence (due to static dispatch, during special
 There is no static type-checker enforcing it.
 You may want to write a test suite for anything that has a trait that checks it works right.
 
-#### Advantages of Traits
+The advantages of Traits:
  - You can do this after the type is declared (unlike a supertype).
  - You don't have to do it upfront and can add new types later (unike a `Union`).
  - You can have otherwise unrelated types (unlike a supertype).
 
 
-#### Traits have a few parts:
+### Traits have a few parts:
  - The trait types: these are the different traits a type can have.
  - The trait function: this tells you what traits a type has.
  - Trait dispatch: using the traits.
@@ -224,7 +221,7 @@ statqualia(::Type{<:AbstractString}) = Categorical()
 statqualia(::Type{<:Complex}) = Normable()
 ```
 
-### Using our traits
+### Trait dispatch
 To use a trait we need to re-dispatch upon it.
 This is where we take a the type of an input,
 and invoke the trait function on it, to get objects of the trait type,
@@ -237,14 +234,17 @@ and it will be defined differently depending on which `statqualia` they have.
 
 ```julia
 using LinearAlgebra
+
+# This is the trait re-dispatch, get the trait from the type
 bounds(xs::AbstractVector{T}) where T = bounds(statqualia(T), xs)
 
+# these functions dispatch on the trait
 bounds(::Categorical, xs) = unique(xs)
 bounds(::Normable, xs) = maximum(norm.(xs))
 bounds(::Union{Ordinal, Continuous}, xs) = extrema(xs)
 ```
 
-Example of use:
+#### Example of use:
 
 ```julia
 julia> bounds([false, false, true])
@@ -277,7 +277,7 @@ julia> bounds([[1,1], [-2,4], [0,-2]])
 
 ### So back to `AsList`
 
-#### Define our trait type and trait function:
+Define our trait type and trait function:
 
 ```julia
 struct List end
@@ -289,7 +289,7 @@ islist(::Type{<:Number}) = Nonlist()
 ```
 
 
-#### Define our trait dispatch:
+Define our trait dispatch:
 
 ```julia
 aslist(x::T) where T = aslist(islist(T), x)
@@ -298,7 +298,7 @@ aslist(::Nonlist, x) = [x]
 ```
 
 
-#### Demo:
+Demo:
 ```julia
 julia> aslist(1)
 1-element Array{Int64,1}:

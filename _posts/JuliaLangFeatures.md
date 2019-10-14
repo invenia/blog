@@ -350,7 +350,7 @@ The following examples use [LIBSVM.jl](https://github.com/mpastell/LIBSVM.jl), a
 An alternative would be to use the [MLJ interface](https://github.com/alan-turing-institute/MLJ.jl) instead, 
 which takes care of this kind of thing.
 
-First we need some basic functions to deal with our data, 
+In this demonstration of the simple use of a few ML libraries, first we need some basic functions to deal with our data.
 for example `get_true_classes` expects an iterator of observations.
 
 ```julia

@@ -592,7 +592,7 @@ in extensibility and defaults, where the default is to call the closure,
 which could be extended by using it like a named tuple and accessing its fields.
 
 
-# Cassette
+# Cassette  etc.
 
  <img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
 

@@ -288,7 +288,7 @@ aslist(::List, x) = x
 aslist(::Nonlist, x) = [x]
 ```
 
-The above then allows us to do:
+This allows `aslist` to work as expected.
 
 ```julia
 julia> aslist(1)

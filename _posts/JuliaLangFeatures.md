@@ -280,7 +280,7 @@ islist(::Type{<:Tuple}) = List()
 islist(::Type{<:Number}) = Nonlist()
 ```
 
-The we can define trait dispatch:
+The we define trait dispatch:
 
 ```julia
 aslist(x::T) where T = aslist(islist(T), x)

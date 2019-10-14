@@ -55,7 +55,7 @@ julia> 150N == 10kg * 15m / 1s^2
 true
 ```
 
-So how does this work? The answer is "Juxtaposition Multiplication": a literal number 
+So, how does this work? The answer is "Juxtaposition Multiplication": a literal number 
 placed before an expression results in multiplication.
 
 ```julia

@@ -123,7 +123,7 @@ particularly if you are happy to wrap them in `Val` when dispatching on them (an
 
 There are various advantages of traits:
  - Can be used after the type is declared (unlike a supertype).
- - They don't have to be created upfront, so we can add new types later (unike a `Union`).
+ - Don't have to be created upfront, so we can add new types later (unlike a `Union`).
  - Otherwise unrelated types (unlike a supertype) can be used.
 
 

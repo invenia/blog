@@ -347,7 +347,7 @@ there are good performance-related reasons to choose one the above options depen
 As a user of a model however, we should not have to think about this.
 
 The following examples use [LIBSVM.jl](https://github.com/mpastell/LIBSVM.jl), and [DecisionTree.jl](https://github.com/bensadeghi/DecisionTree.jl).
-An alternative would be to use the [MLJ interface](https://github.com/alan-turing-institute/MLJ.jl) instead, 
+In practice we can just use the [MLJ interface](https://github.com/alan-turing-institute/MLJ.jl) instead, 
 which takes care of this kind of thing.
 
 In this demonstration of the simple use of a few ML libraries, first we need some basic functions to deal with our data.

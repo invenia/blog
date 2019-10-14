@@ -102,7 +102,7 @@ Traits are one way to get something similar to multiple inheritance under such c
 They allow for a form of [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)), 
 that is orthogonal to the inheritence tree, and can be implemented using functions of types.
 In an earlier [blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) 
-this is explained using slightly different take.
+this is explained using a slightly different take.
 
 Sometimes people claim that Julia doesn't have traits, which is not correct.
 Julia does not have _syntatic sugar_ for traits, or ubiqutious traits.

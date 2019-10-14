@@ -166,7 +166,7 @@ test suite for anything that has a trait which checks that it works properly.
 
 ### The Parts of Traits
 
-Its also interesting to note that traits have a few parts: 
+Traits have a few key parts: 
  - The trait types: these are the different traits a type can have.
  - The trait function: this tells you what traits a type has.
  - Trait dispatch: using the traits.

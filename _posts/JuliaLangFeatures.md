@@ -27,7 +27,7 @@ because they are one of the most powerful and interesting julia features.
 They emerge from types, multiple dispatch,
 and the ability to dispatch on the types themselves (rather than just instances).
 We will talk about both the common use of traits on types,
-and also the very interesting--but less common--use of traits on functions.
+and also the very interesting---but less common---use of traits on functions.
 The latter is an emergent feature of functions being instances of singleton types.
 
 There are many other features that are similarly emergent, which are not discussed in this post.

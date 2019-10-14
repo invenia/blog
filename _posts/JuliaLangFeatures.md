@@ -466,7 +466,7 @@ end
 
 Now, rather than calling things directly, we can use `model_call`
 which takes care of rearranging things.
-Note that the code no longer needs to be aware of the particular cases for each library!
+Notice that now the code no longer needs to be aware of the particular cases for each library, which makes things much easier for the end-user: just use `model_call` and don't worry about how the data is arranged.
 
 ```julia
 inputs = rand(100, 1_000);  # 100 features, 1000 observations

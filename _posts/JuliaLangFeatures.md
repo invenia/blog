@@ -256,7 +256,7 @@ julia> bounds([1+1im, -2+4im, 0+-2im])
 ```
 
 We can also extend traits after the fact, so, for example, if we want to add the
-property that vectors have norms defined, we could define:
+property that vectors have norms defined, we could define
 
 ```julia
 julia> statqualia(::Type{<:AbstractVector}) = Normable()

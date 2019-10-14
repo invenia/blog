@@ -351,7 +351,7 @@ In practice we can just use the [MLJ interface](https://github.com/alan-turing-i
 which takes care of this kind of thing.
 
 In this demonstration of the simple use of a few ML libraries, first we need some basic functions to deal with our data.
-for example `get_true_classes` expects an iterator of observations.
+In particular we want to define `get_true_classes` which as it would naturally be written would expect an iterator of observations.
 
 ```julia
 using Statistics

@@ -204,7 +204,7 @@ struct Normable <: StatQualia end
 The trait function takes a type as input, and returns an instance of the trait type.  
 We use the trait function to declare what traits a particular type has.
 
-For example, we can say things like floats are continous, booleans are categorical, etc...
+For example, we can say things like floats are continuous, booleans are categorical, etc.
 ```julia
 statqualia(::Type{<:AbstractFloat}) = Continuous()
 statqualia(::Type{<:Integer}) = Ordinal()

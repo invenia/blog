@@ -98,7 +98,7 @@ such as addition and multiplication. The final result is some units-style syntac
 
 Inheritance is a gun with only one bullet, at least in the case of single-inheritance like Julia uses.
 Single-inheritance means that, once something has a super-type, there can't be another.
-Traits are one way to get something like multiple inheritiance.
+Traits are one way to get something similar to multiple inheritance under such conditions.
 They allow for a form of [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)), 
 that is orthogonal to the inheritence tree, and can be implemented using functions of types.
 In an earlier [blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) 

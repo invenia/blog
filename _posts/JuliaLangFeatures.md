@@ -425,7 +425,7 @@ obs_arrangement(::typeof(predict)) = MatrixRowsOfObs()
 
 We are also going to attach some simple traits to the data types to say whether or not they contain observations.
 We will use [value types](https://docs.julialang.org/en/v1/manual/types/index.html#%22Value-types%22-1) for this, 
-rather than fully declare the trait-types, so we can just skip straight to declaring the trait functions:
+rather than fully declare the trait types, so we can just skip straight to declaring the trait functions:
 
 ```julia
 # All matrices contain observations

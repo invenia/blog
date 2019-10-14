@@ -269,7 +269,7 @@ julia> bounds([[1,1], [-2,4], [0,-2]])
 
 ### Back to `AsList`
 
-Lets first define a trait type and trait function:
+First, we define the trait type and trait function:
 
 ```julia
 struct List end

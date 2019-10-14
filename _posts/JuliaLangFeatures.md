@@ -171,8 +171,8 @@ Traits have a few key parts:
  - The trait function: this tells you what traits a type has.
  - Trait dispatch: using the traits.
 
-Before discussing the above in more detail, note that types are values, 
-and so themselves have a type (`DataType`).
+To understand how traits work, it is important to understand the type of types in Julia.
+Types are values, so themselves have a type: `DataType`.
 However, they also have the special pseudo-supertype `Type`, so a type `T` acts like `T<:Type{T}`.
 
 ```julia

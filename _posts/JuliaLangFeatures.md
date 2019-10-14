@@ -517,7 +517,7 @@ end
 
 ```
 
-Now we caan construct an object and call public methods:
+We can construct an object and can call public methods:
 
 ```julia
 julia> 🦆 = newDuck("Bill")

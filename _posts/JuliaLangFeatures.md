@@ -497,7 +497,6 @@ mean(estimated_classes_tree .== labels)
 
 "Classic OO" has classes with member functions (methods) that can see all the fields and methods,
 but that outside the class' methods, only public fields and methods can be seen. 
-Achieving this with closures is a classic functional programming trick, and it is fairly elegant in julia.
 As an example see one of Jeff Bezanson's rare [Stack Overflow posts](https://stackoverflow.com/a/39150509/179081).
 
 Consider a Duck type: we can use closures to define it as follows:

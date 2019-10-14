@@ -222,7 +222,7 @@ This is where we take the type of an input,
 and invoke the trait function on it to get objects of the trait type,
 then dispatch on those.
 
-For the following example we first need to define a `bounds` function.
+In the following example we are going to define a `bounds` function.
 This function will define some indication of the range of values a particular type has.
 It will be defined on a collection of objects with a particular trait,
 and it will be defined differently depending on which `statqualia` they have.

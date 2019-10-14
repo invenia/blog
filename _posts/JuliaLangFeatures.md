@@ -91,7 +91,7 @@ Meter{Int64}(5)
 This shows that we create a `Meter` object with `val=5`.
 
 To get to a full units system, we then need to overload everything that numbers need to work with, 
-such as addition and multiplication. The final results is a units-style syntactic sugar.
+such as addition and multiplication. The final result is some units-style syntactic sugar.
 
 
 ## Traits

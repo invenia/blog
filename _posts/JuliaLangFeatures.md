@@ -363,7 +363,7 @@ labels = get_true_classes(eachcol(inputs));
 ```
 
 For simplicity, we will simply test on our training data,
-which should be avoided in general (an exception is to validate that training worked).
+which should be avoided in general (outside of simple validation that training is working).
 First lets try LIBSVM, which expect the data to be a matrix with 1 observation per column.
 
 ```julia

@@ -397,7 +397,8 @@ There is a more sophisticated version of this,
 which also attaches traits to inputs saying how the observations are currently arranged; or lets the user specify.
 For simplicity, we will assume the data starts out as a matrix with 1 observations per column.
 
-We are considering 3 possible ways a function might like its data to be arranged:
+We are considering 3 possible ways a function might like its data to be arranged.
+Each of these will define a different trait type.
 ```julia
 abstract type ObsArrangement end
 

@@ -343,7 +343,7 @@ More specifically, different machine learning models might expect the inputs be:
 - Matrix with Observations in Columns.
 
 This isn't a matter of personal perference or different field standards; 
-there are good performance related reasons to choose one the above options depending on what operations are needed.
+there are good performance-related reasons to choose one the above options depending on what operations are needed.
 As a user of a model however, we should not have to think about this.
 
 The following examples use [LIBSVM.jl](https://github.com/mpastell/LIBSVM.jl), and [DecisionTree.jl](https://github.com/bensadeghi/DecisionTree.jl).

@@ -743,7 +743,7 @@ We define a generated function `rewritten`,
 that makes a copy of the untyped IR, a  `CodeInfo` object, that it gets back from `@code_lowered`
 and then mutates it,
 replacing each call with a call to the function `call_and_print`.
-It then returns the and new `CodeInfo` to be run when it is called.
+It then returns the new `CodeInfo` to be run when it is called.
 
 ```julia
 call_and_print(f, args...) = (println(f, " ", args); f(args...))

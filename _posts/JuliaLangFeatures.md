@@ -23,7 +23,7 @@ This post will describe how several interesting features are implemented:
 Some of these (✅) should be used when appropriate,  
 while others (❌) are rarely appropriate, but are instructive.
 A particularly large portion of this post is about traits,
-because they are one of the most powerful and interesting julia features.
+because they are one of the most powerful and interesting Julia features.
 They emerge from types, multiple dispatch,
 and the ability to dispatch on the types themselves (rather than just instances).
 We will talk about both the common use of traits on types,
@@ -155,7 +155,7 @@ def _AsList(x):
 But where will it end? What if other packages want to extend this?  
 What about other functions that also depend on if something is a list or not?
 The answer here is traits, which allow for marking types as having particular properties. 
-In julia, in particular, dispatch works on these traits. 
+In Julia, in particular, dispatch works on these traits. 
 Often they will compile out of existence (due to static dispatch, during specialization).
 
 Note that at some point we have to document what properties a trait requires   
@@ -594,7 +594,7 @@ Core.Box(1)
 
 
 The `Box` type is similar to the `Ref` type, in function and purpose.
-`Box` is the type julia uses for variables that are closed over, but which might be rebound.
+`Box` is the type Julia uses for variables that are closed over, but which might be rebound.
 This is the case for primitives (like `Int`) which are rebound whenever they are incremented.
 It is important to be clear on the difference between mutating the contents of a variable,
 and rebinding that variable name.
@@ -617,7 +617,7 @@ julia> objectid(x)
 ```
 
 In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276)
-does mean julia will sometime over-eagerly box variables because it thinks they might be rebound.
+does mean Julia will sometimes over-eagerly box variables because it thinks they might be rebound.
 It has no change on what the code does, but it does impact performance.
 
 While this kind of code itself should never be used, since Julia has a perfectly 
@@ -634,7 +634,7 @@ which could be extended by using it like a named tuple and accessing its fields.
 
  <img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
 
-Cassette/IRTools (Zygote) is a notable julia feature.
+Cassette/IRTools (Zygote) is a notable Julia feature.
 This feature is sometimes called:
 Custom Compiler Passes,
 Contextual Dispatch,

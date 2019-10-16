@@ -689,7 +689,9 @@ However, note that we know all this information based on the types alone.
 Next, [generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1) 
 take types as inputs and return the AST (Abstract Syntax Tree) for what code should run.
 It is a kind of metaprogramming.
-So, as a computation of the types we can workout exactly what to return.
+So, based on information in the types it worked out what code should be run.
+A simple example is for function taking as input an `N`-dimentional array (type `AbstractArray{T, N}`)
+a generated function might construct code with `N` nested loops to process each elements.
 It can generate code that only accesses the fields we want.
 
 ```julia

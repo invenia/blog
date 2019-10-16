@@ -494,6 +494,9 @@ mean(estimated_classes_tree .== labels)
 
 
 ## Closures give us "Classic OO"
+First it is important to emphasize: **don't do this in real Julia code**.
+It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well (see for example the [infamous closure boxing bug](https://github.com/JuliaLang/julia/issues/15276)).
+This is all the more important because it often requires boxing (see below); so the boxing of things won't even be a bug.
 
 "Classic OO" has classes with member functions (methods) that can see all the fields and methods,
 but that outside the class' methods, only public fields and methods can be seen. 

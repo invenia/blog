@@ -229,8 +229,11 @@ and it will be defined differently depending on which `statqualia` they have.
 
 ```julia
 using LinearAlgebra
+
+# This is the trait re-dispatch; get the trait from the type
 bounds(xs::AbstractVector{T}) where T = bounds(statqualia(T), xs)
 
+# These functions dispatch on the trait
 bounds(::Categorical, xs) = unique(xs)
 bounds(::Normable, xs) = maximum(norm.(xs))
 bounds(::Union{Ordinal, Continuous}, xs) = extrema(xs)
@@ -495,19 +498,24 @@ mean(estimated_classes_tree .== labels)
 
 ## Closures give us "Classic OO"
 First it is important to emphasize: **don't do this in real Julia code**.
-It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well (see for example the [infamous closure boxing bug](https://github.com/JuliaLang/julia/issues/15276)).
+It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well 
+(see for example the [infamous closure boxing bug](https://github.com/JuliaLang/julia/issues/15276)).
 This is all the more important because it often requires boxing (see below); so the boxing of things won't even be a bug.
 
 "Classic OO" has classes with member functions (methods) that can see all the fields and methods,
 but that outside the class' methods, only public fields and methods can be seen. 
-This idea was originally posted for Julia in one of Jeff Bezanson's rare [Stack Overflow posts](https://stackoverflow.com/a/39150509/179081).
+This idea was originally posted for Julia in one of Jeff Bezanson's rare 
+[Stack Overflow posts](https://stackoverflow.com/a/39150509/179081).
 Though in it is a classic functional programming trick.
 
 Consider a Duck type: we can use closures to define it as follows:
 
 ```julia
 function newDuck(name)
+    # Declare fields:
     age=0
+    
+    # Declare methods:
     get_age() = age
     inc_age() = age+=1
     
@@ -520,7 +528,8 @@ end
 
 ```
 
-We can construct an object and can call public methods:
+This can do various things we would expect from classic "OO" encapsulation.
+We can construct an object and call public methods:
 
 ```julia
 julia> 🦆 = newDuck("Bill")
@@ -581,13 +590,39 @@ julia> 🦆.inc_age.age
 Core.Box(1)
 ```
 
+### An aside on Boxing
+
+
+The `Box` type is similar to the `Ref` type, in function and purpose.
 `Box` is the type julia uses for variables that are closed over, but which might be rebound.
 This is the case for primatives (like `Int`) which are rebound whenever they are incremented.
-This is a nice example of how closures are basically callable NamedTuples.
+It is important to be clear on the difference between mutating the contents of a variable,
+and rebinding that variable name.
+
+```julia
+julia> x = [1, 2, 3, 4];
+
+julia> objectid(x)
+0x79eedc509237c203
+
+julia> x .= [10, 20, 30, 40];  # mutating contents
+
+julia> objectid(x)
+0x79eedc509237c203
+
+julia> x = [100, 200, 300, 400];  # rebinding the variable name
+
+julia> objectid(x)
+0xfa2c022285c148ed
+```
+
+In closures boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276),
+does mean julia will sometime overly eagerly Box variables because it thinks they might be rebound.
+It has no change on what the code does, but it does impact performance.
 
 While this kind of code itself should never be used since Julia has a perfectly 
 functional system for dispatch and seems to get along fine without Classic OO style encapsulation,
-knowing how closures work opens other opertunities to see how they can be used.
+knowing how closures work opens other opportunities to see how they can be used.
 In our [ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl/) project, 
 we are considering the use of closures as callable named tuples as part of 
 a [difficult problem](https://github.com/JuliaDiff/ChainRulesCore.jl/issues/53#issuecomment-533833058) 
@@ -595,11 +630,9 @@ in extensibility and defaults, where the default is to call the closure,
 which could be extended by using it like a named tuple and accessing its fields.
 
 
-# Cassette  etc.
+# Cassette, etc.
 
  <img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
-
-## The compiler knows nothing of these "custom compiler passes"
 
 Cassette / IRTools (Zygote) is a notable julia feature.
 This feature is sometimes called:
@@ -608,34 +641,30 @@ Contextual Dispatch,
 Dynamicaly-scoped Macros,
 Dynamic-source rewritting.
 It does not work the way you might think it does.
-The compiler knows nothing of Cassette.
+The compiler knows nothing of "custom compiler passes".
 
-This incredibly powerful and general feature
-And it came out of a very specific issue, and  very casual issue PR suggesting it might be useful for one particular case.
+This is an incredibly powerful and general feature, and was the result of a very specific 
+issue and very casual PR suggesting that it might be useful for one particular case.
 Issue [#21146](https://github.com/JuliaLang/julia/issues/21146)
 <img src="{{ site.baseurl }}/public/images/cassette-issue.png"/>
 
 PR [#22440](https://github.com/JuliaLang/julia/pull/22440)
 <img src="{{ site.baseurl }}/public/images/cassette-pr.png"/>
 
-### This is super-powerful
-
-This capacity allows one to build:
+Technically, the above describe everything about Cassette, but only in passing.
+This capacity is essential for:
  - AutoDiff tools (ForwardDiff2, Zygote, Yota)
  - Mocking tools (Mocking.jl)
  - Debuggers (MagneticReadHead)
  - Code-proof related tools (ConcolicFuzzer)
  - Generally rewriting all the code (GPUifyLoops)
 
-and more.
-
 One of the most basic features is to effectively overload what it means to call a function.
 Call overloading is much more general than operator overloading.
 Since it applies to every call special cased as appropriate,
 whereas operator overloading applies to just one call and just one set of types.
 
-### Consider Normal Functions
-
+Lets take a look at an example with normal functions:
 ```julia
 function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     names = merge_names(an, bn)
@@ -644,14 +673,11 @@ function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
 end
 ```
 
-It checks at runtime what fields each nametuple has, to decide what will be in the merge.
+This checks at runtime what fields each nametuple has, to decide what will be in the merge.
+However, note that we know all this information based on the types alone.
 
-But we know all that information based on the types alone.
-
-### Now think about Generated Functions
-
-[Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1) take types as inputs and 
-return the AST (Abstract Syntax Tree) for what code should run.
+Next, [Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1) 
+take types as inputs and return the AST (Abstract Syntax Tree) for what code should run.
 It is a kind of metaprogramming.
 So, as a computation of the types we can workout exactly what to return.
 It can generate code that only accesses the fields we want.
@@ -667,8 +693,7 @@ end
 
 This gives substantial preformance improvements.
 
-## How Does Cassette Work?
-It is not magic, Cassette is not specially baked into the compiler.
+Casette is not magic, and is not baked into the compiler.
 `@generated` function can return a `Expr` **or** a `CodeInfo`
 We return a `CodeInfo` based on a modified version of one for a function argument.
 We can use `@code_lowered` to look up what the original `CondeInfo` would have been.

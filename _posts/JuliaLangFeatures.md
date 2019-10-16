@@ -652,7 +652,8 @@ PR [#22440](https://github.com/JuliaLang/julia/pull/22440)
 <img src="{{ site.baseurl }}/public/images/cassette-pr.png"/>
 
 Technically, the above describe everything about Cassette, but only in passing.
-This capacity is essential for:
+
+This "custom compiler pass" feature is essential for:
  - AutoDiff tools (ForwardDiff2, Zygote, Yota)
  - Mocking tools (Mocking.jl)
  - Debuggers (MagneticReadHead)

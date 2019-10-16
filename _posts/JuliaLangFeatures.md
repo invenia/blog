@@ -665,6 +665,15 @@ Call overloading is much more general than operator overloading.
 Since it applies to every call special cased as appropriate,
 whereas operator overloading applies to just one call and just one set of types.
 
+To give a concrete example of how call overloading is more general:
+Operator overloading/dispatch  (multiple or otherwise) would allow one to
+to overload for example `sin(::T)` for different types `T`,
+so `sin(::DualNumber)` could be specialized to be different from `sin(::Float64)`;
+so in that case the it could be set to calculate the nonreal part using the `cos` (which is the  derivative of sin); [because that is what DualNumbers do](https://en.wikipedia.org/wiki/Dual_number#Differentiation).
+However, operator overloading can't express the notion that for all functions `f`, if the input type is `DualNumber`,
+that `f` should calculate the dual part using the deriviative of `f`.
+Call overloading allows for much more expressivity and massively simplifies the implementation of automatic differentiation.
+
 Lets take a look at an example with normal functions:
 ```julia
 function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}

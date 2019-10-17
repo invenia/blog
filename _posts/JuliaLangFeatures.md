@@ -6,16 +6,17 @@ tags:
     - julia
 ---
 
-This blog post is based on a talk originally given at a Cambridge PyData Meetup, and also at a London Julia Users Meetup.
 
-## Introduction
+# Introduction
+
+*This blog post is based on a talk originally given at a Cambridge PyData Meetup, and also at a London Julia Users Meetup.*
 
 Julia is known to be a very expressive language with many interesting and cool features.
 It is worth considering that some features were not planned,
 but simply emerged from the combinations of other features. 
 This post will describe how several interesting features are implemented:
 
- - ✅ Unit synatic sugar (`2kg`),
+ - ✅ Unit synatic sugar 
  - ✅ Traits,
  - ❌ Pseudo-OO objects with public/private methods,
  - ❌ Dynamic Source Tranformation / Custom Compiler Passes (Cassette). 
@@ -35,7 +36,7 @@ For example, creating a vector using `Int[]` is an overload of
 `getindex`, and constructors are overloads of `::Type{<:T}()`.
 
 
-## ✖️ Juxtaposition multiplication, convenient syntax for Units
+#️ Juxtaposition multiplication, convenient syntax for Units
 
 Using units in certain kinds of calculations can be very helpful for protecting against arithmetic mistakes.
 The package [Unitful](https://github.com/ajkeller34/Unitful.jl) provides the ability 
@@ -94,7 +95,7 @@ To get to a full units system, we then need to overload everything that numbers 
 such as addition and multiplication. The final result is some units-style syntactic sugar.
 
 
-## Traits
+# Traits
 
 Inheritance is a gun with only one bullet, at least in the case of single-inheritance like Julia uses.
 Single-inheritance means that, once something has a super-type, there can't be another.
@@ -184,7 +185,7 @@ String isa Type{<:AbstractString} = true
 We can dispatch on `Type{T}` and have it resolved at compile time.
 
 
-#### Trait Type
+##### Trait Type
 
 This is the type that is used to attribute a particular trait. 
 In the following example we will consider a trait that highlights the properties of a type for statistical modeling.   
@@ -199,7 +200,7 @@ struct Categorical <: StatQualia end
 struct Normable <: StatQualia end
 ```
  
-#### Trait Function
+##### Trait Function
 
 The trait function takes a type as input, and returns an instance of the trait type.  
 We use the trait function to declare what traits a particular type has.
@@ -215,7 +216,7 @@ statqualia(::Type{<:AbstractString}) = Categorical()
 statqualia(::Type{<:Complex}) = Normable()
 ```
 
-#### Using Traits
+##### Using Traits
 
 To use a trait we need to re-dispatch upon it.
 This is where we take the type of an input,
@@ -333,7 +334,7 @@ julia> aslist("ABC")
 ```
 
 
-## Traits on functions
+### Traits on functions
 
 We can  also attach traits to functions, because functions are instances of singleton types,
 e.g. `foo::typeof(foo)`.
@@ -496,7 +497,8 @@ mean(estimated_classes_tree .== labels)
 **In short: Traits: Useful**
 
 
-## Closures give us "Classic OO"
+# Closures give us "Classic OO"
+
 First it is important to emphasize: **don't do this in real Julia code**.
 It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well 
 (see for example the [infamous closure boxing bug](https://github.com/JuliaLang/julia/issues/15276)).
@@ -591,7 +593,6 @@ Core.Box(1)
 ```
 
 ### An aside on Boxing
-
 
 The `Box` type is similar to the `Ref` type, in function and purpose.
 `Box` is the type Julia uses for variables that are closed over, but which might be rebound.
@@ -711,7 +712,8 @@ We return a `CodeInfo` based on a modified version of one for a function argumen
 We can use `@code_lowered` to look up what the original `CondeInfo` would have been.
 `@code_lowered` gives back one particular representation of the Julia code: the **Untyped IR**.
 
-## Julia: layers of representenstation
+
+### Layers of Representation
 
 Julia has many representations of the code it moves through during compilation.
 
@@ -724,7 +726,9 @@ Julia has many representations of the code it moves through during compilation.
  
 You can retrieve the different representations using the functions/macros indicated.
 
+
 ### Untyped IR: this is what we are working with
+
 This is Basically a linearization of the AST.
  - Only 1 operation per statement (nested expressions get broken up);
  - the return values for each statement are accessed as `SSAValue(index)`;
@@ -738,6 +742,7 @@ That is why IRTools and Cassette exist, to take some of that pain away,
 but we want to do it manually to understand how it works.
 
 This example originally showed up in my [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)
+
 
 ### Manual pass
 
@@ -762,7 +767,8 @@ call_and_print(f, args...) = (println(f, " ", args); f(args...))
 end
 ```
 
-### Result of our manual pass:
+### Result of our manual pass
+
 We can see that this works:
 ```julia
 julia> foo() = 2*(1+1)
@@ -774,7 +780,8 @@ julia> rewritten(foo)
 4
 ```
 
-### Overdub/recurse.
+### Overdub/recurse
+
 Rather than replacing each call with `call_and_print`,
 we could make it call something that would do the work we are interested in,
 and then call `rewriten` on that function.
@@ -793,7 +800,9 @@ There are a few complexities and special cases that need to be taken care of,
 but that is the core of it.
 Recursive invocation of generated functions that rewrite the IR, like what is returned by `@code_lowered`.
 
-## Conclusion: JuliaLang is not magic
+
+# Conclusion: JuliaLang is not magic
+
  - Features give rise to other features.
  - Types turn out to be very powerful.
  - Especially with multiple dispatch.

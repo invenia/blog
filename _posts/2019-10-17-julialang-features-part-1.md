@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: "The Emergent Features of JuliaLang: Part I"
 author: Lyndon White
 tags:
@@ -7,21 +7,21 @@ tags:
 ---
 
 
-# Introduction
+## Introduction
 
 *This blog post is based on a talk originally given at a Cambridge PyData Meetup, and also at a London Julia Users Meetup.*
 
 Julia is known to be a very expressive language with many interesting features.
 It is worth considering that some features were not planned,
-but simply emerged from the combinations of other features. 
+but simply emerged from the combinations of other features.
 This post will describe how several interesting features are implemented:
 
 1. Unit syntactic sugar,
 2. Pseudo-OO objects with public/private methods,
 3. Dynamic Source Tranformation / Custom Compiler Passes (Cassette),
 4. Traits.
- 
-Some of these (1 and 4) should be used when appropriate, 
+
+Some of these (1 and 4) should be used when appropriate,
 while others (2 and 3) are rarely appropriate, but are instructive.
 A particularly large portion of this post is about traits
 because they are one of the most powerful and interesting Julia features.
@@ -31,17 +31,17 @@ We will review both the common use of traits on types,
 and also the very interesting---but less common---use of traits on functions.
 
 There are many other features that are similarly emergent, which are not discussed in this post.
-For example, creating a vector using `Int[]` is an overload of 
+For example, creating a vector using `Int[]` is an overload of
 `getindex`, and constructors are overloads of `::Type{<:T}()`.
 
 In Part I of this post we will cover topics 1-3, and in Part II, we will cover Traits.
 
 
-# Juxtaposition Multiplication: Convenient Syntax for Units
+## Juxtaposition Multiplication: Convenient Syntax for Units
 
 Using units in certain kinds of calculations can be very helpful for protecting against arithmetic mistakes.
-The package [Unitful](https://github.com/ajkeller34/Unitful.jl) provides the ability 
-to do calculations using units in a very natural way, and makes it easy to write 
+The package [Unitful](https://github.com/ajkeller34/Unitful.jl) provides the ability
+to do calculations using units in a very natural way, and makes it easy to write
 things like "2 meters" as `2m`. Here is an example of using Unitful units:
 
 ```julia
@@ -57,7 +57,7 @@ julia> 150N == 10kg * 15m / 1s^2
 true
 ```
 
-How does this work? The answer is *Juxtaposition Multiplication*, a literal number 
+How does this work? The answer is *Juxtaposition Multiplication*, a literal number
 placed before an expression results in multiplication, for example:
 
 ```julia
@@ -71,8 +71,8 @@ julia> 2sin(x)
 2.0
 ```
 
-To make this work, we need to overload the multiplication with the constructor, 
-in order to invoke that constructor. 
+To make this work, we need to overload the multiplication with the constructor,
+in order to invoke that constructor.
 Below is a simplified version of what goes on under the hood of Unitful.jl:
 
 ```julia
@@ -84,30 +84,31 @@ end
 Base.:*(x::Any, U::Type{<:Unit}) = U(x)
 ```
 
-Here we are overloading multiplication with a unit subtype, not an 
+Here we are overloading multiplication with a unit subtype, not an
 instance of a unit subtype (`Meter(2)`), but with the subtype itself (`Meter`).
 This is what `::Type{<:Unit}` means. We can see this if we write:
+
 ```julia
 julia> 5Meter
 Meter{Int64}(5)
 ```
 This shows that we create a `Meter` object with `val=5`.
 
-To get to a full units system, we then need to overload everything that numbers need to work with, 
+To get to a full units system, we then need to overload everything that numbers need to work with,
 such as addition and multiplication. The final result is units-style syntactic sugar.
 
 
-# Closures give us "Classic OO"
+## Closures give us "Classic OO"
 
 First it is important to emphasize: **don't do this in real Julia code**.
-It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well 
+It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well
 (see for example the [infamous closure boxing bug](https://github.com/JuliaLang/julia/issues/15276)).
 This is all the more important because it often requires boxing (see below).
 
 "Classic OO" has classes with member functions (methods) that can see all the fields and methods,
-but that outside the methods of the class, only public fields and methods can be seen. 
-This idea was originally posted for Julia in one of Jeff Bezanson's rare 
-[Stack Overflow posts](https://stackoverflow.com/a/39150509/179081), 
+but that outside the methods of the class, only public fields and methods can be seen.
+This idea was originally posted for Julia in one of Jeff Bezanson's rare
+[Stack Overflow posts](https://stackoverflow.com/a/39150509/179081),
 which uses a classic functional programming trick.
 
 Let's use closures to define a Duck type as follows:
@@ -116,14 +117,14 @@ Let's use closures to define a Duck type as follows:
 function newDuck(name)
     # Declare fields:
     age=0
-    
+
     # Declare methods:
     get_age() = age
     inc_age() = age+=1
-    
+
     quack() = println("Quack!")
     speak() = quack()
-    
+
     #Declare public:
     ()->(get_age, inc_age, speak, name)
 end
@@ -165,7 +166,8 @@ julia> 🦆.quack()
 ERROR: type ##7#12 has no field quack
 ```
 
-However, accessing their functionality via public methods works: 
+However, accessing their functionality via public methods works:
+
 ```julia
 julia> 🦆.speak()
 Quack!
@@ -174,7 +176,7 @@ Quack!
 ### How does this work?
 
 Closures return singleton objects, with directly-referenced closed variables as fields.
-All the public fields/methods are directly referenced, 
+All the public fields/methods are directly referenced,
 but the private fields (e.g `age`, `quack`) are not, they are closed over other methods that use them.
 We can see those private methods and fields via accessing the public method closures:
 
@@ -219,24 +221,24 @@ julia> objectid(x)
 In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276) means Julia will sometimes over-eagerly box variables because it considers that they might be rebound.
 This has no bearing on what the code does, but it does impact performance.
 
-While this kind of code itself should never be used since Julia has a perfectly 
+While this kind of code itself should never be used since Julia has a perfectly
 functional system for dispatch and seems to get along fine without Classic OO-style encapsulation,
 knowing how closures work opens other opportunities to see how they can be used.
-In our [ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl/) project, 
-we are considering the use of closures as callable named tuples as part of 
-a [difficult problem](https://github.com/JuliaDiff/ChainRulesCore.jl/issues/53#issuecomment-533833058) 
-in extensibility and defaults, where the default is to call the closure, 
+In our [ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl/) project,
+we are considering the use of closures as callable named tuples as part of
+a [difficult problem](https://github.com/JuliaDiff/ChainRulesCore.jl/issues/53#issuecomment-533833058)
+in extensibility and defaults, where the default is to call the closure,
 which could be extended by using it like a named tuple and accessing its fields.
 
 
-# Cassette, etc.
+## Cassette, etc.
 
 <img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
 
 Cassette/IRTools (Zygote) are built around a notable Julia feature, which goes by several names:
 Custom Compiler Passes, Contextual Dispatch, Dynamicaly-scoped Macros or Dynamic-source rewritting.
-This is an incredibly powerful and general feature, and was the result of a very specific 
-[Issue #21146](https://github.com/JuliaLang/julia/issues/21146) and very casual 
+This is an incredibly powerful and general feature, and was the result of a very specific
+[Issue #21146](https://github.com/JuliaLang/julia/issues/21146) and very casual
 [PR #22440](https://github.com/JuliaLang/julia/pull/22440) suggesting that it might be useful for one particular case. These describe everything about Cassette, but only in passing.
 
 The Custom Compiler Pass feature is essential for:
@@ -251,7 +253,7 @@ The Custom Compiler Pass feature is essential for:
 One of the most basic elements is the ability to effectively overload what it means to call a function.
 Call overloading is much more general than operator overloading, as it applies to every call special-cased as appropriate, whereas operator overloading applies to just one call and just one set of types.
 
-To give a concrete example of how call overloading is more general, 
+To give a concrete example of how call overloading is more general,
 operator overloading/dispatch (multiple or otherwise) would allow us to
 to overload, for example, `sin(::T)` for different types `T`.
 This way `sin(::DualNumber)` could be specialized to be different from `sin(::Float64)`,
@@ -261,6 +263,7 @@ However, operator overloading can't express the notion that, for all functions `
 Call overloading allows for much more expressivity and massively simplifies the implementation of automatic differentiation.
 
 Let's look at an example with regular functions:
+
 ```julia
 function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     names = merge_names(an, bn)
@@ -268,9 +271,9 @@ function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     NamedTuple{names,types}(map(n->getfield(sym_in(n, bn) ? b : a, n), names))
 end
 ```
+
 This checks at runtime what fields each `NamedTuple` has, to decide what will be in the merge.
 However, note that we know all this information based on the types alone.
-
 
 ### Generated Functions
 
@@ -294,7 +297,6 @@ We return a `CodeInfo` based on a modified version of one for a function argumen
 We can use `@code_lowered` to look up what the original `CondeInfo` would have been.
 `@code_lowered` gives back one particular representation of the Julia code: the **Untyped IR**.
 
-
 ### Layers of Representation
 
 Julia has many representations of the code it moves through during compilation.
@@ -312,7 +314,7 @@ Looking at Untyped IR, this is basically a linearization of the AST, with the fo
  - variables become Slots;
  - control-flow becomes jumps (like Goto);
  - function names become qualified as `GlobalRef(mod, func)`.
-It is ok to read, but can be very difficult to work with or write. 
+It is ok to read, but can be very difficult to work with or write.
 IRTools and Cassette exist to make this easier, but to properly understand how it works, lets run through a manual example (originally from a [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)).
 
 Let's define a generated function `rewritten`, that makes a copy of the Untyped IR (a `CodeInfo` object that it gets back from `@code_lowered`) and then mutates it, replacing each call with a call to the function `call_and_print`. Finally, this returns the new `CodeInfo` to be run when it is called.
@@ -333,6 +335,7 @@ end
 ```
 
 We can see that this works:
+
 ```julia
 julia> foo() = 2*(1+1)
 foo (generic function with 1 method)
@@ -361,7 +364,7 @@ There are a few complexities and special cases that need to be taken care of,
 but this is the core of it: recursive invocation of generated functions that rewrite the IR, similar to what is returned by `@code_lowered`.
 
 
-# Wrapping up Part I
+## Wrapping up Part I
 
 In this part we covered the basics of:
 1. Unit syntactic sugar,

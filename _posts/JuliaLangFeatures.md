@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "The Emergent Features of JuliaLang: Part I"
-Author: Lyndon White
+author: Lyndon White
 tags:
     - julia
 ---
@@ -19,7 +19,7 @@ This post will describe how several interesting features are implemented:
 1. Unit syntactic sugar,
 2. Pseudo-OO objects with public/private methods,
 3. Dynamic Source Tranformation / Custom Compiler Passes (Cassette),
-4. Traits,
+4. Traits.
  
 Some of these (1 and 4) should be used when appropriate, 
 while others (2 and 3) are rarely appropriate, but are instructive.
@@ -96,20 +96,21 @@ This shows that we create a `Meter` object with `val=5`.
 To get to a full units system, we then need to overload everything that numbers need to work with, 
 such as addition and multiplication. The final result is units-style syntactic sugar.
 
+
 # Closures give us "Classic OO"
 
 First it is important to emphasize: **don't do this in real Julia code**.
 It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well 
 (see for example the [infamous closure boxing bug](https://github.com/JuliaLang/julia/issues/15276)).
-This is all the more important because it often requires boxing (see below); so the boxing of things won't even be a bug.
+This is all the more important because it often requires boxing (see below).
 
 "Classic OO" has classes with member functions (methods) that can see all the fields and methods,
-but that outside the class' methods, only public fields and methods can be seen. 
+but that outside the methods of the class, only public fields and methods can be seen. 
 This idea was originally posted for Julia in one of Jeff Bezanson's rare 
-[Stack Overflow posts](https://stackoverflow.com/a/39150509/179081).
-Though in it is a classic functional programming trick.
+[Stack Overflow posts](https://stackoverflow.com/a/39150509/179081), 
+which uses a classic functional programming trick.
 
-Consider a Duck type: we can use closures to define it as follows:
+Let's use closures to define a Duck type as follows:
 
 ```julia
 function newDuck(name)
@@ -126,10 +127,9 @@ function newDuck(name)
     #Declare public:
     ()->(get_age, inc_age, speak, name)
 end
-
 ```
 
-This can do various things we would expect from classic "OO" encapsulation.
+This implements various things we would expect from "classic OO" encapsulation.
 We can construct an object and call public methods:
 
 ```julia
@@ -173,10 +173,10 @@ Quack!
 
 ### How does this work?
 
-Closures return singleton objects, with directly referenced closed variables as fields.
+Closures return singleton objects, with directly-referenced closed variables as fields.
 All the public fields/methods are directly referenced, 
-but the private fields (e.g `age`, `quack`) are not directly referenced, they are closed over other methods that use them.
-We can actually see those private methods and fields via accessing the public method closures:
+but the private fields (e.g `age`, `quack`) are not, they are closed over other methods that use them.
+We can see those private methods and fields via accessing the public method closures:
 
 ```julia
 julia> 🦆.speak.quack
@@ -191,9 +191,9 @@ julia> 🦆.inc_age.age
 Core.Box(1)
 ```
 
-### An aside on Boxing
+### An Aside on Boxing
 
-The `Box` type is similar to the `Ref` type, in function and purpose.
+The `Box` type is similar to the `Ref` type in function and purpose.
 `Box` is the type Julia uses for variables that are closed over, but which might be rebound.
 This is the case for primitives (like `Int`) which are rebound whenever they are incremented.
 It is important to be clear on the difference between mutating the contents of a variable,
@@ -216,11 +216,10 @@ julia> objectid(x)
 0xfa2c022285c148ed
 ```
 
-In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276)
-does mean Julia will sometimes over-eagerly box variables because it thinks they might be rebound.
-It has no change on what the code does, but it does impact performance.
+In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276) means Julia will sometimes over-eagerly box variables because it considers that they might be rebound.
+This has no bearing on what the code does, but it does impact performance.
 
-While this kind of code itself should never be used, since Julia has a perfectly 
+While this kind of code itself should never be used since Julia has a perfectly 
 functional system for dispatch and seems to get along fine without Classic OO-style encapsulation,
 knowing how closures work opens other opportunities to see how they can be used.
 In our [ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl/) project, 
@@ -232,49 +231,36 @@ which could be extended by using it like a named tuple and accessing its fields.
 
 # Cassette, etc.
 
- <img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
+<img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
 
-Cassette/IRTools (Zygote) is a notable Julia feature.
-This feature is sometimes called:
-Custom Compiler Passes,
-Contextual Dispatch,
-Dynamicaly-scoped Macros,
-Dynamic-source rewritting.
-It does not work the way you might think it does.
-The compiler knows nothing of "custom compiler passes".
-
+Cassette/IRTools (Zygote) are built around a notable Julia feature, which goes by several names:
+Custom Compiler Passes, Contextual Dispatch, Dynamicaly-scoped Macros or Dynamic-source rewritting.
 This is an incredibly powerful and general feature, and was the result of a very specific 
-issue and very casual PR suggesting that it might be useful for one particular case.
-Issue [#21146](https://github.com/JuliaLang/julia/issues/21146)
-<img src="{{ site.baseurl }}/public/images/cassette-issue.png"/>
+[Issue #21146](https://github.com/JuliaLang/julia/issues/21146) and very casual 
+[PR #22440](https://github.com/JuliaLang/julia/pull/22440) suggesting that it might be useful for one particular case. These describe everything about Cassette, but only in passing.
 
-PR [#22440](https://github.com/JuliaLang/julia/pull/22440)
-<img src="{{ site.baseurl }}/public/images/cassette-pr.png"/>
-
-Technically, the above describe everything about Cassette, but only in passing.
-
-This "custom compiler pass" feature is essential for:
- - AutoDiff tools (ForwardDiff2, Zygote, Yota);
- - Mocking tools (Mocking.jl);
- - Debuggers (MagneticReadHead);
- - Code-proof related tools (ConcolicFuzzer);
+The Custom Compiler Pass feature is essential for:
+ - AutoDiff tools (ForwardDiff2, Zygote, Yota),
+ - Mocking tools (Mocking.jl),
+ - Debuggers (MagneticReadHead),
+ - Code-proof related tools (ConcolicFuzzer),
  - Generally rewriting all the code (GPUifyLoops).
 
-One of the most basic features is to effectively overload what it means to call a function.
-Call overloading is much more general than operator overloading.
-Since it applies to every call special-cased as appropriate,
-whereas operator overloading applies to just one call and just one set of types.
+### Call Overloading
 
-To give a concrete example of how call overloading is more general:
-operator overloading/dispatch  (multiple or otherwise) would allow one to
-to overload, for example, `sin(::T)` for different types `T`,
-so `sin(::DualNumber)` could be specialized to be different from `sin(::Float64)`---
-such that in that case the it could be set to calculate the nonreal part using the `cos` (which is the  derivative of sin)---[that is what DualNumbers do](https://en.wikipedia.org/wiki/Dual_number#Differentiation).
-However, operator overloading can't express the notion that, for all functions `f`, if the input type is `DualNumber`,
-that `f` should calculate the dual part using the deriviative of `f`.
+One of the most basic elements is the ability to effectively overload what it means to call a function.
+Call overloading is much more general than operator overloading, as it applies to every call special-cased as appropriate, whereas operator overloading applies to just one call and just one set of types.
+
+To give a concrete example of how call overloading is more general, 
+operator overloading/dispatch (multiple or otherwise) would allow us to
+to overload, for example, `sin(::T)` for different types `T`.
+This way `sin(::DualNumber)` could be specialized to be different from `sin(::Float64)`,
+so that with `DualNumber` as input it could be set to calculate the nonreal part using the `cos` (which is the  derivative of sin). This is exactly how
+[DualNumbers](https://en.wikipedia.org/wiki/Dual_number#Differentiation) operate.
+However, operator overloading can't express the notion that, for all functions `f`, if the input type is `DualNumber`, that `f` should calculate the dual part using the deriviative of `f`.
 Call overloading allows for much more expressivity and massively simplifies the implementation of automatic differentiation.
 
-Lets take a look at an example with normal functions:
+Let's look at an example with regular functions:
 ```julia
 function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     names = merge_names(an, bn)
@@ -282,17 +268,16 @@ function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
     NamedTuple{names,types}(map(n->getfield(sym_in(n, bn) ? b : a, n), names))
 end
 ```
-
-This checks at runtime what fields each nametuple has, to decide what will be in the merge.
+This checks at runtime what fields each `NamedTuple` has, to decide what will be in the merge.
 However, note that we know all this information based on the types alone.
 
-Next, [generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1) 
-take types as inputs and return the AST (Abstract Syntax Tree) for what code should run.
-It is a kind of metaprogramming.
-So, based on information in the types it worked out what code should be run.
-A simple example is for function taking as input an `N`-dimentional array (type `AbstractArray{T, N}`)
-a generated function might construct code with `N` nested loops to process each elements.
-It can generate code that only accesses the fields we want.
+
+### Generated Functions
+
+[Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1)
+take types as inputs and return the AST (Abstract Syntax Tree) for what code should run, based on information in the types. This is a kind of metaprogramming.
+Take for example a function `f` with input an `N`-dimentional array (type `AbstractArray{T, N}`). Then a generated function for `f` might construct code with `N` nested loops to process each element.
+It is then possible to generate code that only accesses the fields we want, which gives substantial performance improvements.
 
 ```julia
 @generated function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
@@ -303,10 +288,8 @@ It can generate code that only accesses the fields we want.
 end
 ```
 
-This gives substantial preformance improvements.
-
-Casette is not magic, and is not baked into the compiler.
-`@generated` functions can return an `Expr` **or** a `CodeInfo`
+It is important to note that Casette is not baked into the compiler.
+`@generated` functions can return an `Expr` **or** a `CodeInfo`.
 We return a `CodeInfo` based on a modified version of one for a function argument.
 We can use `@code_lowered` to look up what the original `CondeInfo` would have been.
 `@code_lowered` gives back one particular representation of the Julia code: the **Untyped IR**.
@@ -315,41 +298,24 @@ We can use `@code_lowered` to look up what the original `CondeInfo` would have b
 ### Layers of Representation
 
 Julia has many representations of the code it moves through during compilation.
+ - Source code (`CodeTracking.definition(String,....)`),
+ - AST: (`CodeTracking.definition(Expr, ...`),
+ - Untyped IR: `@code_lowered`,
+ - Typed IR: `@code_typed`,
+ - LLVM: `@code_llvm`,
+ - ASM: `@code_native`.
+We can retrieve the different representations using the functions/macros indicated.
 
- - Source code (`CodeTracking.definition(String,....)`)
- - AST: (`CodeTracking.definition(Expr, ...`)
- - **Untyped IR**: `@code_lowered`
- - Typed IR: `@code_typed`
- - LLVM: `@code_llvm`
- - ASM: `@code_native`
- 
-You can retrieve the different representations using the functions/macros indicated.
-
-
-### Untyped IR: this is what we are working with
-
-This is Basically a linearization of the AST.
+Looking at Untyped IR, this is basically a linearization of the AST, with the following properties:
  - Only 1 operation per statement (nested expressions get broken up);
  - the return values for each statement are accessed as `SSAValue(index)`;
  - variables become Slots;
  - control-flow becomes jumps (like Goto);
  - function names become qualified as `GlobalRef(mod, func)`.
+It is ok to read, but can be very difficult to work with or write. 
+IRTools and Cassette exist to make this easier, but to properly understand how it works, lets run through a manual example (originally from a [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)).
 
-It isn't great to work-with.
-It is ok to read, but writing it gives a special kind of headache.
-That is why IRTools and Cassette exist, to take some of that pain away,
-but we want to do it manually to understand how it works.
-
-This example originally showed up in my [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)
-
-
-### Manual pass
-
-We define a generated function `rewritten`,
-that makes a copy of the untyped IR, a  `CodeInfo` object, that it gets back from `@code_lowered`
-and then mutates it,
-replacing each call with a call to the function `call_and_print`.
-It then returns the new `CodeInfo` to be run when it is called.
+Let's define a generated function `rewritten`, that makes a copy of the Untyped IR (a `CodeInfo` object that it gets back from `@code_lowered`) and then mutates it, replacing each call with a call to the function `call_and_print`. Finally, this returns the new `CodeInfo` to be run when it is called.
 
 ```julia
 call_and_print(f, args...) = (println(f, " ", args); f(args...))
@@ -366,8 +332,6 @@ call_and_print(f, args...) = (println(f, " ", args); f(args...))
 end
 ```
 
-### Result of our manual pass
-
 We can see that this works:
 ```julia
 julia> foo() = 2*(1+1)
@@ -379,11 +343,9 @@ julia> rewritten(foo)
 4
 ```
 
-### Overdub/recurse
-
 Rather than replacing each call with `call_and_print`,
-we could make it call something that would do the work we are interested in,
-and then call `rewriten` on that function.
+we could instead call a function that does the work we are interested in,
+and then call `rewriten` on this function.
 So, not only does the function we call get rewritten,
 but so does every function it calls, all the way down.
 
@@ -396,8 +358,14 @@ end
 
 This is how Cassette and IRTools work.
 There are a few complexities and special cases that need to be taken care of,
-but that is the core of it.
-Recursive invocation of generated functions that rewrite the IR, like what is returned by `@code_lowered`.
+but this is the core of it: recursive invocation of generated functions that rewrite the IR, similar to what is returned by `@code_lowered`.
 
-This covers topics 1-3. 
+
+# Wrapping up Part I
+
+In this part we covered the basics of:
+1. Unit syntactic sugar,
+2. Pseudo-OO objects with public/private methods,
+3. Dynamic Source Tranformation / Custom Compiler Passes (Cassette).
+
 In Part II, we will discuss Traits!

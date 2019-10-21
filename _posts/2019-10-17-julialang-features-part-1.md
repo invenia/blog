@@ -176,7 +176,7 @@ Quack!
 
 Closures return singleton objects, with directly-referenced, closed variables as fields.
 All the public fields/methods are directly referenced,
-but the private fields (e.g `age`, `quack`) are not, they are closed over other methods that use them.
+but the private fields (e.g `age`, `quack`) are not---they are closed over other methods that use them.
 We can see those private methods and fields via accessing the public method closures:
 
 ```julia

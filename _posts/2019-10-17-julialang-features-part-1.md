@@ -13,7 +13,7 @@ tags:
 
 Julia is known to be a very expressive language with many interesting features.
 It is worth considering that some features were not planned,
-but simply emerged from the combinations of other features.
+but simply emerged from combinations of other features.
 This post will describe how several interesting features are implemented:
 
 1. Unit syntactic sugar,

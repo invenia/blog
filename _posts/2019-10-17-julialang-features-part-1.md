@@ -71,8 +71,7 @@ julia> 2sin(x)
 2.0
 ```
 
-To make this work, we need to overload the multiplication with the constructor,
-in order to invoke that constructor.
+To make this work, we need to overload multiplication to invoke the unit type's constructor.
 Below is a simplified version of what goes on under the hood of Unitful.jl:
 
 ```julia

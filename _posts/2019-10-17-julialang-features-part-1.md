@@ -99,7 +99,7 @@ such as addition and multiplication. The final result is units-style syntactic s
 
 ## Closures give us "Classic Object-Oriented Programming"
 
-First it is important to emphasize: **don't do this in real Julia code**.
+First, it is important to emphasize: **don't do this in real Julia code**.
 It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well
 (see for example the [infamous closure boxing bug](https://github.com/JuliaLang/julia/issues/15276)).
 This is all the more important because it often requires boxing (see below).

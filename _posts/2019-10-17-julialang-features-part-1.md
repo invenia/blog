@@ -316,7 +316,7 @@ Looking at Untyped IR, this is basically a linearization of the AST, with the fo
 It is ok to read, but can be very difficult to work with or write.
 IRTools and Cassette exist to make this easier, but to properly understand how it works, lets run through a manual example (originally from a [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)).
 
-Let's define a generated function `rewritten`, that makes a copy of the Untyped IR (a `CodeInfo` object that it gets back from `@code_lowered`) and then mutates it, replacing each call with a call to the function `call_and_print`. Finally, this returns the new `CodeInfo` to be run when it is called.
+Let's define a generated function `rewritten` that makes a copy of the Untyped IR (a `CodeInfo` object that it gets back from `@code_lowered`) and then mutates it, replacing each call with a call to the function `call_and_print`. Finally, this returns the new `CodeInfo` to be run when it is called.
 
 ```julia
 call_and_print(f, args...) = (println(f, " ", args); f(args...))

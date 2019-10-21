@@ -347,7 +347,7 @@ julia> rewritten(foo)
 
 Rather than replacing each call with `call_and_print`,
 we could instead call a function that does the work we are interested in,
-and then call `rewriten` on this function.
+and then call `rewritten` on this function.
 So, not only does the function we call get rewritten,
 but so does every function it calls, all the way down.
 

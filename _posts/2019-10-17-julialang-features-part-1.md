@@ -97,7 +97,7 @@ To get to a full units system, we then need to define methods for our unit types
 such as addition and multiplication. The final result is units-style syntactic sugar.
 
 
-## Closures give us "Classic OO"
+## Closures give us "Classic Object-Oriented Programming"
 
 First it is important to emphasize: **don't do this in real Julia code**.
 It is unidiomatic, and likely to hit edge-cases the compiler doesn't optimize well

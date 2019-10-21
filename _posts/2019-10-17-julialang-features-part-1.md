@@ -237,7 +237,7 @@ Cassette/IRTools (Zygote) are built around a notable Julia feature, which goes b
 Custom Compiler Passes, Contextual Dispatch, Dynamically-scoped Macros or Dynamic Source Rewriting.
 This is an incredibly powerful and general feature, and was the result of a very specific
 [Issue #21146](https://github.com/JuliaLang/julia/issues/21146) and very casual
-[PR #22440](https://github.com/JuliaLang/julia/pull/22440) suggesting that it might be useful for one particular case. These describe everything about Cassette, but only in passing.
+[PR #22440](https://github.com/JuliaLang/julia/pull/22440) suggestion that it might be useful for one particular case. These describe everything about Cassette, but only in passing.
 
 The Custom Compiler Pass feature is essential for:
  - AutoDiff tools (ForwardDiff2, Zygote, Yota),

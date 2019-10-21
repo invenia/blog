@@ -312,6 +312,7 @@ Looking at Untyped IR, this is basically a linearization of the AST, with the fo
  - variables become Slots;
  - control-flow becomes jumps (like Goto);
  - function names become qualified as `GlobalRef(mod, func)`.
+
 It is ok to read, but can be very difficult to work with or write.
 IRTools and Cassette exist to make this easier, but to properly understand how it works, lets run through a manual example (originally from a [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)).
 

@@ -195,7 +195,7 @@ Core.Box(1)
 ### An Aside on Boxing
 
 The `Box` type is similar to the `Ref` type in function and purpose.
-`Box` is the type Julia uses for variables that are closed over, but which might be rebound.
+`Box` is the type Julia uses for variables that are closed over, but which might be rebound to a new value.
 This is the case for primitives (like `Int`) which are rebound whenever they are incremented.
 It is important to be clear on the difference between mutating the contents of a variable,
 and rebinding that variable name.

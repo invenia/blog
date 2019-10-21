@@ -217,7 +217,7 @@ julia> objectid(x)
 0xfa2c022285c148ed
 ```
 
-In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276) means Julia will sometimes over-eagerly box variables because it considers that they might be rebound.
+In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276) means Julia will sometimes over-eagerly box variables because it believes that they might be rebound.
 This has no bearing on what the code does, but it does impact performance.
 
 While this kind of code itself should never be used since Julia has a perfectly

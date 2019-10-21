@@ -226,8 +226,7 @@ knowing how closures work opens other opportunities to see how they can be used.
 In our [ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl/) project,
 we are considering the use of closures as callable named tuples as part of
 a [difficult problem](https://github.com/JuliaDiff/ChainRulesCore.jl/issues/53#issuecomment-533833058)
-in extensibility and defaults, where the default is to call the closure,
-which could be extended by using it like a named tuple and accessing its fields.
+in extensibility and defaults.
 
 
 ## Cassette, etc.

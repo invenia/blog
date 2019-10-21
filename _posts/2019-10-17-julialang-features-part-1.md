@@ -234,7 +234,7 @@ in extensibility and defaults.
 <img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
 
 Cassette/IRTools (Zygote) are built around a notable Julia feature, which goes by several names:
-Custom Compiler Passes, Contextual Dispatch, Dynamicaly-scoped Macros or Dynamic-source rewritting.
+Custom Compiler Passes, Contextual Dispatch, Dynamically-scoped Macros or Dynamic Source Rewriting.
 This is an incredibly powerful and general feature, and was the result of a very specific
 [Issue #21146](https://github.com/JuliaLang/julia/issues/21146) and very casual
 [PR #22440](https://github.com/JuliaLang/julia/pull/22440) suggesting that it might be useful for one particular case. These describe everything about Cassette, but only in passing.

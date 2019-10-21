@@ -292,7 +292,7 @@ end
 It is important to note that Cassette is not baked into the compiler.
 `@generated` functions can return an `Expr` **or** a `CodeInfo`.
 We return a `CodeInfo` based on a modified version of one for a function argument.
-We can use `@code_lowered` to look up what the original `CondeInfo` would have been.
+We can use `@code_lowered` to look up what the original `CodeInfo` would have been.
 `@code_lowered` gives back one particular representation of the Julia code: the **Untyped IR**.
 
 ### Layers of Representation

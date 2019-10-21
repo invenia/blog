@@ -249,7 +249,7 @@ The Custom Compiler Pass feature is essential for:
 ### Call Overloading
 
 One of the most basic elements is the ability to effectively overload what it means to call a function.
-Call overloading is much more general than operator overloading, as it applies to every call special-cased as appropriate, whereas operator overloading applies to just one call and just one set of types.
+Call overloading is much more general than operator overloading, as it applies to every call (special-cased as appropriate), whereas operator overloading applies to just one function call and just one set of types.
 
 To give a concrete example of how call overloading is more general,
 operator overloading/dispatch (multiple or otherwise) would allow us to

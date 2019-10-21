@@ -289,7 +289,7 @@ It is then possible to generate code that only accesses the fields we want, whic
 end
 ```
 
-It is important to note that Casette is not baked into the compiler.
+It is important to note that Cassette is not baked into the compiler.
 `@generated` functions can return an `Expr` **or** a `CodeInfo`.
 We return a `CodeInfo` based on a modified version of one for a function argument.
 We can use `@code_lowered` to look up what the original `CondeInfo` would have been.

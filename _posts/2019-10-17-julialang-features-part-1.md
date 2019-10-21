@@ -220,8 +220,8 @@ julia> objectid(x)
 In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276) means Julia will sometimes over-eagerly box variables because it believes that they might be rebound.
 This has no bearing on what the code does, but it does impact performance.
 
-While this kind of code itself should never be used since Julia has a perfectly
-functional system for dispatch and seems to get along fine without Classic OO-style encapsulation,
+While this kind of code itself should never be used (since Julia has a perfectly
+functional system for dispatch and works well without "Classic OO"-style encapsulation),
 knowing how closures work opens other opportunities to see how they can be used.
 In our [ChainRules.jl](https://github.com/JuliaDiff/ChainRules.jl/) project,
 we are considering the use of closures as callable named tuples as part of

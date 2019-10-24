@@ -235,7 +235,7 @@ in extensibility and defaults.
 
 <img src="https://raw.githubusercontent.com/jrevels/Cassette.jl/master/docs/img/cassette-logo.png" width="256" style="display: inline"/>
 
-Cassette/IRTools (Zygote) are built around a notable Julia feature, which goes by several names:
+Cassette and IRTools (which is also know as Zygote) are built around a notable Julia feature, which goes by several names:
 Custom Compiler Passes, Contextual Dispatch, Dynamically-scoped Macros or Dynamic Source Rewriting.
 This is an incredibly powerful and general feature, and was the result of a very specific
 [Issue #21146](https://github.com/JuliaLang/julia/issues/21146) and very casual

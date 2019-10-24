@@ -23,7 +23,9 @@ This post will describe how several interesting features are implemented:
 
 Some of these (1 and 4) should be used when appropriate,
 while others (2 and 3) are rarely appropriate, but are instructive.
-Part II of this post is about traits
+
+Part I of this post (which you are reading now) will focus on the first three.
+Part II of this post is about traits, which deserve there own section
 because they are one of the most powerful and interesting Julia features.
 They emerge from types, multiple dispatch,
 and the ability to dispatch on the types themselves (rather than just instances).

@@ -242,7 +242,7 @@ This is an incredibly powerful and general feature, and was the result of a very
 [PR #22440](https://github.com/JuliaLang/julia/pull/22440) suggestion that it might be useful for one particular case. These describe everything about Cassette, but only in passing.
 
 The Custom Compiler Pass feature is essential for:
- - AutoDiff tools (ForwardDiff2, Zygote, Yota),
+ - AutoDiff tools ([ForwardDiff2](https://github.com/YingboMa/ForwardDiff2.jl), [Zygote](https://github.com/MikeInnes/IRTools.jl), [Yota](https://github.com/dfdx/Yota.jl)),
  - Mocking tools ([SimpleMock.jl](https://github.com/christopher-dG/SimpleMock.jl/)),
  - Debuggers (MagneticReadHead),
  - Code-proof related tools ([ConcolicFuzzer.jl](https://github.com/vchuravy/ConcolicFuzzer.jl)),

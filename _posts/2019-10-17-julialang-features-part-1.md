@@ -245,7 +245,7 @@ The Custom Compiler Pass feature is essential for:
  - AutoDiff tools (ForwardDiff2, Zygote, Yota),
  - Mocking tools (Mocking.jl),
  - Debuggers (MagneticReadHead),
- - Code-proof related tools (ConcolicFuzzer),
+ - Code-proof related tools ([ConcolicFuzzer.jl](https://github.com/vchuravy/ConcolicFuzzer.jl)),
  - Generally rewriting all the code ([GPUifyLoops.jl](https://github.com/vchuravy/GPUifyLoops.jl)).
 
 ### Call Overloading

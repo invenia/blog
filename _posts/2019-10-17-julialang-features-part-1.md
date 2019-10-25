@@ -243,7 +243,7 @@ This is an incredibly powerful and general feature, and was the result of a very
 
 The Custom Compiler Pass feature is essential for:
  - AutoDiff tools (ForwardDiff2, Zygote, Yota),
- - Mocking tools (Mocking.jl),
+ - Mocking tools ([SimpleMock.jl](https://github.com/christopher-dG/SimpleMock.jl/)),
  - Debuggers (MagneticReadHead),
  - Code-proof related tools ([ConcolicFuzzer.jl](https://github.com/vchuravy/ConcolicFuzzer.jl)),
  - Generally rewriting all the code ([GPUifyLoops.jl](https://github.com/vchuravy/GPUifyLoops.jl)).

@@ -275,8 +275,48 @@ function Cassette.overdub(::AutoDualCtx, f, d::DualNumber)
         return f(d)
     end
 end
+```
 
-Let's look at an example with regular functions:
+That is just one of the more basic things that can be done with Cassette.
+Before we can explain how Cassette works,
+we need to understand the how generated functions work,
+and before that we need to understand the different way code is presented in Julia,
+as it is compiled.
+
+### Layers of Representation
+
+Julia has many representations of the code it moves through during compilation.
+ - Source code (`CodeTracking.definition(String,....)`),
+ - Abstract Syntax Tree (AST): (`CodeTracking.definition(Expr, ...`),
+ - Untyped Intermidate Represention (IR): `@code_lowered`,
+ - Typed Intermidate Represention: `@code_typed`,
+ - LLVM: `@code_llvm`,
+ - ASM: `@code_native`.
+We can retrieve the different representations using the functions/macros indicated.
+
+The Untyped IR is of particular interest to us as that is what is needed for Cassette.
+Looking at Untyped IR, this is basically a linearization of the AST, with the following properties:
+ - Only 1 operation per statement (nested expressions get broken up);
+ - the return values for each statement are accessed as `SSAValue(index)`;
+ - variables become Slots;
+ - control-flow becomes jumps (like Goto);
+ - function names become qualified as `GlobalRef(mod, func)`.
+Untyped IR is stored in a `CodeInfo` object.
+It is not particularly pleasent to write, though for a intermidate representation it is fairly readable.
+The particularly hard part is that expressions return values are `SSAValues` which are defined by position.
+So if you add code, you need to renumber them.
+`Core.Compiler`, and `Cassette` and `IRTools` define various helpers to make this easier, but for out simple example we don't need them.
+
+### Generated Functions
+
+[Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1)
+take types as inputs and return the AST (Abstract Syntax Tree) for what code should run, based on information in the types. This is a kind of metaprogramming.
+Take for example a function `f` with input an `N`-dimensional array (type `AbstractArray{T, N}`). Then a generated function for `f` might construct code with `N` nested loops to process each element.
+It is then possible to generate code that only accesses the fields we want, which gives substantial performance improvements.
+
+
+For a more detailed example lets consider merging `NamedTuple`s/
+This could be done with a regular function:
 
 ```julia
 function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
@@ -287,14 +327,9 @@ end
 ```
 
 This checks at runtime what fields each `NamedTuple` has, to decide what will be in the merge.
-However, note that we know all this information based on the types alone.
+However, we actually know all this information based on the types alone,
+because a list of fields is stored as part of the type (that is the `an` and `bn` type-parameters.)
 
-### Generated Functions
-
-[Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1)
-take types as inputs and return the AST (Abstract Syntax Tree) for what code should run, based on information in the types. This is a kind of metaprogramming.
-Take for example a function `f` with input an `N`-dimensional array (type `AbstractArray{T, N}`). Then a generated function for `f` might construct code with `N` nested loops to process each element.
-It is then possible to generate code that only accesses the fields we want, which gives substantial performance improvements.
 
 ```julia
 @generated function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
@@ -305,34 +340,24 @@ It is then possible to generate code that only accesses the fields we want, whic
 end
 ```
 
-It is important to note that Cassette is not baked into the compiler.
-`@generated` functions can return an `Expr` **or** a `CodeInfo`.
-We return a `CodeInfo` based on a modified version of one for a function argument.
-We can use `@code_lowered` to look up what the original `CodeInfo` would have been.
-`@code_lowered` gives back one particular representation of the Julia code: the **Untyped IR**.
+I said at the start of this that a generated function returns an AST.
+Which it does do in the examples above.
+But actually, it is also allowed to return a `CodeInfo` for Untyped IR.
 
-### Layers of Representation
 
-Julia has many representations of the code it moves through during compilation.
- - Source code (`CodeTracking.definition(String,....)`),
- - AST: (`CodeTracking.definition(Expr, ...`),
- - Untyped IR: `@code_lowered`,
- - Typed IR: `@code_typed`,
- - LLVM: `@code_llvm`,
- - ASM: `@code_native`.
-We can retrieve the different representations using the functions/macros indicated.
+### Making Cassette:
+There are two key facts both of which were mentioned above:
+1. Generated Functions are allowed to return `CodeInfo` for Untyped IR.
+2. `@code_lowered f(args...)` allows one to retrieve the `CodeInfo` for the given method of `f`.
 
-Looking at Untyped IR, this is basically a linearization of the AST, with the following properties:
- - Only 1 operation per statement (nested expressions get broken up);
- - the return values for each statement are accessed as `SSAValue(index)`;
- - variables become Slots;
- - control-flow becomes jumps (like Goto);
- - function names become qualified as `GlobalRef(mod, func)`.
+The core of how Cassete works it to use a generated function
+to call code defined in a new `CodeInfo` of Untyped IR,
+which is based on a modified copy of code that is returned by `@code_lowered`.
 
-It is ok to read, but can be very difficult to work with or write.
-IRTools and Cassette exist to make this easier, but to properly understand how it works, lets run through a manual example (originally from a [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)).
+To properly understand how it works, lets run through a manual example (originally from a [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)).
 
-Let's define a generated function `rewritten` that makes a copy of the Untyped IR (a `CodeInfo` object that it gets back from `@code_lowered`) and then mutates it, replacing each call with a call to the function `call_and_print`. Finally, this returns the new `CodeInfo` to be run when it is called.
+
+We define a generated function `rewritten` that makes a copy of the Untyped IR (a `CodeInfo` object that it gets back from `@code_lowered`) and then mutates it, replacing each call with a call to the function `call_and_print`. Finally, this returns the new `CodeInfo` to be run when it is called.
 
 ```julia
 call_and_print(f, args...) = (println(f, " ", args); f(args...))
@@ -363,9 +388,7 @@ julia> rewritten(foo)
 
 Rather than replacing each call with `call_and_print`,
 we could instead call a function that does the work we are interested in,
-and then call `rewritten` on this function.
-So, not only does the function we call get rewritten,
-but so does every function it calls, all the way down.
+and then calls `rewritten` on the function that would have been called:
 
 ```julia
 function work_and_recurse(f, args...)
@@ -373,6 +396,9 @@ function work_and_recurse(f, args...)
     rewritten(f, args...)
 end
 ```
+So, not only does the function we call get rewritten, but so does every function it calls, all the way down.
+
+
 
 This is how Cassette and IRTools work.
 There are a few complexities and special cases that need to be taken care of,

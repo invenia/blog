@@ -262,6 +262,19 @@ so that with `DualNumber` as input it could be set to calculate the nonreal part
 However, operator overloading can't express the notion that, for all functions `f`, if the input type is `DualNumber`, that `f` should calculate the dual part using the deriviative of `f`.
 Call overloading allows for much more expressivity and massively simplifies the implementation of automatic differentiation.
 
+The above written out in code:
+```julia
+function Cassette.overdub(::AutoDualCtx, f, d::DualNumber)
+    res = ChainRules.frule(f, val(d))
+    if res !== nothing
+        f_val, pushforward = res
+        f_diff = pushforward(partial(f))
+        return Dual(f_val, extern(f_diff))
+    else
+        return f(d)
+    end
+end
+
 Let's look at an example with regular functions:
 
 ```julia

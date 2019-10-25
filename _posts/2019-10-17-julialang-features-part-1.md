@@ -246,7 +246,7 @@ The Custom Compiler Pass feature is essential for:
  - Mocking tools (Mocking.jl),
  - Debuggers (MagneticReadHead),
  - Code-proof related tools (ConcolicFuzzer),
- - Generally rewriting all the code (GPUifyLoops).
+ - Generally rewriting all the code ([GPUifyLoops.jl](https://github.com/vchuravy/GPUifyLoops.jl)).
 
 ### Call Overloading
 

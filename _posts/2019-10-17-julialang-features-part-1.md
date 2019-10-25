@@ -245,7 +245,7 @@ This is an incredibly powerful and general feature, and was the result of a very
 The Custom Compiler Pass feature is essential for:
  - AutoDiff tools ([ForwardDiff2](https://github.com/YingboMa/ForwardDiff2.jl), [Zygote](https://github.com/MikeInnes/IRTools.jl), [Yota](https://github.com/dfdx/Yota.jl)),
  - Mocking tools ([SimpleMock.jl](https://github.com/christopher-dG/SimpleMock.jl/)),
- - Debuggers (MagneticReadHead),
+ - Debuggers ([MagneticReadHead](https://github.com/oxinabox/MagneticReadHead.jl), [MixedModeDebugger.jl](https://github.com/oxinabox/MixedModeDebugger.jl/)),
  - Code-proof related tools ([ConcolicFuzzer.jl](https://github.com/vchuravy/ConcolicFuzzer.jl)),
  - Generally rewriting all the code ([GPUifyLoops.jl](https://github.com/vchuravy/GPUifyLoops.jl)).
 

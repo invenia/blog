@@ -36,8 +36,6 @@ There are many other emergent features which are not discussed in this post.
 For example, creating a vector using `Int[]` is an overload of
 `getindex`, and constructors are overloads of `::Type{<:T}()`.
 
-In Part I of this post we will cover topics 1-3, and in Part II, we will cover Traits.
-
 
 ## Juxtaposition Multiplication: Convenient Syntax for Units
 
@@ -60,7 +58,7 @@ true
 ```
 
 How does this work? The answer is *Juxtaposition Multiplication*---a literal number
-placed before an expression results in multiplication, for example:
+placed before an expression results in multiplication:
 
 ```julia
 julia> x = 0.5π
@@ -73,7 +71,7 @@ julia> 2sin(x)
 2.0
 ```
 
-To make this work, we need to overload multiplication to invoke the unit type's constructor.
+To make this work, we need to overload multiplication to invoke the constructor of the unit type.
 Below is a simplified version of what goes on under the hood of Unitful.jl:
 
 ```julia
@@ -87,7 +85,7 @@ Base.:*(x::Any, U::Type{<:Unit}) = U(x)
 
 Here we are overloading multiplication with a unit subtype, not an
 instance of a unit subtype (`Meter(2)`), but with the subtype itself (`Meter`).
-This is what `::Type{<:Unit}` means. We can see this if we write:
+This is what `::Type{<:Unit}` refers to. We can see this if we write:
 
 ```julia
 julia> 5Meter
@@ -95,7 +93,7 @@ Meter{Int64}(5)
 ```
 This shows that we create a `Meter` object with `val=5`.
 
-To get to a full units system, we then need to define methods for our unit types for everything that numbers need to work with,
+To get to a full units system, we then need to define methods for everything that numbers need to work with,
 such as addition and multiplication. The final result is units-style syntactic sugar.
 
 
@@ -152,8 +150,7 @@ julia> 🦆.get_age()
 1
 ```
 
-
-However, outside the class we can't access private fields:
+Outside the class we can't access private fields:
 
 ```julia
 julia> 🦆.age
@@ -219,7 +216,8 @@ julia> objectid(x)
 0xfa2c022285c148ed
 ```
 
-In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276) means Julia will sometimes over-eagerly box variables because it believes that they might be rebound.
+In closures, boxing applies only to rebinding, though the [closure bug](https://github.com/JuliaLang/julia/issues/15276) 
+means Julia will sometimes over-eagerly box variables because it believes that they might be rebound.
 This has no bearing on what the code does, but it does impact performance.
 
 While this kind of code itself should never be used (since Julia has a perfectly
@@ -237,10 +235,12 @@ in extensibility and defaults.
 
 Cassette and IRTools (which is also know as Zygote) are built around a notable Julia feature, which goes by several names:
 Custom Compiler Passes, Contextual Dispatch, Dynamically-scoped Macros or Dynamic Source Rewriting.
-This same trick is used in [IRTools.jl](https://github.com/MikeInnes/IRTools.jl), which is at the heart of the [Zygote automatic differentiation package](https://github.com/FluxML/Zygote.jl).
+This same trick is used in [IRTools.jl](https://github.com/MikeInnes/IRTools.jl), 
+which is at the heart of the [Zygote automatic differentiation package](https://github.com/FluxML/Zygote.jl).
 This is an incredibly powerful and general feature, and was the result of a very specific
 [Issue #21146](https://github.com/JuliaLang/julia/issues/21146) and very casual
-[PR #22440](https://github.com/JuliaLang/julia/pull/22440) suggestion that it might be useful for one particular case. These describe everything about Cassette, but only in passing.
+[PR #22440](https://github.com/JuliaLang/julia/pull/22440) suggestion that it might be useful for one particular case. 
+These describe everything about Cassette, but only in passing.
 
 The Custom Compiler Pass feature is essential for:
  - AutoDiff tools ([ForwardDiff2](https://github.com/YingboMa/ForwardDiff2.jl), [Zygote](https://github.com/MikeInnes/IRTools.jl), [Yota](https://github.com/dfdx/Yota.jl)),
@@ -279,8 +279,8 @@ end
 
 That is just one of the more basic things that can be done with Cassette.
 Before we can explain how Cassette works,
-we need to understand the how generated functions work,
-and before that we need to understand the different way code is presented in Julia,
+we need to understand how generated functions work,
+and before that we need to understand the different ways code is presented in Julia,
 as it is compiled.
 
 ### Layers of Representation
@@ -294,8 +294,8 @@ Julia has many representations of the code it moves through during compilation.
  - ASM: `@code_native`.
 We can retrieve the different representations using the functions/macros indicated.
 
-The Untyped IR is of particular interest to us as that is what is needed for Cassette.
-Looking at Untyped IR, this is basically a linearization of the AST, with the following properties:
+The Untyped IR is of particular interest as this is what is needed for Cassette.
+This is a linearization of the AST, with the following properties:
  - Only 1 operation per statement (nested expressions get broken up);
  - the return values for each statement are accessed as `SSAValue(index)`;
  - variables become Slots;
@@ -303,19 +303,19 @@ Looking at Untyped IR, this is basically a linearization of the AST, with the fo
  - function names become qualified as `GlobalRef(mod, func)`.
 Untyped IR is stored in a `CodeInfo` object.
 It is not particularly pleasent to write, though for a intermidate representation it is fairly readable.
-The particularly hard part is that expressions return values are `SSAValues` which are defined by position.
-So if you add code, you need to renumber them.
-`Core.Compiler`, and `Cassette` and `IRTools` define various helpers to make this easier, but for out simple example we don't need them.
+The particularly hard part is that expression return values are `SSAValues` which are defined by position.
+So if code is added, return values need to be renumbered.
+`Core.Compiler`, `Cassette` and `IRTools` define various helpers to make this easier, but for out simple example we don't need them.
 
 ### Generated Functions
 
 [Generated functions](https://docs.julialang.org/en/v1/manual/metaprogramming/#Generated-functions-1)
 take types as inputs and return the AST (Abstract Syntax Tree) for what code should run, based on information in the types. This is a kind of metaprogramming.
-Take for example a function `f` with input an `N`-dimensional array (type `AbstractArray{T, N}`). Then a generated function for `f` might construct code with `N` nested loops to process each element.
+Take for example a function `f` with input an `N`-dimensional array (type `AbstractArray{T, N}`). 
+Then a generated function for `f` might construct code with `N` nested loops to process each element.
 It is then possible to generate code that only accesses the fields we want, which gives substantial performance improvements.
 
-
-For a more detailed example lets consider merging `NamedTuple`s/
+For a more detailed example lets consider merging `NamedTuple`s.
 This could be done with a regular function:
 
 ```julia
@@ -326,7 +326,7 @@ function merge(a::NamedTuple{an}, b::NamedTuple{bn}) where {an, bn}
 end
 ```
 
-This checks at runtime what fields each `NamedTuple` has, to decide what will be in the merge.
+This checks at runtime what fields each `NamedTuple` has, in order to decide what will be in the merge.
 However, we actually know all this information based on the types alone,
 because a list of fields is stored as part of the type (that is the `an` and `bn` type-parameters.)
 
@@ -340,24 +340,23 @@ because a list of fields is stored as part of the type (that is the `an` and `bn
 end
 ```
 
-I said at the start of this that a generated function returns an AST.
-Which it does do in the examples above.
-But actually, it is also allowed to return a `CodeInfo` for Untyped IR.
+Recall that a generated function returns an AST, which is the case in the examples above.
+However, it is also allowed to return a `CodeInfo` for Untyped IR.
 
 
-### Making Cassette:
-There are two key facts both of which were mentioned above:
+### Making Cassette
+
+There are two key facts mentioned above:
 1. Generated Functions are allowed to return `CodeInfo` for Untyped IR.
-2. `@code_lowered f(args...)` allows one to retrieve the `CodeInfo` for the given method of `f`.
+2. `@code_lowered f(args...)` provided the ability to retrieve the `CodeInfo` for the given method of `f`.
 
-The core of how Cassete works it to use a generated function
+The core of Cassete it to use a generated function
 to call code defined in a new `CodeInfo` of Untyped IR,
 which is based on a modified copy of code that is returned by `@code_lowered`.
-
 To properly understand how it works, lets run through a manual example (originally from a [JuliaCon talk on MagneticReadHead.jl](https://www.youtube.com/watch?v=lTR6IPjDPlo)).
 
-
-We define a generated function `rewritten` that makes a copy of the Untyped IR (a `CodeInfo` object that it gets back from `@code_lowered`) and then mutates it, replacing each call with a call to the function `call_and_print`. Finally, this returns the new `CodeInfo` to be run when it is called.
+We define a generated function `rewritten` that makes a copy of the Untyped IR (a `CodeInfo` object that it gets back from `@code_lowered`) and then mutates it, replacing each call with a call to the function `call_and_print`. 
+Finally, this returns the new `CodeInfo` to be run when it is called.
 
 ```julia
 call_and_print(f, args...) = (println(f, " ", args); f(args...))
@@ -397,8 +396,6 @@ function work_and_recurse(f, args...)
 end
 ```
 So, not only does the function we call get rewritten, but so does every function it calls, all the way down.
-
-
 
 This is how Cassette and IRTools work.
 There are a few complexities and special cases that need to be taken care of,

@@ -133,41 +133,41 @@ This implements various things we would expect from "classic OO" encapsulation.
 We can construct an object and call public methods:
 
 ```julia
-julia> 🦆 = newDuck("Bill")
+julia> bill_the_duck = newDuck("Bill")
 #7 (generic function with 1 method)
 
-julia> 🦆.get_age()
+julia> bill_the_duck.get_age()
 0
 ```
 
 Public methods can change private fields:
 
 ```julia
-julia> 🦆.inc_age()
+julia> bill_the_duck.inc_age()
 1
 
-julia> 🦆.get_age()
+julia> bill_the_duck.get_age()
 1
 ```
 
 Outside the class we can't access private fields:
 
 ```julia
-julia> 🦆.age
+julia> bill_the_duck.age
 ERROR: type ##7#12 has no field age
 ```
 
 We also can't access private methods:
 
 ```julia
-julia> 🦆.quack()
+julia> bill_the_duck.quack()
 ERROR: type ##7#12 has no field quack
 ```
 
 However, accessing their functionality via public methods works:
 
 ```julia
-julia> 🦆.speak()
+julia> bill_the_duck.speak()
 Quack!
 ```
 
@@ -179,7 +179,7 @@ but the private fields (e.g `age`, `quack`) are not---they are closed over other
 We can see those private methods and fields via accessing the public method closures:
 
 ```julia
-julia> 🦆.speak.quack
+julia> bill_the_duck.speak.quack
 (::var"#quack#10") (generic function with 1 method)
 
 julia> 🦆.speak.quack()
@@ -187,7 +187,7 @@ Quack!
 ```
 
 ```julia
-julia> 🦆.inc_age.age
+julia> bill_the_duck.inc_age.age
 Core.Box(1)
 ```
 

@@ -182,7 +182,7 @@ We can see those private methods and fields via accessing the public method clos
 julia> bill_the_duck.speak.quack
 (::var"#quack#10") (generic function with 1 method)
 
-julia> 🦆.speak.quack()
+julia> bill_the_duck.speak.quack()
 Quack!
 ```
 

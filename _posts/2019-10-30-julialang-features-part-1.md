@@ -361,8 +361,10 @@ Finally, this returns the new `CodeInfo` to be run when it is called.
 ```julia
 call_and_print(f, args...) = (println(f, " ", args); f(args...))
 
+
 @generated function rewritten(f)
-    ci = deepcopy(@code_lowered f.instance())
+    ci_orig = @code_lowered f.instance()
+    ci = ccall(:jl_copy_code_info, Ref{Core.CodeInfo}, (Any,), ci_orig)
     for ii in eachindex(ci.code)
         if ci.code[ii] isa Expr && ci.code[ii].head==:call
             func = GlobalRef(Main, :call_and_print)
@@ -372,9 +374,11 @@ call_and_print(f, args...) = (println(f, " ", args); f(args...))
     return ci
 end
 ```
+(Notice: this exact version of the code works on julia 1.0, 1.1, and 1.2, and also prints a ton of warnings as it hurts type-inference a lot.
+But slightly improved versions of it exist in Cassette, that don't make type-inference cry, and that work in all Julia versions.
+This just gets the point across.)
 
 We can see that this works:
-
 ```julia
 julia> foo() = 2*(1+1)
 foo (generic function with 1 method)
@@ -384,6 +388,8 @@ julia> rewritten(foo)
 * (2, 2)
 4
 ```
+
+
 
 Rather than replacing each call with `call_and_print`,
 we could instead call a function that does the work we are interested in,

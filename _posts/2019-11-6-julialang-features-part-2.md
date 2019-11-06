@@ -199,7 +199,7 @@ islist(::Type{<:Tuple}) = List()
 islist(::Type{<:Number}) = Nonlist()
 ```
 
-The we define trait dispatch:
+Then we define trait dispatch:
 
 ```julia
 aslist(x::T) where T = aslist(islist(T), x)
@@ -332,7 +332,7 @@ We can encode this information about each function expectation into a trait,
 rather than force the user to look it up from the documentation.
 
 ```julia
-# Out intial code:
+# Our intial code:
 obs_arrangement(::typeof(get_true_classes)) = IteratorOfObs()
 
 # LIBSVM

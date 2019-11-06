@@ -357,7 +357,7 @@ isobs(::T) where T = Val{eltype(T) isa AbstractVector}()
 ```
 
 Next, we can define `model_call`: a function which uses the traits to decide how
-to rearrane the observations before calling the function, based on the type of the function and on the type of the argument.
+to rearrange the observations before calling the function, based on the type of the function and on the type of the argument.
 
 ```julia
 function model_call(func, args...; kwargs...)

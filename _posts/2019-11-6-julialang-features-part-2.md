@@ -18,7 +18,7 @@ This post is fully indepedent from Part I.
 
 # Traits
 
-Inheritance can a gun with only one bullet, at least in the case of single inheritance like Julia uses.
+Inheritance can be a gun with only one bullet, at least in the case of single inheritance like Julia uses.
 Single-inheritance means that, once something has a super-type, there can't be another.
 Traits are one way to get something similar to multiple inheritance under such conditions.
 They allow for a form of [polymorphism](https://en.wikipedia.org/wiki/Polymorphism_(computer_science)),

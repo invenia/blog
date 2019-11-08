@@ -26,7 +26,7 @@ that is orthogonal to the inheritence tree, and can be implemented using functio
 In an earlier [blog post](https://white.ucc.asn.au/2018/10/03/Dispatch,-Traits-and-Metaprogramming-Over-Reflection.html#part-2-aslist-including-using-traits) this is explained using a slightly different take.
 
 Sometimes people claim that Julia doesn't have traits, which is not correct.
-Julia does not have _syntactic sugar_ for traits, nor does it have the ubiqutious use of traits that some langauges feature.
+Julia does not have _syntactic sugar_ for traits, nor does it have the ubiqutious use of traits that some languages feature.
 But it does have traits, and in fact they are even used in the standard library.
 In particular for iterators, `IteratorSize` and `IteratorEltype`, and for several other [interfaces](https://docs.julialang.org/en/v1/manual/interfaces/#man-interface-iteration-1).
 

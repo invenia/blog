@@ -15,6 +15,7 @@ home:             /
 
 footer-links:
   rss: true
+  twitter: InveniaLabs
 
 author:
   name:           'Invenia'

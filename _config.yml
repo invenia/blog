@@ -24,6 +24,13 @@ author:
 
 paginate:         5
 
+# Post Metadata Defaults
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /public/InveniaLogo.png
+
 # Custom vars
 version:          0.0.2
 

@@ -12,6 +12,7 @@ description:      'Blogging About Electricity Grids, Julia, and Machine Learning
 url:              https://invenia.github.io
 baseurl:          /blog
 home:             /
+logo:             /public/InveniaLogo.png
 
 footer-links:
   rss: true

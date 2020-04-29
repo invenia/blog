@@ -292,6 +292,7 @@ Julia has many representations of the code it moves through during compilation.
  - Typed Intermidate Represention: `@code_typed`,
  - LLVM: `@code_llvm`,
  - ASM: `@code_native`.
+ 
 We can retrieve the different representations using the functions/macros indicated.
 
 The Untyped IR is of particular interest as this is what is needed for Cassette.
@@ -301,6 +302,7 @@ This is a linearization of the AST, with the following properties:
  - variables become Slots;
  - control-flow becomes jumps (like Goto);
  - function names become qualified as `GlobalRef(mod, func)`.
+
 Untyped IR is stored in a `CodeInfo` object.
 It is not particularly pleasent to write, though for a intermidate representation it is fairly readable.
 The particularly hard part is that expression return values are `SSAValues` which are defined by position.

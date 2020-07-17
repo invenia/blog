@@ -16,7 +16,7 @@ Usage
 
 _For the package repository, visit [Github](https://github.com/invenia/SyntheticGrids.jl)._
 
-In the [first part]({{ site.baseurl }}{% post_url 2018-6-27-syntheticgrids-part-1 %}), we discussed the motivation and model behind SyntheticGrids.jl. In this post we show how to use it.
+In the [first part]({{ site.baseurl }}{% post_url 2018-06-27-syntheticgrids-part-1 %}), we discussed the motivation and model behind SyntheticGrids.jl. In this post we show how to use it.
 
 To use SyntheticGrids.jl, [Julia 0.6.1 or newer](https://julialang.org/downloads/) is required. Once Julia is properly installed, the package can be installed via
 

@@ -1,1 +1,0 @@
-2018-06-27-syntheticgrids-part-1.md

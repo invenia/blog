@@ -288,8 +288,8 @@ as it is compiled.
 Julia has many representations of the code it moves through during compilation.
  - Source code (`CodeTracking.definition(String,....)`),
  - Abstract Syntax Tree (AST): (`CodeTracking.definition(Expr, ...`),
- - Untyped Intermidate Represention (IR): `@code_lowered`,
- - Typed Intermidate Represention: `@code_typed`,
+ - Untyped Intermediate Represention (IR): `@code_lowered`,
+ - Typed Intermediate Represention: `@code_typed`,
  - LLVM: `@code_llvm`,
  - ASM: `@code_native`.
  

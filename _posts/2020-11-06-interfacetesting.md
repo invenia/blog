@@ -11,7 +11,7 @@ comments: false
 tags: julia software engineering
 ---
 
-Over the last two years, our Julia codebase grown in size and complexity, and is now the centerpiece of both our operations and research.
+Over the last two years, our Julia codebase has grown in size and complexity, and is now the centerpiece of both our operations and research.
 This implies that we need to routinely replace parts of the system like puzzle pieces, and carefully test if the results lead to improvements along various dimensions of performance.
 However, those pieces are not designed to work in isolation, and thus cannot be tested in a vacuum.
 They also tend to be quite large and complex, and therefore often need to be independent packages, which need to “fit” together in precise ways determined by the rest of the system.

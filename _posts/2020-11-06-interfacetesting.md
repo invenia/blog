@@ -224,7 +224,7 @@ function query(db::FakeDB, table::String, features::Vector{Feature})
 end
 
 fetch(::FakeDB, r::FakeResponse) = r.fetched
-fetch(::FakeDB, rs:Vector{FakeResponse}) = join(fetch.(rs)…)
+fetch(::FakeDB, rs::Vector{FakeResponse}) = join(fetch.(rs)…)
 ```
 
 To make sure things are consistent, the `test_interface` function from the section above should be run on `FakeDB` as part of the tests for `AbstractDB`.

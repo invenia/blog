@@ -83,11 +83,11 @@ To see this, let's denote $$\code{fact2}=Y\,\code{fact}'$$ and verify that $$\co
 
 \begin{align} 
     \code{fact2}
-    &= Y\, \code{fact}' \\\
-    &= (\lambda\, f : (\lambda\, x : f\,(x\, x))\, (\lambda\, x : f\,(x\, x)))\, \code{fact}' \\\ 
-    &= (\lambda\, x : \code{fact}'\,(x\, x) )\, (\lambda\, x : \code{fact}'\,(x\, x)) \label{eq:step-1} \\\ 
-    &= \code{fact}'\, ((\lambda\, x : \code{fact}'\, (x\, x))\,(\lambda\, x : \code{fact}'\, (x\, x))) \label{eq:step-2} \\\ 
-    &= \code{fact}'\, (Y\, \code{fact}') \\\
+    &= Y\, \code{fact}' \newline
+    &= (\lambda\, f : (\lambda\, x : f\,(x\, x))\, (\lambda\, x : f\,(x\, x)))\, \code{fact}' \newline 
+    &= (\lambda\, x : \code{fact}'\,(x\, x) )\, (\lambda\, x : \code{fact}'\,(x\, x)) \label{eq:step-1} \newline 
+    &= \code{fact}'\, ((\lambda\, x : \code{fact}'\, (x\, x))\,(\lambda\, x : \code{fact}'\, (x\, x))) \label{eq:step-2} \newline 
+    &= \code{fact}'\, (Y\, \code{fact}') \newline
     &= \code{fact}'\, \code{fact2},
 \end{align}
 
@@ -188,7 +188,7 @@ Then
 \begin{align} 
     \hat{f}\,\hat{f}\,\hat{g}
     &= h_f\,(\hat{f}\,\hat{f}\,\hat{g})\,(\hat{g}\,\hat{f}\,\hat{g})
-    = (\lambda\,x:\lambda\,y:h_f\,(x\,x\,y)\,(y\,x\,y))\,\,\hat{f}\,\hat{g},\\\ 
+    = (\lambda\,x:\lambda\,y:h_f\,(x\,x\,y)\,(y\,x\,y))\,\,\hat{f}\,\hat{g},\newline 
     \hat{g}\,\hat{f}\,\hat{g}
     &= h_g\,(\hat{f}\,\hat{f}\,\hat{g})\,(\hat{g}\,\hat{f}\,\hat{g})
     = (\lambda\,x:\lambda\,y:h_g\,(x\,x\,y)\,(y\,x\,y))\,\,\hat{f}\,\hat{g},
@@ -197,7 +197,7 @@ Then
 which suggests that
 
 \begin{align} 
-    \hat{f} &= \lambda\,x:\lambda\,y:h_f\,(x\,x\,y)\,(y\,x\,y), \\\ 
+    \hat{f} &= \lambda\,x:\lambda\,y:h_f\,(x\,x\,y)\,(y\,x\,y), \newline 
     \hat{g} &= \lambda\,x:\lambda\,y:h_g\,(x\,x\,y)\,(y\,x\,y).
 \end{align}
 
@@ -205,11 +205,11 @@ Therefore
 
 \begin{align} 
     f
-    &= \hat{f}\,\hat{f}\,\hat{g} \\\ 
+    &= \hat{f}\,\hat{f}\,\hat{g} \newline 
     &=
         (\lambda\,x:\lambda\,y:h_f\,(x\,x\,y)\,(y\,x\,y))\,
         (\lambda\,x:\lambda\,y:h_f\,(x\,x\,y)\,(y\,x\,y))\,
-        (\lambda\,x:\lambda\,y:h_g\,(x\,x\,y)\,(y\,x\,y)) \\\ 
+        (\lambda\,x:\lambda\,y:h_g\,(x\,x\,y)\,(y\,x\,y)) \newline 
     &= Y_f\, h_f\, h_g
 \end{align}
 

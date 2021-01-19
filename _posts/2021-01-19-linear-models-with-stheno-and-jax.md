@@ -43,7 +43,7 @@ $$ \label{eq:ax_b_functional}
 $$
 
 where $$a\colon \R \to \R$$ is a _random constant function_.
-A _constant function_ is a function $$f$$ such that, for example, $$f(x) = 5$$.
+An example of a _constant function_ $$f$$ is $$f(x) = 5$$.
 _Random_ means that the value $$5$$ is not fixed, but modelled with a random value drawn from some probability distribution, because we don’t know the true value.
 We let $$b\colon \R \to \R$$ also be a random _constant function_, and $$\e\colon \R \to \R$$ a random _noise function_.
 Do you see the similarities between \eqref{eq:ax_b} and \eqref{eq:ax_b_functional}?

@@ -18,8 +18,8 @@ the middle of your application process and are yet to receive an offer,
 don't worry. The first summer I applied for technical internships, out
 of roughly 20 applications sent, I received a single interview and zero
 offers. It never feels like it is going to happen until it does. Here's
-a [[useful
-guide]{.ul}](https://www.freecodecamp.org/news/how-to-land-a-top-notch-tech-job-as-a-student-5c97fec82f3d/)
+a [useful
+guide](https://www.freecodecamp.org/news/how-to-land-a-top-notch-tech-job-as-a-student-5c97fec82f3d/)
 if you're looking for tips on the application process.
 
 Hopefully the advice that follows in this post will give you some
@@ -28,9 +28,9 @@ of your internship. Some more technical subjects or toolkits will be
 mentioned for the sake of example, but we won't get into the details of
 these in this post. There are plenty of online resources that provide
 great introductions to
-[[git]{.ul}](https://guides.github.com/introduction/git-handbook/),
-[[the
-cloud]{.ul}](https://www.zdnet.com/article/what-is-cloud-computing-everything-you-need-to-know-about-the-cloud/),
+[git](https://guides.github.com/introduction/git-handbook/),
+[the
+cloud](https://www.zdnet.com/article/what-is-cloud-computing-everything-you-need-to-know-about-the-cloud/),
 and countless other new topics you might encounter.
 
 ## Before you start
@@ -128,8 +128,7 @@ it tells you a lot more about them than it does about you. Secondly, and
 this is an important thing to keep in mind: **no one expects you to know
 everything and be great at everything,** especially early on as an
 intern. Asking questions is an important part of learning and
-internships are no exception. This one comes in two parts: *when* to ask
-for help and *how* to ask for help.
+internships are no exception. This one comes in two parts: *when* and *how* to ask for help.
 
 Let me save you the time I wasted trying to figure out when is the
 perfect point to ask a question. While you definitely do not want to
@@ -169,7 +168,7 @@ for other work being done at the company.
 
 Share your thoughts at the weekly team meeting, don't be afraid to
 review code or improve documentation and bounce ideas off coworkers
-during coffee breaks (oh, try not to drink [too]{.ul} much coffee). They
+during coffee breaks (oh, try not to drink too much coffee). They
 hired you in large part for your brain, don't be afraid to use it!
 
 ## Final Impressions

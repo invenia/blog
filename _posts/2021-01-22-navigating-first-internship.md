@@ -23,7 +23,7 @@ guide](https://www.freecodecamp.org/news/how-to-land-a-top-notch-tech-job-as-a-s
 if you're looking for tips on the application process.
 
 Hopefully the advice that follows in this post will give you some
-insight that helps you make a strong impression in the first few weeks
+insight that helps you make a strong impression throughout the course
 of your internship. Some more technical subjects or toolkits will be
 mentioned for the sake of example, but we won't get into the details of
 these in this post. There are plenty of online resources that provide
@@ -35,8 +35,8 @@ and countless other new topics you might encounter.
 
 ## Before you start
 
-The most important thing you can do leading up to your internship is try
-to relax. It's common to feel a nervous excitement as your first day
+The most important thing you can do leading up to your internship is **try
+to relax**. It's common to feel a nervous excitement as your first day
 approaches. Remember that you will have plenty of time (give or take 40
 hours per week) to focus on this soon enough. Take the time to enjoy
 other hobbies or interests while you have the time.
@@ -112,7 +112,7 @@ this if you feel comfortable doing so.
 
 These thoughts and feelings might start well before your first day and
 last well into the internship itself, as they did in my case. It will
-definitely improve with time and experience. Until that happens just
+improve with time and experience. Until that happens just
 remember to use your available sources of support and try to translate
 it into motivation.
 
@@ -159,7 +159,7 @@ your thoughts on what you are working on. Share what interests you as
 subjects, both within and outside your role.
 
 I had the incredible opportunity to contribute to my organization in
-ways beyond the scope of my title. Yes, this is because of the
+ways beyond the scope of my job description. Yes, this is because of the
 supportive nature of the company and the flexibility that comes with
 working at a smaller organization, but it also would not have happened
 had I not shared what I am interested in. I gained fantastic experience

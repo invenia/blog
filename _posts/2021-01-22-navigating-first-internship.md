@@ -7,6 +7,9 @@ tags:
 comments: false
 ---
 
+During the final weeks of my internship with Invenia, while looking back on my time here,
+I had the idea to share some thoughts on my experience and what advice I wish I had been given leading up to my start date.
+There are countless recipes for a successful internship, and I hope what follows can help guide you towards making yours great.
 
 First and foremost, congratulations on landing your first technical
 internship! After hours of fine-tuning your resume, countless cover

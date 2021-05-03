@@ -1,23 +1,32 @@
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        TeX: {
-            equationNumbers: {
-                autoNumber: "all"
-            },
-            Macros: {
-                R: '\\mathbb{R}',
-                C: '\\mathbb{C}',
-                sd: '\\text{d}',
-                pd: '\\partial',
-                cond: '\\,|\\,',
-                ll: '\\left\\langle',
-                rr: '\\right\\rangle',
-                fp: '\\operatorname{fp}',
-                e: '\\varepsilon',
-                code: ['{\\small \\texttt{#1}}', 1]
-            }
-
-        }
-    });
+<script type="text/javascript">
+window.MathJax = {
+  tex: {
+    tags: "all",
+    macros: {
+      R: '\\mathbb{R}',
+      C: '\\mathbb{C}',
+      sd: '\\text{d}',
+      pd: '\\partial',
+      cond: '\\,|\\,',
+      ll: '\\left\\langle',
+      rr: '\\right\\rangle',
+      fp: '\\operatorname{fp}',
+      e: '\\varepsilon',
+      code: ['{\\small \\texttt{#1}}', 1]
+    },
+    autoload: {
+      color: [],
+      colorv2: ['color']
+    },
+    packages: {'[+]': ['noerrors']}
+  },
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore|mathjax_ignore',
+    processHtmlClass: 'tex2jax_process|mathjax_process'
+  },
+  loader: {
+    load: ['[tex]/noerrors']
+  }
+};
 </script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>

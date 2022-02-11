@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Emergent Features of JuliaLang: Part I"
-author: Lyndon White
+author: Frames Catherine White
 tags:
     - julia
 ---

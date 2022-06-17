@@ -44,31 +44,41 @@ The rest of the post describes the private methods available in Julia Base to he
 
 ### `Base.@deprecate`
 
-If you've simply renamed a function or changed the signature without modifying the underlying behaviour then you should use the `Base.@deprecate` macro
+If you've simply renamed a function or changed the signature without modifying the underlying behaviour then you should use the `Base.@deprecate` macro:
 
-`Base.@deprecate myfunc(x, y, p=1.0) myfunc(x, y; new_p=1.0)`
+```julia
+Base.@deprecate myfunc(x, y, p=1.0) myfunc(x, y; new_p=1.0)
+```
 
-The example above will inform the users that a keyword argument was renamed, and advises how to change the call signature. 
+The example above will inform the users that a keyword argument was renamed, and advises how to change the call signature.
 
-NOTE: `Base.@deprecate` will export the symbol being deprecated by default, but you can disable that behaviour by adding false to the end of you statement
+**NOTE:** `Base.@deprecate` will export the symbol being deprecated by default, but you can disable that behaviour by adding false to the end of you statement:
 
-`Base.@deprecate myfunc(x, y, p=1.0) myfunc(x, y; new_p=1.0) false`
+```julia
+Base.@deprecate myfunc(x, y, p=1.0) myfunc(x, y; new_p=1.0) false
+```
 
 ### `Base.@deprecate_binding`
 
-If you're deprecating a symbol from your package (e.g. renaming a type) then you should use the `@deprecate_binding` macro.
+If you're deprecating a symbol from your package (e.g. renaming a type) then you should use the `@deprecate_binding` macro:
 
-`Base.@deprecate_binding MyOldType MyNewType`
+```julia
+Base.@deprecate_binding MyOldType MyNewType
+```
 
-If you are removing a function without methods (like function bar end) that is typically overloaded, then you can use
+If you are removing a function without methods (like function bar end) that is typically overloaded, then you can use:
 
-`Base.@deprecate_binding bar nothing`
+```julia
+Base.@deprecate_binding bar nothing
+```
 
 ### `Base.@deprecate_moved`
 
-If you're deprecating a symbol from your package because it has simply been moved to another package, then you can use the `@deprecate_moved` macro to give an informative error.
+If you're deprecating a symbol from your package because it has simply been moved to another package, then you can use the `@deprecate_moved` macro to give an informative error:
 
-`Base.@deprecate_moved MyTrustyType "OtherPackage"`
+```julia
+Base.@deprecate_moved MyTrustyType "OtherPackage"
+```
 
 
 ### `Base.depwarn`
